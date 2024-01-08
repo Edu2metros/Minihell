@@ -13,7 +13,7 @@ char* read_user_input() {
 
   int i = 0;
   char c;
-  while ((c = getchar()) != EOF && c != '\n') {
+  while ((c = getchar()) != EOF && c != '\n') { // não entendi a lógica do getchar (como que ele pega o input do usuário?) mas também não pode usar de qualquer maneira.
     buffer[i++] = c;
   }
   buffer[i] = '\0';
@@ -44,7 +44,7 @@ void execute_command(char** tokens) {
     strcat(command, tokens[i]);
     strcat(command, " ");
   }
-  system(command); // começar daqui, fazer os built in
+  system(command); // não pode usar a função system, precisamos usar a lógica do pipex para conseguir fazer isso, mas já é uma base.
 }
 
 int main(void) {
@@ -68,4 +68,7 @@ executar (???)
 
 Parser -> interpretar o comando, por exemplo eu mando: echo 'Hello World' > output.txt 
 Built-in -> comandos e funcionalidades já incorporados no sistema, --Váriavel de ambiente PATH--
+
+step by step: 
+main -> ler linha -> tokenizar -> interpretar -> mandar pro PATH
 */
