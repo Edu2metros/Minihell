@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/08 14:52:51 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/08 18:43:23 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include "./libft/libft.h"
 
-#endif
+int	ft_isalldigit_minishell(const char *str);
 
-/* 
-Parser
-*/
+#endif

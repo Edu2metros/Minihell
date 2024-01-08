@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../include/minishell.h"
 
 #define BUFFER_SIZE 1024
 #define TOKEN_DELIMITERS " \t\r\n\a"
@@ -47,18 +48,17 @@ void execute_command(char** tokens) {
   system(command); // não pode usar a função system, precisamos usar a lógica do pipex para conseguir fazer isso, mas já é uma base.
 }
 
-int main(void) {
-  while (1) {
-    printf("Minishell $> ");
-    char* line = read_user_input();
-    char** tokens = split_input_into_tokens(line);
-    execute_command(tokens);
-    free(line);
-    free(tokens);
-  }
-
-  return EXIT_SUCCESS;
-}
+// int main(void) {
+//   while (1) {
+//     printf("Minishell $> ");
+//     char* line = read_user_input();
+//     char** tokens = split_input_into_tokens(line);
+//     execute_command(tokens);
+//     free(line);
+//     free(tokens);
+//   }
+//   return EXIT_SUCCESS;
+// }
 
 
 /* mostrar o prompt
