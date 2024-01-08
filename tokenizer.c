@@ -1,22 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/08 14:52:51 by eddos-sa         ###   ########.fr       */
+/*   Created: 2024/01/08 14:50:03 by eddos-sa          #+#    #+#             */
+/*   Updated: 2024/01/08 14:50:35 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-# include "./libft/libft.h"
-
-#endif
-
-/* 
-Parser
-*/
+int find_token(char *word)
+{
+	
+}

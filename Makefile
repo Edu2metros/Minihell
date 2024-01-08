@@ -1,6 +1,6 @@
 PUSH_SWAP_NAME = minishell
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g3
+# FLAGS = -Wall -Wextra -Werror -g3
 INCLUDES = -I ./include/
 
 SRC_DIR = src
