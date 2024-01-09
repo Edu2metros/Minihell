@@ -6,19 +6,9 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 17:55:41 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/08 19:05:43 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/09 11:46:44 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
->
-<
->>
-<<
-|
-'
-"
-*/
 
 #define GREAT 1
 #define LESS 2
@@ -33,33 +23,35 @@
 
 int	check_tokenizer(char *token)
 {
+	if(ft_strlen(token) > 2)
+		return(0);
 	if (!ft_strncmp(token, ">>", 2))
 		return (DOUBLE_GREAT);
 	if (!ft_strncmp(token, "<<", 2))
 		return (DOUBLE_LESS);
-	if (*token == '>')
+	if (!ft_strncmp(token, ">", 1))
 		return (GREAT);
-	if (*token == '<')
+	if (!ft_strncmp(token, "<", 1))
 		return (LESS);
-	if (*token == '|')
+	if (!ft_strncmp(token, "|", 1))
 		return (PIPE);
-	if (*token == '\'')
+	if (!ft_strncmp(token, "'", 1))
 		return (QUOTE);
-	if (*token == '"')
+	if (!ft_strncmp(token, "\"", 1))
 		return (DOUBLE_QUOTE);
-	return(0);
+	else
+		return(0);
 }
 
-void tokenizer(char **token)
+
+int	tokenizer(char **token)
 {
-	int key = 0;
-	while(*token)
+	while (*token)
 	{
-		if(!ft_isalldigit(*token))
+		if (!ft_isalldigit_minishell(*token))
 		{
-			printf("%s\n", *token);
-			key = check_tokenizer(*token);
-			printf("%d\n", key);
+			if(check_tokenizer(*token) == 0)
+				return(0);
 		}
 		else
 		{
@@ -67,20 +59,27 @@ void tokenizer(char **token)
 		}
 		token++;
 	}
+	return(1);
 }
 
-int main(void)
+int	main(void)
 {
 	const char *str;
 	char **token;
 	int key;
-
+	key = 0;
 	str = NULL;
-	while(1)
+	while (1)
 	{
 		printf("Minishell $> ");
 		str = readline(str);
 		token = ft_split(str, ' ');
-		tokenizer(token);
+		key = tokenizer(token);
+		if(key == 0)
+		{
+			free(token);
+			printf("erro\n");
+			// return(0);
+		}
 	}
 }
