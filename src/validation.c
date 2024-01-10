@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 17:55:41 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/10 13:30:16 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/10 14:14:00 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,49 +62,43 @@ char	*validate_cmd(t_minishell *mini, char *token)
 	return (NULL);
 }
 
-#include <sys/wait.h>
-
 int	commands(char *token, char **env, t_minishell *mini)
 {
-	int		i;
-	int		pid;
-	char	*args[3];
-
-	i = 0;
 	mini->execute_path = validate_cmd(mini, token);
 	if (mini->execute_path == NULL)
-		perror("Command not found");
+		printf("Command \"%s"
+				"not found",
+				token);
 	else
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			args[0] = mini->execute_path;
-            args[1] = token;
-            args[2] = NULL;
-			execve(mini->execute_path, args, env);
-			exit(EXIT_FAILURE);
-		}
-		else
-			waitpid(pid, NULL, 0);
-	}
-	free(mini->execute_path);
+		return (1);
 	return (0);
 }
 
-int validate_tokens(char **token, char **env, t_minishell *mini)
+void	print_error(char *token, int nbr)
+{
+	if (nbr == COMMAND)
+		printf("Command \'%s' not found.", token);
+	if (nbr == TOKEN)
+		printf("Token \'%s' not found.", token);
+}
+
+int	validate_tokens(char **token, char **envp, t_minishell *mini)
 {
 	while (*token)
 	{
 		if (!ft_isalldigit_minishell(*token))
 		{
 			if (check_tokenizer(*token) == 0)
+			{
+				print_error(*token, TOKEN);
 				return (0);
+			}
 		}
-		else
-			commands(*token, env, mini);
+		else if (commands(*token, envp, mini) == 0)
+		{
+			print_error(*token, COMMAND);
+			return (0);
+		}
 		token++;
 	}
-	return (1);
 }
-

@@ -1,9 +1,17 @@
 #include "../include/minishell.h"
 
+void minishell(const char *str, t_minishell *mini, char **envp)
+{
+	char **tokens;
+	tokens = ft_split(str, ' ');
+	if(validate_tokens(tokens, envp, mini) == 0)
+		return ;
+	
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	const char	*str;
-	char		**token;
 	int			key;
 	t_minishell	mini;
 
@@ -14,10 +22,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		str = "Minishell $> ";
 		str = readline(str);
-		token = ft_split(str, ' ');
-		key = validate_tokens(token, envp, &mini);
-		if (key == 0)
-			printf("Command not found.\n");
+		minishell(str, &mini, envp);
 	}
 }
 
