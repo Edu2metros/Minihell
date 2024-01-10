@@ -6,12 +6,11 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 17:55:41 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/09 14:48:38 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/10 13:30:16 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <readline/readline.h>
 
 int	check_tokenizer(char *token)
 {
@@ -35,29 +34,65 @@ int	check_tokenizer(char *token)
 		return (0);
 }
 
-/*
-achar o path
-transformar em um array de strings
-concatenar
-pegar o comando e usar o acess em cada uma e ver se é executavel
-*/
-
-void	get_path(char **env)
+void	get_path(char **env, t_minishell *mini)
 {
-	t_minishell	*mini;
-
 	while (ft_strncmp(*env, "PATH=", 5))
 		env++;
 	*env += 5;
 	mini->path = ft_split(*env, ':');
 }
 
-int	commands(char *token, char **env)
+char	*validate_cmd(t_minishell *mini, char *token)
 {
-	get_path(env);
+	int		i;
+	char	*tmp;
+	char	*result;
+
+	i = 0;
+	while (mini->path[i] != NULL)
+	{
+		tmp = ft_strjoin(mini->path[i], "/");
+		result = ft_strjoin(tmp, token);
+		free(tmp);
+		if (access(result, X_OK) == 0)
+			return (result);
+		free(result);
+		i++;
+	}
+	return (NULL);
 }
 
-int	validate_tokens(char **token, char **env)
+#include <sys/wait.h>
+
+int	commands(char *token, char **env, t_minishell *mini)
+{
+	int		i;
+	int		pid;
+	char	*args[3];
+
+	i = 0;
+	mini->execute_path = validate_cmd(mini, token);
+	if (mini->execute_path == NULL)
+		perror("Command not found");
+	else
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			args[0] = mini->execute_path;
+            args[1] = token;
+            args[2] = NULL;
+			execve(mini->execute_path, args, env);
+			exit(EXIT_FAILURE);
+		}
+		else
+			waitpid(pid, NULL, 0);
+	}
+	free(mini->execute_path);
+	return (0);
+}
+
+int validate_tokens(char **token, char **env, t_minishell *mini)
 {
 	while (*token)
 	{
@@ -67,30 +102,9 @@ int	validate_tokens(char **token, char **env)
 				return (0);
 		}
 		else
-		{
-			commands(*token, env);
-		}
+			commands(*token, env, mini);
 		token++;
 	}
 	return (1);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	const char	*str;
-	char		**token;
-	int			key;
-
-	key = 0;
-	str = NULL;
-	while (1)
-	{
-		printf("Minishell $> ");
-		str = readline(str);
-		printf("%s\n", str);
-		token = ft_split(str, ' ');
-		key = validate_tokens(token, envp);
-		if (key == 0)
-			printf("Command not found.\n");
-	}
-}
