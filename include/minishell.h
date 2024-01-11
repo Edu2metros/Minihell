@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/10 14:12:52 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/11 18:11:19 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,25 @@
 
 typedef struct s_minishell
 {
-	char	**path;
-	char	**token;
-	char	*execute_path;
-}			t_minishell;
+	char			**path;
+	char			*execute_path;
+	struct s_token	*token;
+}					t_minishell;
 
-int			ft_isalldigit_minishell(const char *str);
-int			validate_tokens(char **token, char **envp, t_minishell *mini);
-int			commands(char *token, char **env, t_minishell *mini);
-char		*validate_cmd(t_minishell *mini, char *token);
-void		get_path(char **env, t_minishell *mini);
-int			check_tokenizer(char *token);
+typedef struct s_token
+{
+	char			*content;
+	int				type;
+	struct s_token	*next;
+	struct s_token	*previous;
+}					t_token;
+
+int					ft_isalldigit_minishell(const char *str);
+int					validate_input(const char *token, char **envp, t_minishell *mini);
+int					commands(char *token, char **env, t_minishell *mini);
+char				*validate_cmd(t_minishell *mini, char *token);
+void				get_path(char **env, t_minishell *mini);
+int					check_tokenizer(char *token);
+void				print_error(char *token, int nbr);
 
 #endif
