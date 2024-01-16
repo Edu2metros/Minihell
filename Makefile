@@ -6,7 +6,7 @@ INCLUDES = -I ./include/
 SRC_DIR = src
 OBJ_DIR = objs
 
-PUSH_SWAP_SRC = main.c utils.c validation.c
+PUSH_SWAP_SRC = main.c
 PUSH_SWAP_OBJ = $(addprefix $(OBJ_DIR)/, $(PUSH_SWAP_SRC:%.c=%.o))
 
 all: libft $(PUSH_SWAP_NAME)

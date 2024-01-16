@@ -1,4 +1,5 @@
 #include "../include/minishell.h"
+#include <readline/history.h>
 
 void	add_token(char *str, int type, t_minishell *mini)
 {
@@ -53,29 +54,43 @@ int	check_meta(const char *input, t_minishell *mini)
 	return (1);
 }
 
-void	check_quote(const char *prompt, t_minishell *mini)
+/*
+Função que checa se a string mandada tem aspas,
+se tiver, se está fechada,
+	e se estiver fechada (talvez) voltar a parte que tem apenas aspas;
+*/
+void	check_quote(const char *prompt)
 {
-	int	quote;
-	int	double_quote;
+	const char	*quote_type;
+	int			i;
 
-	quote = 0;
-	double_quote = 0;
-	while (*prompt)
+	quote_type = NULL;
+	i = 0;
+	while (prompt[i])
 	{
-		if (*prompt == '"')
-			double_quote++;
-		if(*prompt == '\'')
-			quote++;
-		prompt++;
-		
+		if (prompt[i] == '\'' || prompt[i] == '"')
+		{
+			quote_type = &prompt[i];
+			break ;
+		}
+		i++;
 	}
+	if (!quote_type)
+		return ;
+	prompt = quote_type + 1;
+	while (*prompt && *prompt != *quote_type)
+		prompt++;
+	if (!*prompt)
+		printf("fecha as aspa\n");
+	else
+		printf("Aspas fechadas\n");
 }
 
 void	lexer(const char *prompt, t_minishell *mini)
 {
-	check_meta(prompt, mini);
-	check_quote(prompt, mini);
-	check_space(prompt, mini);
+	// check_meta(prompt, mini);
+	check_quote(prompt);
+	// check_space(prompt, mini);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -90,14 +105,17 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		prompt = readline("Minishell $> ");
+		add_history(prompt);
 		lexer(prompt, mini);
 	}
+	clear_history();
 }
 
-/* 
+/*
 Tokenização:
 Terminar o seu trabalho com as aspas
 ~Validação de aspas (tá fechado, aspa dentro de aspa etc)
-Adaptar a função para funcionar apenas foras das aspa, se caso tiver dentro imprimir como se fosse string
+Adaptar a função para funcionar apenas foras das aspa,
+	se caso tiver dentro imprimir como se fosse string
 
 */
