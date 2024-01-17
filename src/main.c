@@ -1,6 +1,31 @@
 #include "../include/minishell.h"
 #include <readline/history.h>
 
+int	check_quote(char *input)
+{
+	int		i;
+	char	type;
+
+	i = 0;
+	type = 0;
+	while (*input != '\0')
+	{
+		if (*input == '\'' || *input == '"')
+			break ;
+		input++;
+	}
+	if (!*input)
+		return (2);
+	type = *input;
+	while (*input != '\0')
+	{
+		if (*input == type)
+			i++;
+		input++;
+	}
+	return (i % 2 == 0);
+}
+
 void	add_token(char *str, int type, t_minishell *mini)
 {
 	t_token	*new_token;
@@ -26,7 +51,7 @@ void	add_token(char *str, int type, t_minishell *mini)
 		mini->token = new_token;
 }
 
-int	check_meta(const char *input, t_minishell *mini)
+int	check_meta(char *input, t_minishell *mini)
 {
 	int	i;
 
@@ -54,77 +79,49 @@ int	check_meta(const char *input, t_minishell *mini)
 	return (1);
 }
 
-/*
-Função que checa se a string mandada tem aspas,
-se tiver, se está fechada,
-	e se estiver fechada (talvez) voltar a parte que tem apenas aspas;
-*/
-void	check_quote(const char *prompt)
+void	handle_error(int nbr)
 {
-	const char	*quote_type;
-	int			i;
-	
-	quote_type = NULL;
-	i = 0;
-	while (prompt[i])
-	{
-		if (prompt[i] == '\'' || prompt[i] == '"')
-		{
-			quote_type = &prompt[i];
-			break ;
-		}
-		i++;
-	}
-	if (!quote_type)
-		return ;
-	prompt = quote_type + 1;
-	while (*prompt && *prompt != *quote_type)
-		prompt++;
-	if (!*prompt)
-		printf("fecha as aspa\n");
-	else
-		printf("Aspas fechadas\n");
+	static char *message[2] = {
+		"Please close the quotes.",
+		"Syntax error.",
+	};
+	printf("%s\n", message[nbr]);
 }
 
-int	check_same_quote(char *input)
+void	validator(char *prompt)
 {
 	int	i;
-	char type;
 
-	i = 0;
-	type = 0;
-	while (*input != '\0')
+	if (prompt[0] == '|' || prompt[ft_strlen(prompt) - 1] == '|')
+		handle_error(1);
+	if (!ft_strncmp(prompt, ">>", 2) || !ft_strncmp(prompt, ">", 1))
 	{
-		if (*input == '\'' || *input == '"')
-			break;
-		input++;
-	}
-	if(!*input)
-		return(0);
-	type = *input;
-	while(*input != '\0')
-	{
-		if(*input == type)
+		i = mini_strrchr(prompt, '>') + 1;
+		while(prompt[i] != '\0' && my_isspace(prompt[i]))
 			i++;
-		input++;
+		if(prompt[i] == '\0' || my_isspace(prompt[i]))
+			handle_error(1);
 	}
-	return (i % 2 == 0);
 }
 
-void	lexer(const char *prompt, t_minishell *mini)
+int	main(void)
 {
-	// check_meta(prompt, mini);
-	check_quote(prompt);
-	// check_space(prompt, mini);
-}
+	char		*prompt;
+	t_minishell	*mini;
 
+	mini = ft_calloc(1, sizeof(t_minishell));
+	mini->token = ft_calloc(1, sizeof(t_token));
+	while (1)
+	{
+		prompt = readline("Minishell $> ");
+		add_history(prompt);
+		validator(prompt);
+		// lexer(prompt, mini);
+	}
+	clear_history();
+}
 
 /*
-Tokenização:
-Terminar o seu trabalho com as aspas
-~Validação de aspas (tá fechado, aspa dentro de aspa etc)
-
-Adaptar a função para funcionar apenas foras das aspa,
-	se caso tiver dentro imprimir como se fosse string
-
-*/
+pipe não começa nem termina
+verificar redirect, sempre seguido com nome de arquivo
+ */

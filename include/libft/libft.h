@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 13:09:27 by eddos-sa          #+#    #+#             */
-/*   Updated: 2023/11/20 13:56:20 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/17 17:21:25 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 long double			ft_atof(char *str);
 int					ft_isalldigit(const char *str);
 long int			ft_atol(const char *str);
+int					my_isspace(char c);
 
 // PRINTF FUNCTIONS
 
