@@ -63,7 +63,7 @@ void	check_quote(const char *prompt)
 {
 	const char	*quote_type;
 	int			i;
-
+	
 	quote_type = NULL;
 	i = 0;
 	while (prompt[i])
@@ -86,6 +86,31 @@ void	check_quote(const char *prompt)
 		printf("Aspas fechadas\n");
 }
 
+int	check_same_quote(char *input)
+{
+	int	i;
+	char type;
+
+	i = 0;
+	type = 0;
+	while (*input != '\0')
+	{
+		if (*input == '\'' || *input == '"')
+			break;
+		input++;
+	}
+	if(!*input)
+		return(0);
+	type = *input;
+	while(*input != '\0')
+	{
+		if(*input == type)
+			i++;
+		input++;
+	}
+	return (i % 2 == 0);
+}
+
 void	lexer(const char *prompt, t_minishell *mini)
 {
 	// check_meta(prompt, mini);
@@ -93,28 +118,12 @@ void	lexer(const char *prompt, t_minishell *mini)
 	// check_space(prompt, mini);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_minishell	*mini;
-	const char	*prompt;
-	char		**tokens;
-
-	mini = ft_calloc(1, sizeof(t_minishell));
-	mini->token = ft_calloc(1, sizeof(t_token));
-	mini->token->content = NULL;
-	while (1)
-	{
-		prompt = readline("Minishell $> ");
-		add_history(prompt);
-		lexer(prompt, mini);
-	}
-	clear_history();
-}
 
 /*
 Tokenização:
 Terminar o seu trabalho com as aspas
 ~Validação de aspas (tá fechado, aspa dentro de aspa etc)
+
 Adaptar a função para funcionar apenas foras das aspa,
 	se caso tiver dentro imprimir como se fosse string
 
