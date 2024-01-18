@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/17 17:45:21 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/18 13:48:16 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,10 @@ typedef struct s_token
 	struct s_token		*previous;
 }						t_token;
 
-int						ft_isalldigit_minishell(const char *str);
-int						validate_input(const char *token, char **envp,
-							t_minishell *mini);
-int						commands(char *token, char **env, t_minishell *mini);
-char					*validate_cmd(t_minishell *mini, char *token);
-void					get_path(char **env, t_minishell *mini);
-int						check_tokenizer(char *token);
-void					print_error(char *token, int nbr);
-int						mini_strrchr(const char *s, int c);
+int						check_quote(char *input);
+void					handle_error(int nbr);
+int						meta_char(char c);
+int						ft_redirect(char *prompt, int i);
+void					validator(char *prompt);
 
 #endif

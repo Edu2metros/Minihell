@@ -2,6 +2,7 @@
 	"files.associations": {
 		"wait.h": "c",
 		"readline.h": "c",
-		"minishell.h": "c"
+		"minishell.h": "c",
+		"history.h": "c"
 	}
 }

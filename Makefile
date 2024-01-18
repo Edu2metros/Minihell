@@ -1,21 +1,21 @@
-PUSH_SWAP_NAME = minishell
-CC = cc
- FLAGS = -lreadline -g3
+MINISHELL_NAME = minishell
+CC = cc -Wall -Wextra -Werror
+FLAGS = -g3
 INCLUDES = -I ./include/
 
 SRC_DIR = src
 OBJ_DIR = objs
 
-PUSH_SWAP_SRC = main.c test.c
-PUSH_SWAP_OBJ = $(addprefix $(OBJ_DIR)/, $(PUSH_SWAP_SRC:%.c=%.o))
+MINISHELL_SRC = main.c utils.c
+MINISHELL_OBJ = $(addprefix $(OBJ_DIR)/, $(MINISHELL_SRC:%.c=%.o))
 
-all: libft $(PUSH_SWAP_NAME)
+all: libft $(MINISHELL_NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR) libft
-	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
+	@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 
-$(PUSH_SWAP_NAME): $(PUSH_SWAP_OBJ)
-	$(CC) $(FLAGS) $(PUSH_SWAP_OBJ) ./include/libft/libft.a -o $(PUSH_SWAP_NAME)
+$(MINISHELL_NAME): $(MINISHELL_OBJ)
+	@$(CC) $(FLAGS) $(MINISHELL_OBJ) ./include/libft/libft.a -lreadline -o $(MINISHELL_NAME)
 
 libft:
 	@make -C ./include/libft
@@ -28,9 +28,9 @@ clean:
 	@make clean -C ./include/libft
 
 fclean: clean
-	@rm -f $(PUSH_SWAP_NAME)
+	@rm -f $(MINISHELL_NAME)
 	@make fclean -C ./include/libft
-	@echo "$(PUSH_SWAP_NAME) removed."
+	@echo "$(MINISHELL_NAME) removed."
 
 re: fclean all
 
