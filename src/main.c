@@ -88,21 +88,44 @@ void	handle_error(int nbr)
 	printf("%s\n", message[nbr]);
 }
 
-void	validator(char *prompt)
+int meta_char(char c)
 {
-	int	i;
-
-	if (prompt[0] == '|' || prompt[ft_strlen(prompt) - 1] == '|')
-		handle_error(1);
-	if (!ft_strncmp(prompt, ">>", 2) || !ft_strncmp(prompt, ">", 1))
-	{
-		i = mini_strrchr(prompt, '>') + 1;
-		while(prompt[i] != '\0' && my_isspace(prompt[i]))
-			i++;
-		if(prompt[i] == '\0' || my_isspace(prompt[i]))
-			handle_error(1);
-	}
+    return (c == '|' || c == '>' || c == '<');
 }
+
+int ft_redirect(char *prompt, int i)
+{
+    while (prompt[i] != '\0' && (my_isspace(prompt[i]) && !meta_char(prompt[i])))
+        i++;
+    if (prompt[i] == '\0' || my_isspace(prompt[i]) || meta_char(prompt[i]))
+    {
+        handle_error(1);
+        return (0);
+    }
+    return (1);
+}
+
+void validator(char *prompt)
+{
+    int i = 0;
+
+    if (check_quote(prompt) == 0)
+        handle_error(0);
+    if (prompt[0] == '|' || prompt[ft_strlen(prompt) - 1] == '|')
+        handle_error(1);
+    while (prompt[i])
+    {
+        if (prompt[i] == '>')
+        {
+            if (prompt[i + 1] == '>')
+                ft_redirect(prompt, i + 2);
+            else
+                ft_redirect(prompt, i + 1);
+        }
+        i++;
+    }
+}
+
 
 int	main(void)
 {

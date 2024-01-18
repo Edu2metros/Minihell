@@ -56,7 +56,7 @@ char	*extract_string_quote(char *string)
 	{
 		result = malloc(1); // Allocate memory for an empty string
 		if (result != NULL)
-			result[0] = '\0'; // Null-terminate the string
+			result[0] = '\0';
 	}
 	return (result);
 }
