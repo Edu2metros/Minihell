@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/18 13:48:16 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/19 15:50:11 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
 # define GREAT 1
 # define LESS 2
 # define PIPE 3
@@ -21,9 +22,12 @@
 # define DOUBLE_LESS 7
 # define COMMAND 8
 # define TOKEN 9
+# define WORD -1
+# define ARG -2
 
 # include "./libft/libft.h"
 # include <readline/readline.h>
+# include <readline/history.h>
 # include <sys/wait.h>
 # include <unistd.h>
 
@@ -31,6 +35,7 @@ typedef struct s_minishell
 {
 	char				**path;
 	char				*execute_path;
+	char				**words;
 	struct s_token		*token;
 	struct s_validation	*validations;
 }						t_minishell;

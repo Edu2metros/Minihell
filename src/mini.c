@@ -6,14 +6,14 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 19:05:18 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/01/18 19:48:52 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:55:28 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../include/minishell.h"
 
-int	check_operator(char *input, t_minishell *mini)
+int	is_operator(char *input, t_minishell *mini)
 {
 	int	i;
 
