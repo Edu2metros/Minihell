@@ -136,6 +136,13 @@ void	tokenizer(char *input, t_minishell *mini)
 			substr = ft_substr(input, start, i);
 			add_token(substr, is_operator(substr), mini);
 		}
+		else if (is_builtin(input + i) != 1)
+		{
+			while (input[i] != '\0' && is_builtin(input + i) != 1)
+				i++;
+			substr = ft_substr(input, start, i);
+			add_token(substr, is_builtin(substr), mini);
+		}
 		else if (is_word(input + i) != 1)
 		{
 			while (input[i] != '\0' && is_word(input + i) != 1)
@@ -149,13 +156,6 @@ void	tokenizer(char *input, t_minishell *mini)
 				i++;
 			substr = ft_substr(input, start, i);
 			add_token(substr, is_arg(substr), mini);
-		}
-		else if (is_builtin(input + i) != 1)
-		{
-			while (input[i] != '\0' && is_builtin(input + i) != 1)
-				i++;
-			substr = ft_substr(input, start, i);
-			add_token(substr, is_builtin(substr), mini);
 		}
 		else
 			i++;
@@ -206,8 +206,6 @@ void print_tokens(t_minishell *mini) {
         current_token = current_token->next;
     }
 }
-
-
 
 int	main(void)
 {
