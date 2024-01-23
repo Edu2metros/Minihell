@@ -13,7 +13,7 @@
 
 #include "../include/minishell.h"
 
-int	is_operator(char *input, t_minishell *mini)
+int	is_operator(char *input)
 {
 	int	i;
 
@@ -40,7 +40,7 @@ int	is_operator(char *input, t_minishell *mini)
 /* define if is random word, to use on tokenization later
 its possibel to return the word, but let this part out for now */
 
-int	is_word(const char *input, t_minishell *mini)
+int	is_word(const char *input)
 {
 	int	i;
 
@@ -62,7 +62,7 @@ int	is_word(const char *input, t_minishell *mini)
 /* define if is argument, to use on tokenization later
 its possibel to return the arg, but let this part out for now */
 
-int	is_arg(const char *input, t_minishell *mini)
+int	is_arg(const char *input)
 {
 	int	i;
 
@@ -85,3 +85,4 @@ int	is_arg(const char *input, t_minishell *mini)
 /* thinking about do the same stuff to the commands bultins 
 will write the functions, then we decide if is usefull to merge
 with the previous idea to make our token list*/
+

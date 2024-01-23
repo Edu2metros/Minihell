@@ -66,16 +66,16 @@ BONUS_OBJ = $(addprefix $(OBJ_DIR)/, $(BONUS_SRC:%.c=%.o))
 all: $(OBJ_DIR) $(NAME)
 
 $(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)
 
 $(NAME): $(OBJ)
-	ar rc $(NAME) $^
+	@ar rc $(NAME) $^
 
 bonus: $(OBJ_DIR) $(BONUS_OBJ)
-	ar rc $(NAME) $(BONUS_OBJ)
+	@ar rc $(NAME) $(BONUS_OBJ)
 
 $(OBJ_DIR)/%.o: %.c libft.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -rf $(OBJ_DIR)

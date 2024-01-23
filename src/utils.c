@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <readline/history.h>
 
 int	check_quote(char *input)
 {
