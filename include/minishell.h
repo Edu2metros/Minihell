@@ -24,6 +24,13 @@
 # define TOKEN 9
 # define WORD -1
 # define ARG -2
+# define ECHO -3
+# define CD -4
+# define PWD -5
+# define EXPORT -6
+# define UNSET -7
+# define ENV -8
+# define EXIT -9
 
 # include "./libft/libft.h"
 # include <readline/readline.h>
@@ -42,8 +49,8 @@ typedef struct s_minishell
 
 typedef struct s_token
 {
-	char				*content;
 	int					type;
+	char				*content;
 	char				**args;
 	struct s_token		*next;
 	struct s_token		*previous;
