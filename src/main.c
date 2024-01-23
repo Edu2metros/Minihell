@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/18 15:16:10 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:58:26 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,131 +64,13 @@
 // 	}
 // 	return (1);
 // }
-int is_quote(char c)
-{
-    return(c == '\'' || c == '"');
-}
-
-void word(char **str, t_token *token, int *i)
-{
-    if (*str == NULL || **str == '\0' || is_quote(**str))
-        return;
-    if(token->args == NULL)
-        token->args[*i]= ft_strdup("");
-    while (**str != '\0' && !meta_char(**str) && **str != '-')
-    {
-        char single_char_str[2] = {**str, '\0'};
-        token->args[*i] = ft_strjoin(token->args[*i], single_char_str);
-        (*str)++;
-    }
-    token->args[*i] = '\0';
-    (*i)++;
-}
-
-void meta(char **str, t_token *token, int *i)
-{
-    if (*str == NULL || **str == '\0' || is_quote(**str))
-        return;
-    if(token->args == NULL)
-        token->args[*i]= ft_strdup("");
-    if (meta_char(**str) && (**str == '"' || **str == '\''))
-    {
-        // char single_char_str[2] = {**str, '\0'};
-        if (**str == '>' && *(*str + 1) == '>')
-            token->args[*i] = ft_strjoin(token->args[*i], ">>");
-        else if (**str == '>' && *(*str + 1) != '>')
-            token->args[*i] = ft_strjoin(token->args[*i], ">");
-        else if (**str == '|')
-            token->args[*i] = ft_strjoin(token->args[*i], "|");
-        else if (**str == '<' && *(*str + 1) == '<')
-            token->args[*i] = ft_strjoin(token->args[*i], "<<");
-        else if (**str == '<' && *(*str + 1) != '<')
-            token->args[*i] = ft_strjoin(token->args[*i], "<");
-        else
-            printf("precisa ter msg de erro aq?\n");
-
-        if (token->args[*i] == NULL)
-            return;
-        else if (ft_strlen(token->args[*i]) == 2)
-            (*str) += 2;
-        else
-            (*str)++;
-        token->args[*i] = '\0';
-        (*i)++;
-    }
-}
-
-void quote(char **str, t_token *token, int *i)
-{
-    if (!is_quote(**str))
-        return;
-    if(token->args == NULL)
-        token->args[*i]= ft_strdup("");
-    while (is_quote(**str))
-        (*str)++;
-
-    while (!is_quote(**str))
-    {
-        char single_char_str[2] = {**str, '\0'};
-        token->args[*i] = ft_strjoin(token->args[*i], single_char_str);
-        (*str)++;
-    }
-
-    while (is_quote(**str))
-        (*str)++;
-    token->args[*i] = '\0';
-    (*i)++;
-}
-
-void flag(char **str, t_token *token, int *i)
-{
-    if (*str == NULL || **str == '\0' || is_quote(**str) || meta_char(**str))
-        return;
-    if(token->args == NULL)
-        token->args[*i]= ft_strdup("");
-    if (**str == '-')
-    {
-        while (**str != '\0' && !meta_char(**str) && !is_quote(**str) && !my_isspace(**str))
-        {
-            char single_char_str[2] = {**str, '\0'};
-            token->args[*i] = ft_strjoin(token->args[*i], single_char_str);
-            (*str)++;
-        }
-    }
-    token->args[*i] = '\0';
-    (*i)++;
-}
-
-void tokenizer(char *str, t_minishell *mini)
-{
-    int i = 0;
-    mini->token->args = (char **)ft_calloc(1, sizeof(char *));
-
-    while (*str)
-    {
-        while (my_isspace(*str))
-            str++;
-
-        word(&str, mini->token, &i);
-        meta(&str, mini->token, &i);
-        quote(&str, mini->token, &i);
-        flag(&str, mini->token, &i);
-    }
-
-    int j = 0;
-    while (j < i)
-    {
-        printf("%s\n", mini->token->args[j]);
-        j++;
-    }
-}
 
 /* 
 Separar na split por espaço
 split diferenciada, 
  */
 
-int	main(void)
+/* int	main(void)
 {
 	char		*prompt;
 	t_minishell	*mini;
@@ -200,8 +82,9 @@ int	main(void)
 		prompt = readline("Minishell $> ");
 		add_history(prompt);
 		validator(prompt);
+		tokenizer(prompt, mini);
 	}
 	clear_history();
-}
+} */
 
 // lexer(prompt, mini);

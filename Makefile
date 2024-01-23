@@ -1,12 +1,12 @@
 MINISHELL_NAME = minishell
-CC = cc -Wall -Wextra -Werror
+CC = cc
 FLAGS = -g3
 INCLUDES = -I ./include/
 
 SRC_DIR = src
 OBJ_DIR = objs
 
-MINISHELL_SRC = main.c utils.c
+MINISHELL_SRC = main.c utils.c tokenizer.c					
 MINISHELL_OBJ = $(addprefix $(OBJ_DIR)/, $(MINISHELL_SRC:%.c=%.o))
 
 all: libft $(MINISHELL_NAME)
