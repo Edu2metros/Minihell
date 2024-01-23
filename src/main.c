@@ -64,10 +64,6 @@
 // 	}
 // 	return (1);
 // }
-
-#include "../include/minishell.h"
-#include <readline/history.h>
-
 int is_quote(char c)
 {
     return(c == '\'' || c == '"');
