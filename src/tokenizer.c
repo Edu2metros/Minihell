@@ -15,11 +15,7 @@ void	tokenizer(char *input, t_minishell *mini)
 			start++;
 		}
 		if (is_quote(input[i]) != 1)
-		{
 			i = process_token_quote(input, mini, i, start);
-			if (input[i] != '\0')
-				i++;
-		}
 		else if (is_builtin(input + i) != 1)
 			i = process_token_builtin(input, mini, i, start);
 		else if (is_word(input + i) != 1)
@@ -80,8 +76,11 @@ int	main(void)
 	char		*input;
 	t_token		*current_token;
 	t_token		*next_token;
+	while(1)
+	{
 
-	input = "echo 'Hello,            World!' >> pwd << ksd > ls | cat";
+	input = readline("");
+	add_history(input);
 	mini.token = NULL;
 	tokenizer(input, &mini);
 	print_tokens(&mini);
@@ -93,6 +92,8 @@ int	main(void)
 		free(current_token);
 		current_token = next_token;
 	}
+	}
+	clear_history();
 	return (0);
 }
 

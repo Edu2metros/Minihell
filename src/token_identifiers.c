@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_identifiers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edu <edu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 03:16:37 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/01/24 03:52:08 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:19:24 by edu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	is_operator(char *input)
 	i = 0;
 	if (!input)
 		return (0);
+	printf("%s\n", input);
 	while (input[i] != '\0')
 	{
 		if (input[i] == '>' && input[i + 1] == '>')
@@ -36,7 +37,10 @@ int	is_operator(char *input)
 		else if (input[i] == '<' && input[i + 1] == '<')
 			return (DOUBLE_LESS);
 		else if (input[i] == '>' && input[i + 1] != '>')
+		{
+			printf("entrou e saiu\n");
 			return (GREAT);
+		}
 		else if (input[i] == '<' && input[i + 1] != '<')
 			return (LESS);
 		else if (input[i] == '|')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edu <edu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 19:05:18 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/01/19 14:55:28 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:13:17 by edu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,8 +161,11 @@ void	tokenizer(char *input, t_minishell *mini)
 		}
 		else if (is_builtin(input + i) != 1)
 		{
-			while (input[i] != '\0' && is_builtin(input + i) != 1)
+			while (input[i] != '\0' && is_builtin(input + i) != 1 && !meta_char(input[i]))
+			{
+				printf("%c ", input[i]);
 				i++;
+			}
 			substr = ft_substr(input, start, i);
 			add_token(substr, is_builtin(substr), mini);
 		}
