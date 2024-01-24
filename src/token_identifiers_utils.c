@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_identifiers_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vde-frei <vde-frei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 03:57:45 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/01/24 05:17:40 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:46:31 by vde-frei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	process_token_operator(char *input, t_minishell *mini, int i, int start)
 {
 	char	*substr;
 
-	while (is_operator(input + i) != 1)
+	while (is_operator(input + i))
 		i++;
 	substr = ft_substr(input, start, i - start + 1);
 	add_token(substr, is_operator(substr), mini);

@@ -14,19 +14,19 @@ void	tokenizer(char *input, t_minishell *mini)
 			i++;
 			start++;
 		}
-		if (is_quote(input[i]) != 1)
+		if (is_quote(input[i]))
 		{
 			i = process_token_quote(input, mini, i, start);
 			if (input[i] != '\0')
 				i++;
 		}
-		else if (is_builtin(input + i) != 1)
+		else if (is_builtin(input + i))
 			i = process_token_builtin(input, mini, i, start);
-		else if (is_word(input + i) != 1)
+		else if (is_word(input + i))
 			i = process_token_word(input, mini, i, start);
-		else if (is_arg(input + i) != 1)
+		else if (is_arg(input + i))
 			i = process_token_arg(input, mini, i, start);
-		else if (is_operator(input + i) != 1)
+		else if (is_operator(input + i))
 			i = process_token_operator(input, mini, i, start);
 		else
 			i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_identifiers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vde-frei <vde-frei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 03:16:37 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/01/24 03:52:08 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:40:02 by vde-frei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	is_quote(char c)
 	else if (c == '"')
 		return (DOUBLE_QUOTE);
 	else
-		return (1);
+		return (0);
 }
 
 int	is_operator(char *input)
@@ -43,7 +43,7 @@ int	is_operator(char *input)
 			return (PIPE);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 int	is_word(const char *input)
@@ -59,7 +59,7 @@ int	is_word(const char *input)
 			i++;
 		return (WORD);
 	}
-	return (1);
+	return (0);
 }
 
 int	is_arg(const char *input)
@@ -79,7 +79,7 @@ int	is_arg(const char *input)
 		}
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 int	is_builtin(char *input)
@@ -99,7 +99,7 @@ int	is_builtin(char *input)
 	else if (ft_strncmp(input, "exit", 4) == 0)
 		return (EXIT);
 	else
-		return (1);
+		return (0);
 }
 
 // int	is_quote(char c)
