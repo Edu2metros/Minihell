@@ -48,6 +48,7 @@ SRC = \
 	putunsigned.c\
 	ft_atol.c\
 	ft_isspace.c\
+	ft_strcmp.c\
 
 BONUS_SRC = \
 	ft_lstnew_bonus.c\

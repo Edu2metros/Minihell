@@ -1,151 +1,71 @@
 #include "../include/minishell.h"
 
-void	add_token(char *str, int type, t_minishell *mini);
-
-int	is_quote(char c)
+int	process_token_quote (char *input, t_minishell *mini, int i, int start)
 {
-	return (c == '\'' || c == '"');
-}
+	int		quote_type;
+	char	*substr;
 
-int	is_operator(char *input)
-{
-	int	i;
-
-	i = 0;
-	if (!input)
-		return (0);
-	while (input[i] != '\0')
-	{
-		if (input[i] == '>' && input[i + 1] == '>')
-			return (DOUBLE_GREAT);
-		else if (input[i] == '<' && input[i + 1] == '<')
-			return (DOUBLE_LESS);
-		else if (input[i] == '>' && input[i + 1] != '>')
-			return (GREAT);
-		else if (input[i] == '<' && input[i + 1] != '<')
-			return (LESS);
-		else if (input[i] == '|')
-			return (PIPE);
+	quote_type = is_quote(input[i]);
+	i++;
+	while (is_quote(input[i]) != quote_type )
 		i++;
-	}
-	return (1);
+	substr = ft_substr(input, start, i - start);
+	add_token(substr, QUOTE, mini);
+	return (i);
 }
 
-/*is_operator(char *input): Checks if a string contains shell operators like '>>',
-	'<<', '>', '<',
-	'|'. It returns different constants depending on the operator.*/
-
-/* define if is random word, to use on tokenization later
-its possibel to return the word, but let this part out for now */
-
-int	is_word(const char *input)
+int	process_token_builtin(char *input, t_minishell *mini, int i, int start)
 {
-	int	i;
+	char	*substr;
 
-	i = 0;
-	if (!input)
-		return (0);
-	while (input[i] != '\0' && ft_isalpha(input[i]))
-	{
-		while (input[i] != ' ' && input[i] != '\0')
-			i++;
-		return (WORD);
-	}
-	return (1);
-}
-
-/*is_word(const char *input): Checks if a string is a word (sequence of alphabetic characters). It returns a constant WORD if it is,
-	and 1 otherwise.*/
-
-/* define if is argument, to use on tokenization later
-its possibel to return the arg, but let this part out for now */
-
-int	is_arg(const char *input)
-{
-	int	i;
-
-	i = 0;
-	if (!input)
-		return (0);
-	while (input[i] != '\0')
-	{
-		if (input[i] == '-' && ft_isalpha(input[i + 1]) == 1)
-		{
-			while (input[i] != ' ' && input[i] != '\0')
-				i++;
-			return (ARG);
-		}
+	while (input[i] != ' ')
 		i++;
-	}
-	return (1);
+	substr = ft_substr(input, start, i - start);
+	add_token(substr, is_builtin(substr), mini);
+	return (i);
 }
-
-/*is_arg(const char *input): Checks if a string is an argument (starts with '-' followed by alphabetic characters). It returns a constant ARG if it is,
-	and 1 otherwise.*/
-
-/* thinking about do the same stuff to the commands bultins
-will write the functions, then we decide if is usefull to merge
-with the previous idea to make our token list*/
-
-int	is_builtin(char *input)
-{
-	if (ft_strncmp(input, "echo", 4) == 0)
-		return (ECHO);
-	else if (ft_strncmp(input, "cd", 2) == 0)
-		return (CD);
-	else if (ft_strncmp(input, "pwd", 3) == 0)
-		return (PWD);
-	else if (ft_strncmp(input, "export", 6) == 0)
-		return (EXPORT);
-	else if (ft_strncmp(input, "unset", 5) == 0)
-		return (UNSET);
-	else if (ft_strncmp(input, "env", 3) == 0)
-		return (ENV);
-	else if (ft_strncmp(input, "exit", 4) == 0)
-		return (EXIT);
-	else
-		return (1);
-}
-/*is_builtin(char *input): Checks if a string is a shell built-in command like 'echo',
-	'cd', 'pwd', 'export', 'unset', 'env',
-	'exit'. It returns different constants depending on the command.*/
-
-/* this function will be used to create the token list*/
 
 void	tokenizer(char *input, t_minishell *mini)
 {
 	int		i;
 	int		start;
+	int		quote_type;
 	char	*substr;
 
 	i = 0;
 	start = 0;
 	while (input[i] != '\0')
 	{
-		if (is_quote(input[i]) == 1)
-		{
-			while (input[i] != '\0' && is_quote(input[i]) == 1)
-				i++;
-			substr = ft_substr(input, start, i);
-			add_token(substr, QUOTE, mini);
+		while (input[i] == ' ')
+		{	
+			i++;
+			start++;
 		}
-		else if (is_operator(input + i) != 1)
+		if (is_quote(input[i]) != 1)
 		{
-			while (input[i] != '\0' && is_operator(input + i) != 1)
+			// quote_type = is_quote(input[i]);
+			// i++;
+			// while (is_quote(input[i]) != quote_type )
+			// 	i++;
+			// substr = ft_substr(input, start, i - start);
+			// add_token(substr, QUOTE, mini);
+			// if (input[i] != '\0')
+			// 	i++;
+			i = process_token_quote(input, mini, i, start);
+			if (input[i] != '\0')
 				i++;
-			substr = ft_substr(input, start, i);
-			add_token(substr, is_operator(substr), mini);
 		}
 		else if (is_builtin(input + i) != 1)
 		{
-			while (input[i] != '\0' && is_builtin(input + i) != 1)
-				i++;
-			substr = ft_substr(input, start, i);
-			add_token(substr, is_builtin(substr), mini);
+			// while (input[i] != ' ')
+			// 	i++;
+			// substr = ft_substr(input, start, i - start);
+			// add_token(substr, is_builtin(substr), mini);
+			i = process_token_builtin(input, mini, i, start);
 		}
 		else if (is_word(input + i) != 1)
 		{
-			while (input[i] != '\0' && is_word(input + i) != 1)
+			while (input[i] != ' ')
 				i++;
 			substr = ft_substr(input, start, i);
 			add_token(substr, is_word(substr), mini);
@@ -156,6 +76,13 @@ void	tokenizer(char *input, t_minishell *mini)
 				i++;
 			substr = ft_substr(input, start, i);
 			add_token(substr, is_arg(substr), mini);
+		}
+		else if (is_operator(input + i) != 1 && is_operator(input + i) != 0)
+		{
+			while (is_operator(input + i) != 1)
+				i++;
+			substr = ft_substr(input, start, i - start + 1);
+			add_token(substr, is_operator(substr), mini);
 		}
 		else
 			i++;
@@ -202,7 +129,7 @@ void print_tokens(t_minishell *mini) {
     t_token *current_token = mini->token;
 
     while (current_token != NULL) {
-        printf("Token: %s, Type: %d\n", current_token->content, current_token->type);
+        printf("Token: %s: Type: %d\n\n", current_token->content, current_token->type);
         current_token = current_token->next;
     }
 }
@@ -228,3 +155,4 @@ int	main(void)
 	}
 	return (0);
 }
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 13:09:27 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/17 17:21:25 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/24 00:47:17 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,7 @@ int					ft_putnbr(int nbr);
 int					ft_putptr(void *ptr);
 size_t				ft_putstr(char *str);
 int					ft_unsint(unsigned int nbr);
+
+
+int					ft_strcmp(char *s1, char *s2);
 #endif
