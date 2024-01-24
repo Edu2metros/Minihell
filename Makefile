@@ -6,7 +6,7 @@ INCLUDES = -I ./include/
 SRC_DIR = src
 OBJ_DIR = objs
 
-MINISHELL_SRC = main.c utils.c tokenizer.c token_identifiers.c
+MINISHELL_SRC = main.c utils.c tokenizer.c token_identifiers.c token_identifiers_utils.c 
 MINISHELL_OBJ = $(addprefix $(OBJ_DIR)/, $(MINISHELL_SRC:%.c=%.o))
 
 all: libft $(MINISHELL_NAME)
