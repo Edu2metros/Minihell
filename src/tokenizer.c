@@ -88,12 +88,8 @@ void	add_token(char *str, int type, t_minishell *mini)
 	else
 		mini->token = new_token;
 }
-
-// add_token(char *str, int type,
-	/* t_minishell *mini): This function creates a new token with the given string and type,
-	and adds it to the end of the token list in the mini shell structure.
+/* add_token(char *str, int type, t_minishell *mini): This function creates a new token with the given string and type, and adds it to the end of the token list in the mini shell structure.
  */
-/*check with GDB where is the infinity loop*/
 
 void print_tokens(t_minishell *mini) {
     t_token *current_token = mini->token;
@@ -111,7 +107,7 @@ int	main(void)
 	t_token		*current_token;
 	t_token		*next_token;
 
-	input = "echo 'Hello,            World!' >> pwd << ksd";
+	input = "echo 'Hello,            World!' >> pwd << ksd > ls | cat";
 	mini.token = NULL;
 	tokenizer(input, &mini);
 	print_tokens(&mini);

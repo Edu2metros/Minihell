@@ -6,20 +6,20 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 03:57:45 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/01/24 04:02:38 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/01/24 04:13:35 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	process_token_quote (char *input, t_minishell *mini, int i, int start)
+int	process_token_quote(char *input, t_minishell *mini, int i, int start)
 {
 	int		quote_type;
 	char	*substr;
 
 	quote_type = is_quote(input[i]);
 	i++;
-	while (is_quote(input[i]) != quote_type )
+	while (is_quote(input[i]) != quote_type)
 		i++;
 	substr = ft_substr(input, start, i - start);
 	add_token(substr, QUOTE, mini);
@@ -37,7 +37,7 @@ int	process_token_builtin(char *input, t_minishell *mini, int i, int start)
 	return (i);
 }
 
-int process_token_word(char *input, t_minishell *mini, int i, int start)
+int	process_token_word(char *input, t_minishell *mini, int i, int start)
 {
 	char	*substr;
 
