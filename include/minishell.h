@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/24 03:18:28 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/01/24 04:02:55 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,10 @@ int						is_word(const char *input);
 int						is_arg(const char *input);
 int						is_builtin(char *input);
 void					add_token(char *str, int type, t_minishell *mini);
+int						process_token_quote (char *input, t_minishell *mini, int i, int start);
+int						process_token_builtin(char *input, t_minishell *mini, int i, int start);
+int 					process_token_word(char *input, t_minishell *mini, int i, int start);
+int						process_token_arg(char *input, t_minishell *mini, int i, int start);
+int						process_token_operator(char *input, t_minishell *mini, int i, int start);
 
 #endif

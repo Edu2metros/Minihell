@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 03:16:37 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/01/24 03:22:21 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/01/24 03:52:08 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,19 +84,19 @@ int	is_arg(const char *input)
 
 int	is_builtin(char *input)
 {
-	if (ft_strcmp(input, "echo") == 0)
+	if (ft_strncmp(input, "echo", 4) == 0)
 		return (ECHO);
-	else if (ft_strcmp(input, "cd") == 0)
+	else if (ft_strncmp(input, "cd", 2) == 0)
 		return (CD);
-	else if (ft_strcmp(input, "pwd") == 0)
+	else if (ft_strncmp(input, "pwd", 3) == 0)
 		return (PWD);
-	else if (ft_strcmp(input, "export") == 0)
+	else if (ft_strncmp(input, "export", 6) == 0)
 		return (EXPORT);
-	else if (ft_strcmp(input, "unset") == 0)
+	else if (ft_strncmp(input, "unset", 5) == 0)
 		return (UNSET);
-	else if (ft_strcmp(input, "env") == 0)
+	else if (ft_strncmp(input, "env", 3) == 0)
 		return (ENV);
-	else if (ft_strcmp(input, "exit") == 0)
+	else if (ft_strncmp(input, "exit", 4) == 0)
 		return (EXIT);
 	else
 		return (1);

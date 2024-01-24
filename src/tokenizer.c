@@ -1,36 +1,11 @@
 #include "../include/minishell.h"
 
-int	process_token_quote (char *input, t_minishell *mini, int i, int start)
-{
-	int		quote_type;
-	char	*substr;
-
-	quote_type = is_quote(input[i]);
-	i++;
-	while (is_quote(input[i]) != quote_type )
-		i++;
-	substr = ft_substr(input, start, i - start);
-	add_token(substr, QUOTE, mini);
-	return (i);
-}
-
-int	process_token_builtin(char *input, t_minishell *mini, int i, int start)
-{
-	char	*substr;
-
-	while (input[i] != ' ')
-		i++;
-	substr = ft_substr(input, start, i - start);
-	add_token(substr, is_builtin(substr), mini);
-	return (i);
-}
-
 void	tokenizer(char *input, t_minishell *mini)
 {
 	int		i;
 	int		start;
-	int		quote_type;
-	char	*substr;
+	// int		quote_type;
+	// char	*substr;
 
 	i = 0;
 	start = 0;
@@ -43,44 +18,41 @@ void	tokenizer(char *input, t_minishell *mini)
 		}
 		if (is_quote(input[i]) != 1)
 		{
-			quote_type = is_quote(input[i]);
-			i++;
-			while (is_quote(input[i]) != quote_type )
-				i++;
-			substr = ft_substr(input, start, i - start);
-			add_token(substr, QUOTE, mini);
-			if (input[i] != '\0')
-				i++;
+			i = process_token_quote(input, mini, i, start);
 			if (input[i] != '\0')
 				i++;
 		}
 		else if (is_builtin(input + i) != 1)
 		{
-			while (input[i] != ' ')
-				i++;
-			substr = ft_substr(input, start, i - start);
-			add_token(substr, is_builtin(substr), mini);
+			// while (input[i] != ' ')
+			// 	i++;
+			// substr = ft_substr(input, start, i - start);
+			// add_token(substr, is_builtin(substr), mini);
+			i = process_token_builtin(input, mini, i, start);
 		}
 		else if (is_word(input + i) != 1)
 		{
-			while (input[i] != ' ')
-				i++;
-			substr = ft_substr(input, start, i);
-			add_token(substr, is_word(substr), mini);
+			// while (input[i] != ' ' && input[i] != '\0')
+			// 	i++;
+			// substr = ft_substr(input, start, i - start);
+			// add_token(substr, is_word(substr), mini);
+			i = process_token_word(input, mini, i, start);
 		}
 		else if (is_arg(input + i) != 1)
 		{
-			while (input[i] != '\0' && is_arg(input + i) != 1)
-				i++;
-			substr = ft_substr(input, start, i);
-			add_token(substr, is_arg(substr), mini);
+			// while (input[i] != '\0' && is_arg(input + i) != 1)
+			// 	i++;
+			// substr = ft_substr(input, start, i);
+			// add_token(substr, is_arg(substr), mini);
+			i = process_token_arg(input, mini, i, start);
 		}
 		else if (is_operator(input + i) != 1 && is_operator(input + i) != 0)
 		{
-			while (is_operator(input + i) != 1)
-				i++;
-			substr = ft_substr(input, start, i - start + 1);
-			add_token(substr, is_operator(substr), mini);
+			// while (is_operator(input + i) != 1)
+			// 	i++;
+			// substr = ft_substr(input, start, i - start + 1);
+			// add_token(substr, is_operator(substr), mini);
+			i = process_token_operator(input, mini, i, start);
 		}
 		else
 			i++;
@@ -139,7 +111,7 @@ int	main(void)
 	t_token		*current_token;
 	t_token		*next_token;
 
-	input = "echo 'Hello, World!' >> pwd << ksd";
+	input = "echo 'Hello,            World!' >> pwd << ksd";
 	mini.token = NULL;
 	tokenizer(input, &mini);
 	print_tokens(&mini);
@@ -153,3 +125,4 @@ int	main(void)
 	}
 	return (0);
 }
+
