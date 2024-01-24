@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/23 13:31:29 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/24 03:18:28 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,13 @@ int						meta_char(char c);
 int						ft_redirect(char *prompt, int i);
 void					validator(char *prompt);
 void					tokenizer(char *str, t_minishell *mini);
+
+// Utility Functions for Tokenization
+int						is_quote(char c);
+int						is_operator(char *input);
+int						is_word(const char *input);
+int						is_arg(const char *input);
+int						is_builtin(char *input);
+void					add_token(char *str, int type, t_minishell *mini);
 
 #endif
