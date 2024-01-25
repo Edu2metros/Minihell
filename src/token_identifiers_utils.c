@@ -52,9 +52,8 @@ int	process_token_operator(char *input, t_minishell *mini, int i, int start)
 {
 	char	*substr;
 
-	while (is_operator(input + i))
+	while (is_operator(input + i) && !ft_isalpha(input[i]))
 		i++;
-	printf("ENTROU %c\n", input[i]);
 	substr = ft_substr(input, start, i - start);
 	add_token(substr, is_operator(substr), mini);
 	return (i);
