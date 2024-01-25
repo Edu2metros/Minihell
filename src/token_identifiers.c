@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   token_identifiers.c                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edu <edu@student.42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/24 03:16:37 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/01/24 16:19:24 by edu              ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 int	is_quote(char c)
@@ -19,7 +7,7 @@ int	is_quote(char c)
 	else if (c == '"')
 		return (DOUBLE_QUOTE);
 	else
-		return (1);
+		return (0);
 }
 
 int	is_operator(char *input)
@@ -47,7 +35,7 @@ int	is_operator(char *input)
 			return (PIPE);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 int	is_word(const char *input)
@@ -63,7 +51,7 @@ int	is_word(const char *input)
 			i++;
 		return (WORD);
 	}
-	return (1);
+	return (0);
 }
 
 int	is_arg(const char *input)
@@ -83,7 +71,7 @@ int	is_arg(const char *input)
 		}
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 int	is_builtin(char *input)
@@ -103,7 +91,7 @@ int	is_builtin(char *input)
 	else if (ft_strncmp(input, "exit", 4) == 0)
 		return (EXIT);
 	else
-		return (1);
+		return (0);
 }
 
 // int	is_quote(char c)

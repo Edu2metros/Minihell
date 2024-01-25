@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   token_identifiers_utils.c                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edu <edu@student.42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/24 03:57:45 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/01/24 16:34:05 by edu              ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../include/minishell.h"
 
@@ -63,7 +52,7 @@ int	process_token_operator(char *input, t_minishell *mini, int i, int start)
 {
 	char	*substr;
 
-	while (is_operator(input + i) != 1)
+	while (is_operator(input + i))
 		i++;
 	printf("ENTROU %c\n", input[i]);
 	substr = ft_substr(input, start, i - start);
