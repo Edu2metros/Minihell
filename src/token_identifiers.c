@@ -59,7 +59,7 @@ int	is_arg(const char *input)
 		return (0);
 	while (input[i] != '\0')
 	{
-		if (input[i] == '-' && ft_isalpha(input[i + 1]) == 1)
+		if (input[i] == '-' && ft_isalpha(input[i + 1]) && i == 0)
 		{
 			while (input[i] != ' ' && input[i] != '\0')
 				i++;
