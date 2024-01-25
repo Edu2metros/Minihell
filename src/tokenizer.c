@@ -80,8 +80,11 @@ int	main(void)
 	char		*input;
 	t_token		*current_token;
 	t_token		*next_token;
+	while(1)
+	{
 
-	input = "echo 'Hello,            World!' >> pwd << ksd > ls | cat";
+	input = readline("");
+	add_history(input);
 	mini.token = NULL;
 	tokenizer(input, &mini);
 	print_tokens(&mini);
@@ -93,6 +96,8 @@ int	main(void)
 		free(current_token);
 		current_token = next_token;
 	}
+	}
+	clear_history();
 	return (0);
 }
 

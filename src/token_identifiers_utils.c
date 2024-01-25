@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   token_identifiers_utils.c                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vde-frei <vde-frei@student.42sp.org.br>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/24 03:57:45 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/01/24 15:46:31 by vde-frei         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../include/minishell.h"
 
@@ -21,7 +10,7 @@ int	process_token_quote(char *input, t_minishell *mini, int i, int start)
 	i++;
 	while (is_quote(input[i]) != quote_type)
 		i++;
-	substr = ft_substr(input, start, i - start);
+	substr = ft_substr(input, start + -1, i - start -1); // (-1 para tirar a outra aspas)
 	add_token(substr, QUOTE, mini);
 	return (i);
 }
@@ -30,7 +19,7 @@ int	process_token_builtin(char *input, t_minishell *mini, int i, int start)
 {
 	char	*substr;
 
-	while (input[i] != ' ' && input[i] != '\0')
+	while (input[i] != ' ' && input[i] != '\0'  && !meta_char(input[i])) // Adicionei a checagem de metachar
 		i++;
 	substr = ft_substr(input, start, i - start);
 	add_token(substr, is_builtin(substr), mini);
@@ -41,7 +30,7 @@ int	process_token_word(char *input, t_minishell *mini, int i, int start)
 {
 	char	*substr;
 
-	while (input[i] != ' ' && input[i] != '\0')
+	while (input[i] != ' ' && input[i] != '\0' && !meta_char(input[i]))
 		i++;
 	substr = ft_substr(input, start, i - start);
 	add_token(substr, is_word(substr), mini);
@@ -65,7 +54,8 @@ int	process_token_operator(char *input, t_minishell *mini, int i, int start)
 
 	while (is_operator(input + i))
 		i++;
-	substr = ft_substr(input, start, i - start + 1);
+	printf("ENTROU %c\n", input[i]);
+	substr = ft_substr(input, start, i - start);
 	add_token(substr, is_operator(substr), mini);
 	return (i);
 }

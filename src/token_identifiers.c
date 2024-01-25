@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   token_identifiers.c                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vde-frei <vde-frei@student.42sp.org.br>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/24 03:16:37 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/01/24 15:40:02 by vde-frei         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 int	is_quote(char c)
@@ -29,6 +17,7 @@ int	is_operator(char *input)
 	i = 0;
 	if (!input)
 		return (0);
+	printf("%s\n", input);
 	while (input[i] != '\0')
 	{
 		if (input[i] == '>' && input[i + 1] == '>')
@@ -36,7 +25,10 @@ int	is_operator(char *input)
 		else if (input[i] == '<' && input[i + 1] == '<')
 			return (DOUBLE_LESS);
 		else if (input[i] == '>' && input[i + 1] != '>')
+		{
+			printf("entrou e saiu\n");
 			return (GREAT);
+		}
 		else if (input[i] == '<' && input[i + 1] != '<')
 			return (LESS);
 		else if (input[i] == '|')
