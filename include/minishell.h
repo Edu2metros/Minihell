@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/29 14:03:48 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/29 19:07:15 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 # include "./libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <stdbool.h>
 # include <sys/wait.h>
 # include <unistd.h>
 
@@ -66,7 +67,7 @@ int						check_quote(char *input);
 void					handle_error(int nbr);
 int						meta_char(char c);
 int						ft_redirect(char *prompt, int i);
-void					validator(char *prompt);
+bool					validator(char *prompt);
 void					tokenizer(char *str, t_minishell *mini);
 
 // Utility Functions for Tokenization

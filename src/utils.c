@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:47:19 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/29 12:32:12 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/29 19:09:28 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,10 @@ int	check_quote(char *input)
 
 void	handle_error(int nbr)
 {
-	static char	*message[2] = {
+	static char *message[2] = {
 		"Please close the quotes.",
 		"Syntax error.",
 	};
-
 	printf("%s\n", message[nbr]);
 }
 
@@ -58,31 +57,32 @@ int	ft_redirect(char *prompt, int i)
 			&& !meta_char(prompt[i])))
 		i++;
 	if (prompt[i] == '\0' || my_isspace(prompt[i]) || meta_char(prompt[i]))
-	{
-		handle_error(1);
 		return (0);
-	}
 	return (1);
 }
 
-void	validator(char *prompt)
+bool	validator(char *prompt)
 {
 	int	i;
 
-	i = 0;
-	if (check_quote(prompt) == 0)
-		handle_error(0);
-	if (prompt[0] == '|' || prompt[ft_strlen(prompt) - 1] == '|')
+	if (check_quote(prompt) == 0 || prompt[0] == '|' || prompt[ft_strlen(prompt)
+			- 1] == '|')
+	{
 		handle_error(1);
+		return (false);
+	}
+	i = 0;
 	while (prompt[i])
 	{
 		if (prompt[i] == '>')
 		{
-			if (prompt[i + 1] == '>')
-				ft_redirect(prompt, i + 2);
-			else
-				ft_redirect(prompt, i + 1);
+			if (prompt[i + 1] == '>' || !ft_redirect(prompt, i + 1))
+			{
+				handle_error(1);
+				return (false);
+			}
 		}
 		i++;
 	}
+	return (true);
 }
