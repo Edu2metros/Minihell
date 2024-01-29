@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:29 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/29 17:11:27 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:21:53 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,9 @@ void	print_tokens(t_minishell *mini)
 	}
 }
 
+/* Leak arrumado, já que não tem algo que possa sair sem o ctrl + c,
+ deixei para digitar "sair" que sai e não dá leak.  */
+
 int	main(void)
 {
 	t_minishell	mini;
@@ -84,7 +87,7 @@ int	main(void)
 	while (1)
 	{
 		input = readline("");
-		if (!ft_strncmp(input, "exit", 5))
+		if (!ft_strncmp(input, "sair", 5))
 			break ;
 		add_history(input);
 		mini.token = NULL;
