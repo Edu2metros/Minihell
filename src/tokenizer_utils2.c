@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   tokenizer_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/24 03:19:30 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/01/29 14:45:26 by eddos-sa         ###   ########.fr       */
+/*   Created: 2024/01/29 14:42:42 by eddos-sa          #+#    #+#             */
+/*   Updated: 2024/01/29 15:34:21 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	index;
+// Process when you have the '$' token
+// but I have a doubt, what would be the limit? space?
 
-	index = 0;
-	while (s1[index] != '\0' || s2[index] != '\0')
-	{
-		if (s1[index] != s2[index])
-			break ;
-		index++;
-	}
-	return (s1[index] - s2[index]);
+#include "../include/minishell.h"
+
+int	process_token_dollar(char *input, t_minishell *mini, int i, int start)
+{
+	char	*substr;
+
+	while (input[i] != '\0' && ft_isalpha(input[i]))
+		i++;
+	substr = ft_substr(input, start, i);
+	add_token(substr, DOLLAR, mini);
+	return (i);
 }

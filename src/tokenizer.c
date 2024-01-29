@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/29 14:44:29 by eddos-sa          #+#    #+#             */
+/*   Updated: 2024/01/29 14:44:33 by eddos-sa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 void	tokenizer(char *input, t_minishell *mini)
@@ -9,37 +21,23 @@ void	tokenizer(char *input, t_minishell *mini)
 	start = 0;
 	while (input[i] != '\0')
 	{
-		while (input[i] == ' ')
-		{	
-			i++;
-			start++;
-		}
 		if (is_quote(input[i]))
-		{
-			i = process_token_quote(input, mini, i, start);
-			if (input[i] != '\0')
-				i++;
-		}
+			i = process_token_quote(input, mini, i);
 		else if (is_builtin(input + i))
 			i = process_token_builtin(input, mini, i, start);
 		else if (is_word(input + i))
 			i = process_token_word(input, mini, i, start);
 		else if (is_arg(input + i))
 			i = process_token_arg(input, mini, i, start);
-		else if (is_operator(input + i))
+		else if (is_operator(input[i], input[i + 1]))
 			i = process_token_operator(input, mini, i, start);
+		else if (input[i] == '$')
+			i = process_token_dollar(input, mini, i + 1, start);
 		else
 			i++;
 		start = i;
 	}
 }
-
-/*tokenizer(char *input,
-	t_token *token): This function tokenizes the input string. It uses the above functions to identify different types of tokens (quotes,
-	operators, words, arguments,
-	built-in commands) and adds them to a token list.*/
-
-// need to change to add the token to the list making a node add function
 
 void	add_token(char *str, int type, t_minishell *mini)
 {
@@ -62,16 +60,18 @@ void	add_token(char *str, int type, t_minishell *mini)
 	else
 		mini->token = new_token;
 }
-/* add_token(char *str, int type, t_minishell *mini): This function creates a new token with the given string and type, and adds it to the end of the token list in the mini shell structure.
- */
 
-void print_tokens(t_minishell *mini) {
-    t_token *current_token = mini->token;
+void	print_tokens(t_minishell *mini)
+{
+	t_token	*current_token;
 
-    while (current_token != NULL) {
-        printf("Token: %s: Type: %d\n\n", current_token->content, current_token->type);
-        current_token = current_token->next;
-    }
+	current_token = mini->token;
+	while (current_token != NULL)
+	{
+		printf("Token: %s: Type: %d\n\n", current_token->content,
+			current_token->type);
+		current_token = current_token->next;
+	}
 }
 
 int	main(void)
@@ -80,24 +80,23 @@ int	main(void)
 	char		*input;
 	t_token		*current_token;
 	t_token		*next_token;
-	while(1)
-	{
 
-	input = readline("");
-	add_history(input);
-	mini.token = NULL;
-	tokenizer(input, &mini);
-	print_tokens(&mini);
-	current_token = mini.token;
-	while (current_token != NULL)
+	while (1)
 	{
-		next_token = current_token->next;
-		free(current_token->content);
-		free(current_token);
-		current_token = next_token;
-	}
+		input = readline("");
+		add_history(input);
+		mini.token = NULL;
+		tokenizer(input, &mini);
+		print_tokens(&mini);
+		current_token = mini.token;
+		while (current_token != NULL)
+		{
+			next_token = current_token->next;
+			free(current_token->content);
+			free(current_token);
+			current_token = next_token;
+		}
 	}
 	clear_history();
 	return (0);
 }
-

@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edu <edu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/24 16:21:03 by edu              ###   ########.fr       */
+/*   Updated: 2024/01/29 14:03:48 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+// META CHAR
 
 # define GREAT 10
 # define LESS 2
@@ -20,10 +21,15 @@
 # define DOUBLE_QUOTE 5
 # define DOUBLE_GREAT 6
 # define DOUBLE_LESS 7
+# define DOLLAR 11
+
+// IDENTIFIER
 # define COMMAND 8
 # define TOKEN 9
 # define WORD -1
 # define ARG -2
+
+// BUILT IN
 # define ECHO -3
 # define CD -4
 # define PWD -5
@@ -65,15 +71,22 @@ void					tokenizer(char *str, t_minishell *mini);
 
 // Utility Functions for Tokenization
 int						is_quote(char c);
-int						is_operator(char *input);
+int						is_operator(char chr1, char chr2);
 int						is_word(const char *input);
 int						is_arg(const char *input);
 int						is_builtin(char *input);
 void					add_token(char *str, int type, t_minishell *mini);
-int						process_token_quote (char *input, t_minishell *mini, int i, int start);
-int						process_token_builtin(char *input, t_minishell *mini, int i, int start);
-int 					process_token_word(char *input, t_minishell *mini, int i, int start);
-int						process_token_arg(char *input, t_minishell *mini, int i, int start);
-int						process_token_operator(char *input, t_minishell *mini, int i, int start);
+int						process_token_quote(char *input, t_minishell *mini,
+							int i);
+int						process_token_builtin(char *input, t_minishell *mini,
+							int i, int start);
+int						process_token_word(char *input, t_minishell *mini,
+							int i, int start);
+int						process_token_arg(char *input, t_minishell *mini, int i,
+							int start);
+int						process_token_operator(char *input, t_minishell *mini,
+							int i, int start);
+int						process_token_dollar(char *input, t_minishell *mini,
+							int i, int start);
 
 #endif

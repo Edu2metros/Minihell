@@ -9,7 +9,7 @@
 		"request": "launch",
 		"program": "${workspaceFolder}/minishell",
 		"args": [],
-		"stopAtEntry": false,
+		"stopAtEntry": true,
 		"cwd": "${fileDirname}",
 		"environment": [],
 		"externalConsole": false,

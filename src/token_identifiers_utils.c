@@ -1,17 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_identifiers_utils.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/29 14:44:54 by eddos-sa          #+#    #+#             */
+/*   Updated: 2024/01/29 15:48:29 by eddos-sa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	process_token_quote(char *input, t_minishell *mini, int i, int start)
+int	process_token_quote(char *input, t_minishell *mini, int i)
 {
-	int		quote_type;
+	int		start;
 	char	*substr;
 
-	quote_type = is_quote(input[i]);
-	i++;
-	while (is_quote(input[i]) != quote_type)
+	while (is_quote(input[i]))
 		i++;
-	substr = ft_substr(input, start + -1, i - start -1); // (-1 para tirar a outra aspas)
+	start = i;
+	while (!is_quote(input[i]))
+		i++;
+	substr = ft_substr(input, start, i - start);
 	add_token(substr, QUOTE, mini);
+	while (is_quote(input[i]))
+		i++;
+	free(substr);
 	return (i);
 }
 
@@ -19,7 +34,7 @@ int	process_token_builtin(char *input, t_minishell *mini, int i, int start)
 {
 	char	*substr;
 
-	while (input[i] != ' ' && input[i] != '\0'  && !meta_char(input[i])) // Adicionei a checagem de metachar
+	while (input[i] != ' ' && input[i] != '\0' && !meta_char(input[i]))
 		i++;
 	substr = ft_substr(input, start, i - start);
 	add_token(substr, is_builtin(substr), mini);
@@ -41,9 +56,9 @@ int	process_token_arg(char *input, t_minishell *mini, int i, int start)
 {
 	char	*substr;
 
-	while (input[i] != '\0' && is_arg(input + i) != 1)
+	while (input[i] != '\0' && !my_isspace(input[i]) && !meta_char(input[i]))
 		i++;
-	substr = ft_substr(input, start, i);
+	substr = ft_substr(input, start, i - start);
 	add_token(substr, is_arg(substr), mini);
 	return (i);
 }
@@ -51,10 +66,12 @@ int	process_token_arg(char *input, t_minishell *mini, int i, int start)
 int	process_token_operator(char *input, t_minishell *mini, int i, int start)
 {
 	char	*substr;
+	int		type;
 
-	while (is_operator(input + i) && !ft_isalpha(input[i]))
+	type = is_operator(input[i], input[i + 1]);
+	while (is_operator(input[i], input[i + 1]) && !ft_isalpha(input[i]))
 		i++;
 	substr = ft_substr(input, start, i - start);
-	add_token(substr, is_operator(substr), mini);
+	add_token(substr, type, mini);
 	return (i);
 }
