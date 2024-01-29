@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:54 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/29 16:34:35 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:19:57 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	process_token_builtin(char *input, t_minishell *mini, int i, int start)
 		i++;
 	substr = ft_substr(input, start, i - start);
 	add_token(substr, is_builtin(substr), mini);
+	free(substr);
 	return (i);
 }
 
@@ -49,6 +50,7 @@ int	process_token_word(char *input, t_minishell *mini, int i, int start)
 		i++;
 	substr = ft_substr(input, start, i - start);
 	add_token(substr, is_word(substr), mini);
+	free(substr);
 	return (i);
 }
 
@@ -60,6 +62,7 @@ int	process_token_arg(char *input, t_minishell *mini, int i, int start)
 		i++;
 	substr = ft_substr(input, start, i - start);
 	add_token(substr, is_arg(substr), mini);
+	free(substr);
 	return (i);
 }
 
@@ -73,5 +76,6 @@ int	process_token_operator(char *input, t_minishell *mini, int i, int start)
 		i++;
 	substr = ft_substr(input, start, i - start);
 	add_token(substr, type, mini);
+	free(substr);
 	return (i);
 }

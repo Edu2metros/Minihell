@@ -1,6 +1,6 @@
 MINISHELL_NAME = minishell
 CC = cc
-FLAGS = -g3 -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g3
 INCLUDES = -I ./include/
 
 SRC_DIR = src

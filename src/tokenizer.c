@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:29 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/29 14:44:33 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:11:27 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ int	main(void)
 	while (1)
 	{
 		input = readline("");
+		if (!ft_strncmp(input, "exit", 5))
+			break ;
 		add_history(input);
 		mini.token = NULL;
 		tokenizer(input, &mini);
