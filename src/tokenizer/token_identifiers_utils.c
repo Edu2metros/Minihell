@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_identifiers_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:54 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/29 17:19:57 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/29 18:18:51 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	process_token_quote(char *input, t_minishell *mini, int i)
 {

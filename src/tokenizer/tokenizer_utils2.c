@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:42:42 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/29 15:34:21 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/29 18:19:07 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // Process when you have the '$' token
 // but I have a doubt, what would be the limit? space?
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	process_token_dollar(char *input, t_minishell *mini, int i, int start)
 {

@@ -79,10 +79,11 @@ $(OBJ_DIR)/%.o: %.c libft.h
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo "\033[32m[✓] \031[1m\033[1mLIBFT removed\033[1m"
 
 re: fclean all
 

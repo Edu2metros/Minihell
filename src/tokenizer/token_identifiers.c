@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_identifiers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:46 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/29 14:44:47 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/29 18:19:01 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	is_quote(char c)
 {
