@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_identifiers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:46 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/29 18:19:01 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:22:51 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	is_quote(char c)
 {
+	if (c == '\0' || c == 0)
+		return (0);
 	if (c == '\'')
 		return (QUOTE);
 	else if (c == '"')

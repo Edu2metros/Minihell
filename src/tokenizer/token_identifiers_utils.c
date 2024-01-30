@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_identifiers_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:54 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/29 18:18:51 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:26:44 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	process_token_quote(char *input, t_minishell *mini, int i)
 	while (is_quote(input[i]))
 		i++;
 	start = i;
-	while (!is_quote(input[i]))
+	while (input[i] && !is_quote(input[i]))
 		i++;
 	substr = ft_substr(input, start, i - start);
 	add_token(substr, QUOTE, mini);

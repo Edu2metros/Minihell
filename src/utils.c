@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:47:19 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/30 12:05:31 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:16:03 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ bool	validator(char *prompt)
 	int	i;
 
 	i = 0;
+	if(prompt == NULL || *prompt == '\0')
+		return(0);
 	if (check_quote(prompt) == 0)
 	{
 		handle_error(0);
