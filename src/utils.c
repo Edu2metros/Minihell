@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:47:19 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/29 19:09:28 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:05:31 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,23 @@ int	meta_char(char c)
 	return (c == '|' || c == '>' || c == '<');
 }
 
+int	ft_isalpha_mini(char input)
+{
+	if (!input || input == '\0')
+		return (0);
+	if (input == '"' || input == '\'')
+		return (1);
+	else
+		return (ft_isalpha(input));
+}
+
 int	ft_redirect(char *prompt, int i)
 {
 	while (prompt[i] != '\0' && (my_isspace(prompt[i])
 			&& !meta_char(prompt[i])))
 		i++;
-	if (prompt[i] == '\0' || my_isspace(prompt[i]) || meta_char(prompt[i]))
+	if (prompt[i] == '\0' || my_isspace(prompt[i])
+		|| !ft_isalpha_mini(prompt[i]))
 		return (0);
 	return (1);
 }
@@ -65,24 +76,39 @@ bool	validator(char *prompt)
 {
 	int	i;
 
-	if (check_quote(prompt) == 0 || prompt[0] == '|' || prompt[ft_strlen(prompt)
-			- 1] == '|')
+	i = 0;
+	if (check_quote(prompt) == 0)
+	{
+		handle_error(0);
+		return (0);
+	}
+	if (prompt[0] == '|' || prompt[ft_strlen(prompt) - 1] == '|')
 	{
 		handle_error(1);
-		return (false);
+		return (0);
 	}
-	i = 0;
 	while (prompt[i])
 	{
 		if (prompt[i] == '>')
 		{
-			if (prompt[i + 1] == '>' || !ft_redirect(prompt, i + 1))
+			if (prompt[i + 1] == '>')
 			{
-				handle_error(1);
-				return (false);
+				if (!ft_redirect(prompt, i + 2))
+				{
+					handle_error(1);
+					return (0);
+				}
+			}
+			else
+			{
+				if (!ft_redirect(prompt, i + 1))
+				{
+					handle_error(1);
+					return (0);
+				}
 			}
 		}
 		i++;
 	}
-	return (true);
+	return (1);
 }
