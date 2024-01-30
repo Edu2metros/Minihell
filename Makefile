@@ -38,7 +38,7 @@ clean:
 fclean: clean
 	@rm -f $(MINISHELL_NAME)
 	@make fclean -C ./include/libft
-	@echo "\033[32m[✓] \033[1m\033[1m$(MINISHELL_NAME) removed\033[1m"
+	@echo "\033[32m[✓] \033[1m\033[1m$(MINISHELL_NAME) removed\033[0m"
 
 re: fclean all
 
