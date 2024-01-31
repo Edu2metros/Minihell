@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:29 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/29 19:00:59 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:00:48 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	tokenizer(char *input, t_minishell *mini)
 			i = process_token_arg(input, mini, i, start);
 		else if (is_operator(input[i], input[i + 1]))
 			i = process_token_operator(input, mini, i, start);
-		else if (input[i] == '$')
+		else if (input[i] == '$') // extract $variable inside quote maybe?
 			i = process_token_dollar(input, mini, i + 1, start);
 		else
 			i++;

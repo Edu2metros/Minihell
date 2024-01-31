@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:47:19 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/30 12:16:03 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:00:04 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,17 @@ int	ft_redirect(char *prompt, int i)
 		return (0);
 	return (1);
 }
+
+/* 
+Validations to do:
+Two or more redirections, pipes, or special chars, for example: 
+-> ||
+-> >>>
+-> <>
+-> ><>
+-> >>>
+and etc...
+*/
 
 bool	validator(char *prompt)
 {
