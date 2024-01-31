@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/30 12:08:06 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/31 14:41:32 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(void)
 
 	while (1)
 	{
-		input = readline("");
+		input = readline(PROMPT);
 		if (!ft_strncmp(input, "sair", 5))
 			break ;
 		add_history(input);

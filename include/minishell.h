@@ -6,12 +6,13 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/29 19:07:15 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/31 14:43:08 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define PROMPT "\e[1;34m👹 Minishell\e[0m\e[1;33m⟼  \e[0m"
 // META CHAR
 
 # define GREAT 10
@@ -63,20 +64,20 @@ typedef struct s_token
 	struct s_token		*previous;
 }						t_token;
 
-int						check_quote(char *input);
 void					handle_error(int nbr);
+void					tokenizer(char *str, t_minishell *mini);
+bool					validator(char *prompt);
+int						check_quote(char *input);
 int						meta_char(char c);
 int						ft_redirect(char *prompt, int i);
-bool					validator(char *prompt);
-void					tokenizer(char *str, t_minishell *mini);
 
 // Utility Functions for Tokenization
+void					add_token(char *str, int type, t_minishell *mini);
 int						is_quote(char c);
 int						is_operator(char chr1, char chr2);
 int						is_word(const char *input);
 int						is_arg(const char *input);
 int						is_builtin(char *input);
-void					add_token(char *str, int type, t_minishell *mini);
 int						process_token_quote(char *input, t_minishell *mini,
 							int i);
 int						process_token_builtin(char *input, t_minishell *mini,

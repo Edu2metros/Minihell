@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:47:19 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/30 15:00:04 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/01/31 14:45:32 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ int	ft_redirect(char *prompt, int i)
 	return (1);
 }
 
-/* 
+/*
 Validations to do:
-Two or more redirections, pipes, or special chars, for example: 
+Two or more redirections, pipes, or special chars, for example:
 -> ||
 -> >>>
 -> <>
@@ -83,45 +83,63 @@ Two or more redirections, pipes, or special chars, for example:
 and etc...
 */
 
-bool	validator(char *prompt)
+int	handle_pipe(char *prompt)
 {
 	int	i;
 
-	i = 0;
-	if(prompt == NULL || *prompt == '\0')
-		return(0);
-	if (check_quote(prompt) == 0)
-	{
-		handle_error(0);
-		return (0);
-	}
-	if (prompt[0] == '|' || prompt[ft_strlen(prompt) - 1] == '|')
+	if (*prompt == '|' || prompt[ft_strlen(prompt) - 1] == '|')
 	{
 		handle_error(1);
 		return (0);
 	}
-	while (prompt[i])
+	i = 0;
+	while (prompt[i] != '\0')
 	{
-		if (prompt[i] == '>')
+		if (prompt[i] == '|')
 		{
-			if (prompt[i + 1] == '>')
+			if (!ft_redirect(prompt, i + 1))
 			{
-				if (!ft_redirect(prompt, i + 2))
-				{
-					handle_error(1);
-					return (0);
-				}
-			}
-			else
-			{
-				if (!ft_redirect(prompt, i + 1))
-				{
-					handle_error(1);
-					return (0);
-				}
+				handle_error(1);
+				return (0);
 			}
 		}
 		i++;
 	}
 	return (1);
+}
+int	handle_red(char *prompt, char c)
+{
+	int	i;
+	int	offset;
+
+	i = 0;
+	while (prompt[i])
+	{
+		if (prompt[i] == c)
+		{
+			offset = 1;
+			if (prompt[i + 1] == c)
+				offset++;
+			if (!ft_redirect(prompt, i + offset))
+			{
+				handle_error(1);
+				return (0);
+			}
+		}
+		i++;
+	}
+	return (1);
+}
+
+bool	validator(char *prompt)
+{
+	if (prompt == NULL || *prompt == '\0')
+		return (false);
+	if (!handle_red(prompt, '<'))
+		return (false);
+	if (!handle_red(prompt, '>'))
+		return (false);
+	if (!handle_pipe(prompt))
+		return (false);
+	return (true);
 }
