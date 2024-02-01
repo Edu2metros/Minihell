@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edu <edu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/31 14:41:32 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:48:49 by edu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	print_tokens(t_minishell *mini)
 }
 
 /* Leak arrumado, já que não tem algo que possa sair sem o ctrl + c,
- deixei para digitar "sair" que sai e não dá leak.  */
+ deixei para digitar "sair" que sai e não dá leak.  
 
 int	main(void)
 {
@@ -59,3 +59,4 @@ int	main(void)
 	clear_history();
 	return (0);
 }
+*/

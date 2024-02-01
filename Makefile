@@ -1,6 +1,6 @@
 MINISHELL_NAME = minishell
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g3
+FLAGS = -g3
 INCLUDES = -I ./include/
 
 OBJ_DIR = objs
@@ -9,7 +9,7 @@ TOKEN_DIR = tokenizer
 SRC_DIR = src
 TOKEN_SRC = token_identifiers.c token_identifiers_utils.c tokenizer.c tokenizer_utils2.c
 
-MINISHELL_SRC = main.c utils.c
+MINISHELL_SRC = main.c utils.c heredoc.c
 SRC_OBJ = $(addprefix $(OBJ_DIR)/, $(MINISHELL_SRC:%.c=%.o))
 TOKEN_OBJ = $(addprefix $(OBJ_DIR)/$(TOKEN_DIR)/, $(TOKEN_SRC:%.c=%.o))
 
