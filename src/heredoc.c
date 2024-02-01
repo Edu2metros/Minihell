@@ -5,6 +5,7 @@ int main(int argc, char **argv) {
     int tube[2];
     if(argc != 2)
         return(EXIT_FAILURE);
+    pipe(tube);
     while (1) 
     {
         prompt = readline("$> ");
