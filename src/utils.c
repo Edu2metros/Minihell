@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:47:19 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/31 14:45:32 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/07 20:13:04 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,6 @@ int	check_quote(char *input)
 		input++;
 	}
 	return (i % 2 == 0);
-}
-
-void	handle_error(int nbr)
-{
-	static char *message[2] = {
-		"Please close the quotes.",
-		"Syntax error.",
-	};
-	printf("%s\n", message[nbr]);
 }
 
 int	meta_char(char c)
@@ -107,6 +98,7 @@ int	handle_pipe(char *prompt)
 	}
 	return (1);
 }
+
 int	handle_red(char *prompt, char c)
 {
 	int	i;
@@ -143,3 +135,13 @@ bool	validator(char *prompt)
 		return (false);
 	return (true);
 }
+
+// void	handle_error(int nbr)
+// {
+// 	static char	*message[2] = {
+// 		"Please close the quotes.",
+// 		"Syntax error.",
+// 	};
+
+// 	printf("%s\n", message[nbr]);
+// }

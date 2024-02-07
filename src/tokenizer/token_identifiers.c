@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_identifiers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:46 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/30 12:22:51 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/06 15:37:24 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	is_word(const char *input)
 	return (0);
 }
 
-int	is_arg(const char *input)
+int	is_flag(const char *input)
 {
 	int	i;
 
@@ -70,7 +70,7 @@ int	is_arg(const char *input)
 		{
 			while (input[i] != ' ' && input[i] != '\0')
 				i++;
-			return (ARG);
+			return (FLAG);
 		}
 		i++;
 	}

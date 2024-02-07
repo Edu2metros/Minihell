@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_identifiers_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:54 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/30 12:26:44 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:49:23 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	process_token_quote(char *input, t_minishell *mini, int i)
+int	process_token_arg(char *input, t_minishell *mini, int i)
 {
 	int		start;
 	char	*substr;
@@ -54,14 +54,14 @@ int	process_token_word(char *input, t_minishell *mini, int i, int start)
 	return (i);
 }
 
-int	process_token_arg(char *input, t_minishell *mini, int i, int start)
+int	process_token_flag(char *input, t_minishell *mini, int i, int start)
 {
 	char	*substr;
 
 	while (input[i] != '\0' && !my_isspace(input[i]) && !meta_char(input[i]))
 		i++;
 	substr = ft_substr(input, start, i - start);
-	add_token(substr, is_arg(substr), mini);
+	add_token(substr, is_flag(substr), mini);
 	free(substr);
 	return (i);
 }
