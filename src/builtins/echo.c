@@ -6,7 +6,7 @@
 /*   By:  jaqribei <jaqribei@student.42.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 23:57:02 by  jaqribei         #+#    #+#             */
-/*   Updated: 2024/02/11 23:57:08 by  jaqribei        ###   ########.fr       */
+/*   Updated: 2024/02/11 23:58:20 by  jaqribei        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 // mimics the behavior of the echo command in a Unix shell.
-// Need to make the command list =, and fix n_flag to work with a variable number of n's
+// Need to make the command list and rewiew the implementation of the echo command
 
 void	ft_echo(t_minishell *mini)
 {
