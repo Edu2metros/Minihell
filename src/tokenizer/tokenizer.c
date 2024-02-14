@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:29 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/14 14:04:09 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/14 14:08:23 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,3 +88,59 @@ void	tokenizer(char *input, t_minishell *mini)
 // 	}
 // 	return ;
 // }
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
+/*   Updated: 2024/02/12 19:49:35 by jaqribei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
+
+void    create_cmd(t_minishell *mini)
+{
+    t_token    *token;
+
+    token = mini->token;
+    if (mini->cmd == NULL)
+        return ;
+    while (token != NULL)
+    {
+        if (!mini->cmd)
+            mini->cmd = ft_calloc(1, sizeof(t_cmd));
+        cmd_add_node(token, mini);
+        mini->cmd->next = ft_calloc(1, sizeof(t_cmd));
+        mini->cmd = mini->cmd->next;
+        token = token->next;
+    }
+}
+
+void cmd_add_node(t_token *token, t_minishell *mini)
+{
+    if (token->type == WORD && is_builtin(token->content) < 0)
+    {
+        mini->cmd->name = token->content;
+        mini->cmd->type = token->type;
+    }
+    else if (token->type == WORD && access(token->content, F_OK))
+    {
+        mini->cmd->type = token->type;
+        mini->cmd->name = token->content;
+    }
+    else if (token->type == WORD)
+    {
+        mini->cmd->type = token->type;
+        mini->cmd->name = token->content;
+    }
+    else if (token->type == PIPE)
+    {
+        mini->cmd->type = token->type;
+        mini->cmd->name = token->content;
+    }
+}
