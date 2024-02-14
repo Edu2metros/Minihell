@@ -3,25 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By:  jaqribei <jaqribei@student.42.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/07 15:26:17 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/14 00:44:29 by  jaqribei        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	create_tree(t_minishell *mini)
+void	new_tree_node(t_minishell *mini)
 {
 	t_token	*token;
-	t_tree	*tree;
+	t_cmd	*tree;
 
 	token = mini->token;
-	tree = malloc(sizeof(t_tree));
+	tree = malloc(sizeof(t_cmd));
 	if (!tree)
-		exit(EXIT_FAILURE);
-	tree->content = ft_strdup(token->content);
+		exit(0); //add error message
+	tree->type = token->type;
+	tree->name = ft_strdup(token->content);
 	tree->left = NULL;
 	tree->right = NULL;
 	mini->tree = tree;
@@ -77,18 +78,7 @@ void	parser_tree(t_minishell *mini)
 
 void	cmd_list(t_minishell *mini, char *input)
 {
-	char	**lst;
-	int		i;
-
-	lst = ft_split(input, '|');
-	if (lst == NULL)
-		return;
-	i = 0;
-	while (lst[i] != NULL)
-	{
-		mini->cmd->args = lst[i];
-		i++;
-	}
+	
 }
 
 void	add_cmd_node(t_minishell *mini)

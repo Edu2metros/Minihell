@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By:  jaqribei <jaqribei@student.42.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/07 20:11:18 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/14 00:24:52 by  jaqribei        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,28 @@
 # define PROMPT "\e[1;34m😤 Minishell\e[0m\e[1;33m -> \e[0m"
 
 // META CHAR
-# define GREAT 1
-# define LESS 2
+// enum  e_token
+// {
+// 	OUTPUT = 1,
+// 	INPUT,
+// 	PIPE,
+// 	QUOTE,
+// 	D_QUOTE,
+// 	APPEND
+// 	HEREDOC,
+// 	DOLLAR,
+// 	WORD,
+	// AND,
+	// OR,
+	// EXEC,
+// };
+# define OUTPUT 1
+# define INPUT 2
 # define PIPE 3
 # define QUOTE 4
 # define DOUBLE_QUOTE 5
-# define DOUBLE_GREAT 6
-# define DOUBLE_LESS 7
+# define APPEND 6
+# define HEREDOC 7
 # define DOLLAR 11
 
 // IDENTIFIER

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By:  jaqribei <jaqribei@student.42.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:29 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/07 19:59:47 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/13 22:56:35 by  jaqribei        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,16 @@ void	tokenizer(char *input, t_minishell *mini)
 	while (input[i] != '\0')
 	{
 		if (is_quote(input[i]))
-			i = process_token_arg(input, mini, i);
+			// i = process_token_arg(input, mini, i);
+			i = process_token_word(input, mini, i, start);
 		else if (is_builtin(input + i))
-			i = process_token_builtin(input, mini, i, start);
+			i = process_token_word(input, mini, i, start);
+			// i = process_token_builtin(input, mini, i, start);
 		else if (is_word(input + i))
 			i = process_token_word(input, mini, i, start);
 		else if (is_flag(input + i))
-			i = process_token_flag(input, mini, i, start);
+			// i = process_token_flag(input, mini, i, start);
+			i = process_token_word(input, mini, i, start);
 		else if (is_operator(input[i], input[i + 1]))
 			i = process_token_operator(input, mini, i, start);
 		else if (input[i] == '$') // extract $variable inside quote maybe?
