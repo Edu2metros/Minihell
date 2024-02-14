@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By:  jaqribei <jaqribei@student.42.fr>         +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/14 00:24:52 by  jaqribei        ###   ########.fr       */
+/*   Updated: 2024/02/14 13:34:24 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,9 @@ int						process_token_operator(char *input, t_minishell *mini,
 							int i, int start);
 int						process_token_dollar(char *input, t_minishell *mini,
 							int i, int start);
+int						is_redirect (t_minishell *mini, int	type);
+int						redirect_or_pipe(t_minishell *mini);
+void					parser(t_minishell *mini);
+
 
 #endif
