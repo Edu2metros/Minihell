@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/02 14:15:55 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/16 14:51:01 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(void)
 	while (1)
 	{
 		input = readline(PROMPT);
-		if (!ft_strncmp(input, "sair", 5))
+		if (!ft_strncmp(input, "quit", 5))
 			break ;
 		add_history(input);
 		mini.token = NULL;
@@ -46,6 +46,7 @@ int	main(void)
 		{
 			tokenizer(input, &mini);
 			print_tokens(&mini);
+			test_built(mini.token, &mini);
 			current_token = mini.token;
 			while (current_token != NULL)
 			{

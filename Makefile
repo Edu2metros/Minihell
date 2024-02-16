@@ -6,7 +6,7 @@
 #    By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/02/07 20:08:13 by jaqribei         ###   ########.fr        #
+#    Updated: 2024/02/16 14:50:02 by jaqribei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ TOKEN_DIR = tokenizer
 SRC_DIR = src
 TOKEN_SRC = token_identifiers.c token_identifiers_utils.c tokenizer.c tokenizer_utils.c
 
-MINISHELL_SRC = main.c utils.c errors.c 
+MINISHELL_SRC = main.c utils.c errors.c test_built.c 
 
 SRC_OBJ = $(addprefix $(OBJ_DIR)/, $(MINISHELL_SRC:%.c=%.o))
 TOKEN_OBJ = $(addprefix $(OBJ_DIR)/$(TOKEN_DIR)/, $(TOKEN_SRC:%.c=%.o))

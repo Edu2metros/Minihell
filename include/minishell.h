@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/14 13:34:24 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/16 15:17:29 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,20 @@
 # define PROMPT "\e[1;34m😤 Minishell\e[0m\e[1;33m -> \e[0m"
 
 // META CHAR
-// enum  e_token
-// {
-// 	OUTPUT = 1,
-// 	INPUT,
-// 	PIPE,
-// 	QUOTE,
-// 	D_QUOTE,
-// 	APPEND
-// 	HEREDOC,
-// 	DOLLAR,
-// 	WORD,
+enum  e_meta
+{
+	OUTPUT = 1,
+	INPUT,
+	PIPE,
+	QUOTE,
+	DOUBLE_QUOTE,
+	APPEND,
+	HEREDOC,
+	DOLLAR,
 	// AND,
 	// OR,
 	// EXEC,
-// };
-# define OUTPUT 1
-# define INPUT 2
-# define PIPE 3
-# define QUOTE 4
-# define DOUBLE_QUOTE 5
-# define APPEND 6
-# define HEREDOC 7
-# define DOLLAR 11
+};
 
 // IDENTIFIER
 # define COMMAND 8
@@ -115,9 +106,10 @@ int						process_token_operator(char *input, t_minishell *mini,
 							int i, int start);
 int						process_token_dollar(char *input, t_minishell *mini,
 							int i, int start);
-int						is_redirect (t_minishell *mini, int	type);
-int						redirect_or_pipe(t_minishell *mini);
-void					parser(t_minishell *mini);
-
+// int						is_redirect (t_minishell *mini, int	type);
+// int						redirect_or_pipe(t_minishell *mini);
+void					ft_echo(t_minishell *mini);
+void					ft_pwd(t_minishell *mini);
+void					test_built(t_token *token, t_minishell *mini);
 
 #endif
