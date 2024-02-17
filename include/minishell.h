@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/16 15:17:29 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/17 19:02:22 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,6 @@ enum  e_meta
 # include <sys/wait.h>
 # include <unistd.h>
 
-typedef struct s_minishell
-{
-	char				**path;
-	char				*execute_path;
-	char				**words;
-	struct s_token		*token;
-	struct s_validation	*validations;
-	struct s_cmd		*cmd;
-}						t_minishell;
-
 typedef struct s_token
 {
 	int					type;
@@ -76,9 +66,20 @@ typedef struct s_cmd
 	int					type;
 	char				*name;
 	char				**args;
-	struct s_cmd		*left;
-	struct s_cmd		*right;
+	struct s_cmd		*previous;
+	struct s_cmd		*next;
 }						t_cmd;
+
+typedef struct s_minishell
+{
+	char				**path;
+	char				*execute_path;
+	char				**words;
+	struct s_token		*token;
+	struct s_validation	*validations;
+	struct s_cmd		*cmd;
+	t_cmd				*list_cmd;
+}						t_minishell;
 
 void					handle_error(int nbr);
 void					tokenizer(char *str, t_minishell *mini);
@@ -94,6 +95,7 @@ int						is_operator(char chr1, char chr2);
 int						is_word(const char *input);
 int						is_flag(const char *input);
 int						is_builtin(char *input);
+int						token_list_size(t_token *token);
 int						process_token_arg(char *input, t_minishell *mini,
 							int i);
 int						process_token_builtin(char *input, t_minishell *mini,
@@ -106,10 +108,16 @@ int						process_token_operator(char *input, t_minishell *mini,
 							int i, int start);
 int						process_token_dollar(char *input, t_minishell *mini,
 							int i, int start);
-// int						is_redirect (t_minishell *mini, int	type);
+int						is_redirect(t_minishell *mini);
 // int						redirect_or_pipe(t_minishell *mini);
 void					ft_echo(t_minishell *mini);
 void					ft_pwd(t_minishell *mini);
 void					test_built(t_token *token, t_minishell *mini);
+void					create_cmd_list(t_minishell *mini);
+void					add_cmd(t_minishell *mini, t_cmd **cmd, int *count);
+void					append_cmd_to_list(t_minishell *mini);
+t_cmd					*cmd_new_node(t_minishell *mini);
+void					populate_cmd_args(t_minishell *mini);
+
 
 #endif

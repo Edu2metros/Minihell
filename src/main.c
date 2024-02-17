@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/16 14:51:01 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/17 19:09:42 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	main(void)
 		{
 			tokenizer(input, &mini);
 			print_tokens(&mini);
+			print_args_list(mini.cmd);
 			test_built(mini.token, &mini);
 			current_token = mini.token;
 			while (current_token != NULL)

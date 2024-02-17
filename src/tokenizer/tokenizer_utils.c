@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:42:42 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/07 17:52:27 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/17 17:31:47 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	process_token_dollar(char *input, t_minishell *mini, int i, int start)
 	add_token(substr, DOLLAR, mini);
 	return (i);
 }
-
 
 void	add_token(char *str, int type, t_minishell *mini)
 {
@@ -63,4 +62,18 @@ void	free_token(t_minishell *mini)
 		token = aux;
 	}
 	mini->token = NULL;
+}
+
+int	token_list_size(t_token *token)
+{
+	int	count;
+
+	count = 0;
+	while (token && token->type != PIPE)
+	{
+		if (token->type == WORD)
+			count++;
+		token = token->next;
+	}
+	return (count);
 }
