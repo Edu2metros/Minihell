@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/17 19:02:22 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/17 19:38:39 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int						is_operator(char chr1, char chr2);
 int						is_word(const char *input);
 int						is_flag(const char *input);
 int						is_builtin(char *input);
-int						token_list_size(t_token *token);
+int						token_list_size(t_token *token, t_minishell *mini);
 int						process_token_arg(char *input, t_minishell *mini,
 							int i);
 int						process_token_builtin(char *input, t_minishell *mini,

@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/17 18:53:46 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/17 19:40:41 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,21 @@ void	populate_cmd_args(t_minishell *mini)
 	int		len_token;
 	int		i;
 	
+	i = 0;
 	token = mini->token;
 	cmd = mini->cmd;
-	len_token = token_list_size(token);
-	cmd->args = ft_calloc((len_token + 2), sizeof(char *));
+	len_token = token_list_size(token, mini);
+	cmd->args = ft_calloc((token_list_size(token, mini) + 2), sizeof(char *));
 	cmd->args[i] = ft_strdup(token->content);
 	i++;
-	token = token->content;
 	while (token && token->type != PIPE)
 	{
-		if (token->type == WORD && token->previous != is_redirect(mini))
+		if (token->type == WORD && token->previous->type != is_redirect(mini))
 		{
 			cmd->args[i] = ft_strdup(token->content);
 			i++;
 		}
-		token = token->content;
+		token = token->next;
 	}
 	cmd->args[i] = NULL;
 }
@@ -87,13 +87,13 @@ void append_cmd_to_list(t_minishell *mini)
 	cmd = mini->list_cmd;
 	while (cmd->next)
 		cmd = cmd->next;
-	cmd->next = cmd;
+	cmd->next = mini->cmd;
 	cmd->next->previous = cmd;
 }
 
 void	add_cmd(t_minishell *mini, t_cmd **cmd, int *count)
 {
-	count = 1;
+	*count = 1;
 	*cmd = cmd_new_node(mini);
 	populate_cmd_args(mini);
 	append_cmd_to_list(mini);
@@ -102,7 +102,7 @@ void	add_cmd(t_minishell *mini, t_cmd **cmd, int *count)
 void	create_cmd_list(t_minishell *mini)
 {
 	t_token	*token;
-	t_cmd	*cmd;
+	t_cmd	*cmd = NULL;
 	int		count;
 	
 	token = mini->token;

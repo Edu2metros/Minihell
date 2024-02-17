@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/17 19:09:42 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/17 19:27:32 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,19 @@ void	print_tokens(t_minishell *mini)
 		current_token = current_token->next;
 	}
 }
+
+
+void print_args_list(t_cmd *cmd) {
+    int i = 0;
+	
+    printf("Command: %s\n", cmd->name);
+    printf("Arguments:\n");
+    while (cmd->args[i]) {
+        printf("%s\n", cmd->args[i]);
+        i++;
+    }
+}
+
 
 /* Leak arrumado, já que não tem algo que possa sair sem o ctrl + c,
  deixei para digitar "sair" que sai e não dá leak. */
@@ -46,6 +59,7 @@ int	main(void)
 		{
 			tokenizer(input, &mini);
 			print_tokens(&mini);
+			create_cmd_list(&mini);
 			print_args_list(mini.cmd);
 			test_built(mini.token, &mini);
 			current_token = mini.token;
