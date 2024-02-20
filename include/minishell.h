@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/17 19:38:39 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/20 20:06:49 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,13 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	int					type;
+	int					count;
+	int					redirect[2];
+	int					fd[2];
 	char				*name;
 	char				**args;
+	char				*input;
+	char				*output;
 	struct s_cmd		*previous;
 	struct s_cmd		*next;
 }						t_cmd;
@@ -79,6 +84,7 @@ typedef struct s_minishell
 	struct s_validation	*validations;
 	struct s_cmd		*cmd;
 	t_cmd				*list_cmd;
+	char				*pwd;
 }						t_minishell;
 
 void					handle_error(int nbr);
@@ -95,7 +101,7 @@ int						is_operator(char chr1, char chr2);
 int						is_word(const char *input);
 int						is_flag(const char *input);
 int						is_builtin(char *input);
-int						token_list_size(t_token *token, t_minishell *mini);
+int						token_list_size(t_token *token);
 int						process_token_arg(char *input, t_minishell *mini,
 							int i);
 int						process_token_builtin(char *input, t_minishell *mini,
@@ -114,10 +120,11 @@ void					ft_echo(t_minishell *mini);
 void					ft_pwd(t_minishell *mini);
 void					test_built(t_token *token, t_minishell *mini);
 void					create_cmd_list(t_minishell *mini);
-void					add_cmd(t_minishell *mini, t_cmd **cmd, int *count);
-void					append_cmd_to_list(t_minishell *mini);
-t_cmd					*cmd_new_node(t_minishell *mini);
-void					populate_cmd_args(t_minishell *mini);
+void					add_cmd(t_minishell *mini, t_token **token, t_cmd **cmd, int *count);
+void					add_cmd_to_mini(t_minishell *mini, t_cmd *cmd);
+t_cmd					*cmd_new_node(char *content, int type);
+void					populate_cmd_args(t_minishell *mini, t_token *token, t_cmd *cmd);
+void print_cmd_args(t_cmd *cmd);
 
 
 #endif

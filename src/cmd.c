@@ -6,18 +6,11 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/17 19:40:41 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/20 20:17:20 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-//Set up Table of commands
-
-//reads token list 
-//breaks a pipeline into commands
-//A pipeline is a list of commands separated by |
-//A command comprises both the command name/path, its flags and associates redirections.
 
 int is_redirect(t_minishell *mini)
 {
@@ -29,74 +22,98 @@ int is_redirect(t_minishell *mini)
 	return (0);
 }
 
-void	populate_cmd_args(t_minishell *mini)
-{
-	t_token	*token;
-	t_cmd	*cmd;
-	int		len_token;
-	int		i;
-	
-	i = 0;
-	token = mini->token;
-	cmd = mini->cmd;
-	len_token = token_list_size(token, mini);
-	cmd->args = ft_calloc((token_list_size(token, mini) + 2), sizeof(char *));
-	cmd->args[i] = ft_strdup(token->content);
-	i++;
-	while (token && token->type != PIPE)
-	{
-		if (token->type == WORD && token->previous->type != is_redirect(mini))
-		{
-			cmd->args[i] = ft_strdup(token->content);
-			i++;
-		}
-		token = token->next;
-	}
-	cmd->args[i] = NULL;
-}
-
-t_cmd	*cmd_new_node(t_minishell *mini)
+t_cmd	*cmd_new_node(char *content, int type)
 {
 	t_cmd *cmd;
 	
-	cmd = ft_calloc(1, sizeof(t_cmd));
+	cmd = malloc(sizeof(t_cmd));
 	if(!cmd)
 		return (NULL);
-	cmd->name = ft_strdup(mini->token->content);
+	cmd->name = ft_strdup(content);
+	cmd->type = type;
 	cmd->args = NULL;
-	cmd->type = mini->token->type;
+	cmd->count = 0;
+	cmd->redirect[0] = 0;
+	cmd->redirect[1] = 0;
+	cmd->fd[0] = 0;
+	cmd->fd[1] = 1;
+	cmd->output = NULL;
+	cmd->input = NULL;
 	cmd->next = NULL;
 	cmd->previous = NULL;
 	return (cmd);
 }
 
-
-// GitHub Copilot: The `append_cmd_to_list` function is responsible for adding a new command to a list of commands in a `t_minishell` structure.
-
-//The purpose of this function is to maintain a list of commands that the `t_minishell` structure needs to execute. Each command is represented by a `t_cmd` structure, and the commands are linked together in a doubly linked list. When a new command is created, it is added to the end of this list by the `append_cmd_to_list` function.
-
-void append_cmd_to_list(t_minishell *mini)
+// void	add_cmd(t_cmd *cmd)
+void	add_cmd_to_mini(t_minishell *mini, t_cmd *cmd)
 {
-	t_cmd	*cmd;
-	
-	if(mini->list_cmd == NULL)
+	t_cmd	*aux;
+
+	aux = cmd;
+	// print_cmd_args(cmd);
+	if (!aux)
 	{
-		mini->list_cmd = mini->cmd;
+		aux = cmd;
 		return ;
 	}
-	cmd = mini->list_cmd;
-	while (cmd->next)
-		cmd = cmd->next;
-	cmd->next = mini->cmd;
-	cmd->next->previous = cmd;
+	while (aux->next)
+		aux = aux->next;
+	aux->next = cmd;
+	aux->next->previous = aux;
 }
 
-void	add_cmd(t_minishell *mini, t_cmd **cmd, int *count)
+int	token_list_size(t_token *token)
+{
+	int	count;
+
+	count = 0;
+	while (token && token->type != PIPE)
+	{
+		// if (token->type == WORD && token->previous && token->previous->type != is_redirect(mini))
+		// 	count++;
+		// token = token->next;
+			if (token->type == WORD && token->previous && token->previous->type != INPUT
+			&& token->previous->type != OUTPUT && token->previous->type != APPEND
+			&& token->previous->type != HEREDOC)
+			count++;
+		token = token->next;
+	}
+	return (count);
+}
+
+void	populate_cmd_args(t_minishell *mini, t_token *token, t_cmd *cmd)
+{
+	// cmd->args = ft_calloc((token_list_size(token)), sizeof(char *));
+	cmd->args = ft_calloc(500, sizeof(char *));
+	if (!cmd->args)
+		return ;
+	cmd->args[cmd->count] = ft_strdup(token->content);
+	cmd->count++;
+	token = token->next;
+	while (token && token->type != PIPE)
+	{
+		if (token && ft_strcmp(token->content, "") == 0)
+		{
+			token = token->next;
+			continue ;
+		}
+		if (token->type == WORD && token->previous && token->previous->type != is_redirect(mini))
+		{
+			cmd->args[cmd->count] = ft_strdup(token->content);
+			cmd->count++;
+		}
+		token = token->next;
+	}
+	cmd->args[cmd->count] = NULL;
+}
+
+void	add_cmd(t_minishell *mini, t_token **token, t_cmd **cmd, int *count)
 {
 	*count = 1;
-	*cmd = cmd_new_node(mini);
-	populate_cmd_args(mini);
-	append_cmd_to_list(mini);
+	*cmd = cmd_new_node((mini->token)->content, (mini->token)->type);
+	populate_cmd_args(mini, *token, *cmd);
+	print_cmd_args(*cmd);
+	add_cmd_to_mini(mini, *cmd);
 }
 
 void	create_cmd_list(t_minishell *mini)
@@ -110,7 +127,7 @@ void	create_cmd_list(t_minishell *mini)
 	while (token)
 	{
 		if (token->type == WORD && !count)
-			add_cmd(mini, &cmd, &count);
+			add_cmd(mini, &token, &cmd, &count);
 		else
 			token = token->next;
 	}

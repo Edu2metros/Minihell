@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/17 19:27:32 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/20 20:06:08 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ void	print_tokens(t_minishell *mini)
 	}
 }
 
-
-void print_args_list(t_cmd *cmd) {
+void print_cmd_args(t_cmd *cmd) {
     int i = 0;
-	
-    printf("Command: %s\n", cmd->name);
-    printf("Arguments:\n");
-    while (cmd->args[i]) {
-        printf("%s\n", cmd->args[i]);
+    if (cmd->args == NULL) {
+        printf("No arguments.\n");
+        return;
+    }
+    while (cmd->args[i] != NULL) {
+        printf("Argument %d: %s\n", i, cmd->args[i]);
         i++;
     }
 }
@@ -43,26 +43,26 @@ void print_args_list(t_cmd *cmd) {
 
 int	main(void)
 {
-	t_minishell	mini;
+	t_minishell	*mini;
 	char		*input;
 	t_token		*current_token;
 	t_token		*next_token;
 
+	mini = malloc(sizeof(t_minishell));
 	while (1)
 	{
 		input = readline(PROMPT);
 		if (!ft_strncmp(input, "quit", 5))
 			break ;
 		add_history(input);
-		mini.token = NULL;
+		mini->token = NULL;
 		if (validator(input))
 		{
-			tokenizer(input, &mini);
-			print_tokens(&mini);
-			create_cmd_list(&mini);
-			print_args_list(mini.cmd);
-			test_built(mini.token, &mini);
-			current_token = mini.token;
+			tokenizer(input, mini);
+			print_tokens(mini);
+			test_built(mini->token, mini);
+			create_cmd_list(mini);
+			current_token = mini->token;
 			while (current_token != NULL)
 			{
 				next_token = current_token->next;

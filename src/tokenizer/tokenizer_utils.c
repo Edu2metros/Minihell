@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:42:42 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/17 19:41:00 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/20 20:16:29 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,13 @@ void	add_token(char *str, int type, t_minishell *mini)
 	new_token->content = ft_strdup(str);
 	new_token->type = type;
 	new_token->next = NULL;
+	new_token->previous = NULL;
 	if (mini->token)
 	{
 		last_token = mini->token;
 		while (last_token->next != NULL)
 			last_token = last_token->next;
+		new_token->previous = last_token;
 		last_token->next = new_token;
 	}
 	else
@@ -64,16 +66,21 @@ void	free_token(t_minishell *mini)
 	mini->token = NULL;
 }
 
-int	token_list_size(t_token *token, t_minishell *mini)
-{
-	int	count;
+// int	token_list_size(t_token *token)
+// {
+// 	int	count;
 
-	count = 0;
-	while (token && token->type != PIPE)
-	{
-		if (token->type == WORD && token->previous->type != is_redirect(mini))
-			count++;
-		token = token->next;
-	}
-	return (count);
-}
+// 	count = 0;
+// 	while (token && token->type != PIPE)
+// 	{
+// 		// if (token->type == WORD && token->previous && token->previous->type != is_redirect(mini))
+// 		// 	count++;
+// 		// token = token->next;
+// 			if (token->type == WORD && token->previous && token->previous->type != INPUT
+// 			&& token->previous->type != OUTPUT && token->previous->type != APPEND
+// 			&& token->previous->type != HEREDOC)
+// 			count++;
+// 		token = token->next;
+// 	}
+// 	return (count);
+// }
