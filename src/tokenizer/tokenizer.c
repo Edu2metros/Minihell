@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:29 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/16 14:26:52 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:11:54 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,56 +38,6 @@ void	tokenizer(char *input, t_minishell *mini)
 		start = i;
 	}
 }
-
-// int is_redirect(t_minishell *mini, int	type)
-// {
-// 	type = mini->token->type;
-
-// 	if (type == OUTPUT || type == INPUT || type == APPEND || type == HEREDOC)
-// 		return (type);
-// 	return (0);
-// }
-
-// int	redirect_or_pipe(t_minishell *mini)
-// {
-// 	t_token	*token;
-// 	int		type;
-// 	int		prev_type;
-
-// 	type = token->type;
-// 	if (!(type == 3 || is_redirect(mini, type)))
-// 		return (0);
-// 	if (token->previous)
-// 		prev_type = token->type;
-// 	else
-// 		prev_type = -1;
-// 	if (prev_type == -1 && !is_redirect(mini, type))
-// 		ft_putstr("Invalid token begining the line");
-// 	else if (!token->next)
-// 		ft_putstr("Invalid token at the end of the line");
-// 	else if (!is_redirect(mini, type)
-// 		&& (is_redirect(mini, prev_type) || prev_type == 3))
-// 		ft_putstr("Invalid syntax");
-// 	else
-// 		return (0);
-// 	return (1);
-// }
-
-// void	parser(t_minishell *mini)
-// {
-// 	t_token	*token;
-
-// 	token = mini->token;
-// 	if (!token)
-// 		return ;
-// 	while (token)
-// 	{
-// 		if (redirect_or_pipe(mini))
-// 			return ;
-// 		token = token->next;
-// 	}
-// 	return ;
-// }
 
 /* ************************************************************************** */
 /*                                                                            */

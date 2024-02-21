@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:48:30 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/20 13:59:52 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:47:34 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,36 @@ void	ft_pwd(t_minishell *mini)
 	free(pwd);
 }
 
+void	ft_echo(t_minishell *mini)
+{
+	int		n_flag;
+	int		i;
+	char	**args;
+
+	args = mini->cmd->args;
+	n_flag = 0;
+	i = 0;
+	if (!args)
+		ft_putstr_fd("\n", 1);
+	else
+	{
+		while (args[i] && ft_strncmp(args[i], "-n", 2) == 0)
+		{
+			n_flag = 1;
+			i++;
+		}
+		while (args[i] != NULL)
+		{
+			ft_putstr_fd(args[i], 1);
+			if (args[i + 1] != NULL)
+				ft_putstr_fd(" ", 1);
+			i++;
+		}
+	}
+	if(n_flag == 0)
+		ft_putstr_fd("\n", 1);
+}
+
 void test_built(t_token *token, t_minishell *mini)
 {
 	int	i;
@@ -43,7 +73,11 @@ void test_built(t_token *token, t_minishell *mini)
 		{
 			if (is_builtin(token->content) == PWD)
 				ft_pwd(mini);
+			// if (is_builtin(token->content) == ECHO)
+			// 	ft_echo(mini);
 		}
+		if (token->type == HEREDOC)
+			ft_heredoc(mini);
 		token = token->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/20 20:06:49 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:47:56 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,31 @@
 
 # define PROMPT "\e[1;34m😤 Minishell\e[0m\e[1;33m -> \e[0m"
 
-// META CHAR
-enum  e_meta
+
+//TOKEN
+enum  e_token
 {
 	OUTPUT = 1,
 	INPUT,
 	PIPE,
-	QUOTE,
-	DOUBLE_QUOTE,
 	APPEND,
 	HEREDOC,
-	DOLLAR,
+	WORD,
+	// AND,
+	// OR,
+	// EXEC,
+};
+// META CHAR
+enum  e_meta
+{
+	// OUTPUT = 1,
+	// INPUT,
+	// PIPE,
+	// APPEND,
+	// HEREDOC,
+	DOLLAR = 7,
+	QUOTE,
+	DOUBLE_QUOTE,
 	// AND,
 	// OR,
 	// EXEC,
@@ -34,7 +48,7 @@ enum  e_meta
 // IDENTIFIER
 # define COMMAND 8
 # define TOKEN 9
-# define WORD -1
+// # define WORD -1
 # define FLAG -2
 
 // BUILT IN
@@ -51,7 +65,9 @@ enum  e_meta
 # include <readline/readline.h>
 # include <stdbool.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <unistd.h>
+# include <fcntl.h>
 
 typedef struct s_token
 {
@@ -84,8 +100,11 @@ typedef struct s_minishell
 	struct s_validation	*validations;
 	struct s_cmd		*cmd;
 	t_cmd				*list_cmd;
+	t_token				*token_list;
 	char				*pwd;
 }						t_minishell;
+
+t_minishell				*get_control(void);
 
 void					handle_error(int nbr);
 void					tokenizer(char *str, t_minishell *mini);
@@ -124,7 +143,9 @@ void					add_cmd(t_minishell *mini, t_token **token, t_cmd **cmd, int *count);
 void					add_cmd_to_mini(t_minishell *mini, t_cmd *cmd);
 t_cmd					*cmd_new_node(char *content, int type);
 void					populate_cmd_args(t_minishell *mini, t_token *token, t_cmd *cmd);
-void print_cmd_args(t_cmd *cmd);
+void					print_cmd_args(t_cmd *cmd);
+void	ft_heredoc(t_minishell *mini);
+
 
 
 #endif

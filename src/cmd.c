@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/20 20:17:20 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/20 20:21:05 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ void	add_cmd(t_minishell *mini, t_token **token, t_cmd **cmd, int *count)
 	*count = 1;
 	*cmd = cmd_new_node((mini->token)->content, (mini->token)->type);
 	populate_cmd_args(mini, *token, *cmd);
-	print_cmd_args(*cmd);
 	add_cmd_to_mini(mini, *cmd);
+	print_cmd_args(*cmd);
 }
 
 void	create_cmd_list(t_minishell *mini)
