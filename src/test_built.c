@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:48:30 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/21 21:36:04 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/21 22:40:23 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,11 @@ void test_built(t_token *token, t_minishell *mini)
 		{
 			printf("\n=========================  HEREDOC  =========================\n\n");
 			ft_heredoc(mini);
+		}
+		if (token->type == OUTPUT)
+		{
+			printf("\n=========================  OUTPUT  =========================\n\n");
+			ft_redirect_out(mini);
 		}
 		token = token->next;
 	}

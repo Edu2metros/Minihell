@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/21 22:07:15 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/21 22:11:51 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_heredoc(t_minishell *mini)
 		if (token->type == HEREDOC && token->next->type == WORD)
 		{
 			delimiter = token->next->content;
-			fd = open("heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			fd = open("Heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			while (1)
 			{
 				input = readline("> ");
@@ -33,7 +33,7 @@ void	ft_heredoc(t_minishell *mini)
 				{
 					free(input);
 					close(fd);
-					unlink("heredoc");
+					unlink("Heredoc");
 					break ;
 				}
 				ft_putendl_fd(input, fd);
