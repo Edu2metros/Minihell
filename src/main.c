@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/21 15:32:16 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/21 21:37:11 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	main(void)
 		if (validator(input))
 		{
 			tokenizer(input, mini);
-			print_tokens(mini);
 			test_built(mini->token, mini);
 			create_cmd_list(mini);
 			current_token = mini->token;
@@ -81,5 +80,6 @@ int	main(void)
 		}
 	}
 	clear_history();
+	free (mini);
 	return (0);
 }

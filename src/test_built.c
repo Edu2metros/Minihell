@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:48:30 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/21 18:47:34 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/21 21:36:04 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,18 @@ void test_built(t_token *token, t_minishell *mini)
 		if (token->type == WORD && is_builtin(token->content) < 0)
 		{
 			if (is_builtin(token->content) == PWD)
+			{	
+				printf("\n=========================    PWD    =========================\n\n");
 				ft_pwd(mini);
+			}
 			// if (is_builtin(token->content) == ECHO)
 			// 	ft_echo(mini);
 		}
 		if (token->type == HEREDOC)
+		{
+			printf("\n=========================  HEREDOC  =========================\n\n");
 			ft_heredoc(mini);
+		}
 		token = token->next;
 	}
 }

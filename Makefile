@@ -6,7 +6,7 @@
 #    By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/02/21 18:44:29 by jaqribei         ###   ########.fr        #
+#    Updated: 2024/02/21 20:27:49 by jaqribei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,9 @@ $(MINISHELL_NAME): $(MINISHELL_OBJ)
 
 libft:
 	@make -C ./include/libft
+
+valgrind: all
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=supression.sup ./$(MINISHELL_NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR)
