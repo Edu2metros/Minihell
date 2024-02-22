@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/21 18:47:11 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/21 22:07:15 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	ft_heredoc(t_minishell *mini)
 	char	*input;
 	int		fd;
 	
-
 	token = mini->token;
 	while (token)
 	{
@@ -34,6 +33,7 @@ void	ft_heredoc(t_minishell *mini)
 				{
 					free(input);
 					close(fd);
+					unlink("heredoc");
 					break ;
 				}
 				ft_putendl_fd(input, fd);
