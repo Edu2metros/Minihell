@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:48:30 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/21 22:40:23 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/22 18:47:05 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,24 @@ void	ft_echo(t_minishell *mini)
 {
 	int		n_flag;
 	int		i;
-	char	**args;
+	// char	**args;
 
-	args = mini->cmd->args;
+	// args = mini->cmd->args;
 	n_flag = 0;
 	i = 0;
-	if (!args)
+	if (!get_control()->cmd->args)
 		ft_putstr_fd("\n", 1);
 	else
 	{
-		while (args[i] && ft_strncmp(args[i], "-n", 2) == 0)
+		while (get_control()->cmd->args[i] && ft_strncmp(get_control()->cmd->args[i], "-n", 2) == 0)
 		{
 			n_flag = 1;
 			i++;
 		}
-		while (args[i] != NULL)
+		while (get_control()->cmd->args[i] != NULL)
 		{
-			ft_putstr_fd(args[i], 1);
-			if (args[i + 1] != NULL)
+			ft_putstr_fd(get_control()->cmd->args[i], 1);
+			if (get_control()->cmd->args[i + 1] != NULL)
 				ft_putstr_fd(" ", 1);
 			i++;
 		}
@@ -84,11 +84,11 @@ void test_built(t_token *token, t_minishell *mini)
 			printf("\n=========================  HEREDOC  =========================\n\n");
 			ft_heredoc(mini);
 		}
-		if (token->type == OUTPUT)
-		{
-			printf("\n=========================  OUTPUT  =========================\n\n");
-			ft_redirect_out(mini);
-		}
+		// if (token->type == OUTPUT)
+		// {
+		// 	printf("\n=========================  OUTPUT  =========================\n\n");
+		// 	ft_redirect_out(mini);
+		// }
 		token = token->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/21 22:39:51 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/23 12:47:23 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # define PROMPT "\e[1;34m😤 Minishell\e[0m\e[1;33m -> \e[0m"
-
 
 //TOKEN
 enum  e_token
@@ -34,9 +33,13 @@ enum  e_token
 };
 
 // IDENTIFIER
-# define COMMAND 8
-# define TOKEN 9
+// # define COMMAND 8
+// # define TOKEN 9
 # define FLAG -2
+# define EXIST 10
+# define READABLE 11
+# define WRITEABLE 12
+# define EXECUTABLE 13
 
 // BUILT IN
 # define ECHO -3
@@ -64,12 +67,19 @@ typedef struct s_token
 	struct s_token		*previous;
 }						t_token;
 
+typedef struct s_redirect
+{
+	int					type;
+	char				*content;
+	int					fd;
+	struct s_token		*next;
+}						t_redirect;
+
 typedef struct s_cmd
 {
 	int					type;
 	int					count;
-	int					redirect[2];
-	int					fd[2];
+
 	char				*name;
 	char				**args;
 	char				*input;
@@ -83,11 +93,11 @@ typedef struct s_minishell
 	char				**path;
 	char				*execute_path;
 	char				**words;
-	struct s_token		*token;
-	struct s_validation	*validations;
+		struct s_validation	*validations;
 	struct s_cmd		*cmd;
 	t_cmd				*list_cmd;
-	t_token				*token_list;
+	t_token				*token;
+	t_redirect			*redirect_list;
 	char				*pwd;
 }						t_minishell;
 
@@ -131,7 +141,7 @@ void					add_cmd_to_mini(t_minishell *mini, t_cmd *cmd);
 t_cmd					*cmd_new_node(char *content, int type);
 void					populate_cmd_args(t_minishell *mini, t_token *token, t_cmd *cmd);
 void					print_cmd_args(t_cmd *cmd);
-void					ft_heredoc(t_minishell *mini);
+void					hand_heredoc(t_minishell *mini);
 void					print_tokens(t_minishell *mini);
 void					ft_redirect_out(t_minishell *mini);
 

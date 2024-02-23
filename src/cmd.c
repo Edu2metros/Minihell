@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/20 20:21:05 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/22 18:45:50 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,6 @@ t_cmd	*cmd_new_node(char *content, int type)
 	cmd->type = type;
 	cmd->args = NULL;
 	cmd->count = 0;
-	cmd->redirect[0] = 0;
-	cmd->redirect[1] = 0;
-	cmd->fd[0] = 0;
-	cmd->fd[1] = 1;
 	cmd->output = NULL;
 	cmd->input = NULL;
 	cmd->next = NULL;
@@ -69,13 +65,13 @@ int	token_list_size(t_token *token)
 	count = 0;
 	while (token && token->type != PIPE)
 	{
-		// if (token->type == WORD && token->previous && token->previous->type != is_redirect(mini))
+		// if(token && token->previous->type != is_redirect(get_control()->))
 		// 	count++;
 		// token = token->next;
-			if (token->type == WORD && token->previous && token->previous->type != INPUT
-			&& token->previous->type != OUTPUT && token->previous->type != APPEND
-			&& token->previous->type != HEREDOC)
-			count++;
+		if (token->type == WORD && token->previous && token->previous->type != INPUT
+		&& token->previous->type != OUTPUT && token->previous->type != APPEND
+		&& token->previous->type != HEREDOC)
+		count++;
 		token = token->next;
 	}
 	return (count);
@@ -92,11 +88,6 @@ void	populate_cmd_args(t_minishell *mini, t_token *token, t_cmd *cmd)
 	token = token->next;
 	while (token && token->type != PIPE)
 	{
-		if (token && ft_strcmp(token->content, "") == 0)
-		{
-			token = token->next;
-			continue ;
-		}
 		if (token->type == WORD && token->previous && token->previous->type != is_redirect(mini))
 		{
 			cmd->args[cmd->count] = ft_strdup(token->content);
@@ -113,6 +104,7 @@ void	add_cmd(t_minishell *mini, t_token **token, t_cmd **cmd, int *count)
 	*cmd = cmd_new_node((mini->token)->content, (mini->token)->type);
 	populate_cmd_args(mini, *token, *cmd);
 	add_cmd_to_mini(mini, *cmd);
+	printf("\n=========================  ARGS  =========================\n\n");
 	print_cmd_args(*cmd);
 }
 

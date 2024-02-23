@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/21 22:09:20 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/22 18:33:25 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,24 @@ void print_cmd_args(t_cmd *cmd) {
     while (cmd->args[i] != NULL) {
         printf("Argument %d: %s\n", i, cmd->args[i]);
         i++;
+    }
+}
+
+void print_cmd_list(t_minishell *mini)
+{
+    t_cmd *cmd = mini->cmd; // Assuming the command list is stored in mini->cmd
+    int i;
+
+    while (cmd)
+    {
+        printf("Command: %s\n", cmd->name);
+        printf("Arguments: ");
+        for (i = 0; i < cmd->count; i++)
+        {
+            printf("%s ", cmd->args[i]);
+        }
+        printf("\n");
+        cmd = cmd->next;
     }
 }
 
@@ -68,7 +86,9 @@ int	main(void)
 		{
 			tokenizer(input, mini);
 			test_built(mini->token, mini);
-			// create_cmd_list(mini);
+			create_cmd_list(mini);
+			print_cmd_list(mini);
+
 			current_token = mini->token;
 			while (current_token != NULL)
 			{
