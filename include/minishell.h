@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/23 12:47:23 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:57:38 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void					create_cmd_list(t_minishell *mini);
 void					add_cmd(t_minishell *mini, t_token **token, t_cmd **cmd, int *count);
 void					add_cmd_to_mini(t_minishell *mini, t_cmd *cmd);
 t_cmd					*cmd_new_node(char *content, int type);
-void					populate_cmd_args(t_minishell *mini, t_token *token, t_cmd *cmd);
+void					populate_cmd_args(t_minishell *mini, t_token **token, t_cmd *cmd);
 void					print_cmd_args(t_cmd *cmd);
 void					hand_heredoc(t_minishell *mini);
 void					print_tokens(t_minishell *mini);

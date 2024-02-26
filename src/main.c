@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/22 18:33:25 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:20:56 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	main(void)
 	t_token		*next_token;
 	t_cmd		*cmd;
 	
-	mini = malloc(sizeof(t_minishell));
+	mini = ft_calloc(1, sizeof(t_minishell));
 	while (1)
 	{
 		input = readline(PROMPT);
@@ -85,10 +85,8 @@ int	main(void)
 		if (validator(input))
 		{
 			tokenizer(input, mini);
-			test_built(mini->token, mini);
 			create_cmd_list(mini);
 			print_cmd_list(mini);
-
 			current_token = mini->token;
 			while (current_token != NULL)
 			{

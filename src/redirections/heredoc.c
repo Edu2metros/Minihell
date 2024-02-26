@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/23 13:01:30 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:21:26 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	hand_heredoc(t_minishell *mini)
 }
 
 
-void	hand_redirect(t_minishell *mini)
+/* void	hand_redirect(t_minishell *mini)
 {
 	t_token	*token;
 	char	*file;
@@ -68,17 +68,17 @@ void	hand_redirect(t_minishell *mini)
 		}
 	}
 	token = token->next;
-}
+} */
 
-void	hand_input(t_minishell *mini)
+/* void	hand_input(t_minishell *mini)
 {
 	if (!validate_files());
 		exit(EXIT_FAILURE);
 	
 	
-}
+} */
 
-int	validate_input_file(t_token *token)
+/* int	validate_input_file(t_token *token)
 {
 	int	file_status;
 	
@@ -97,9 +97,9 @@ int	validate_input_file(t_token *token)
 		}
 	}
 	return (1);
-}
+} */
 
-int	check_files(char *file_name)
+/* int	check_files(char *file_name)
 {
 	if (access(file_name, F_OK) == -1)
 		return (EXIST);
@@ -109,7 +109,7 @@ int	check_files(char *file_name)
 		return (WRITEABLE);
 	if (access(file_name, X_OK) == -1)
 		return (EXECUTABLE);
-}
+} */
 
 // 			file = token->next->content;
 // 			fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);

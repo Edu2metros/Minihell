@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_built.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:48:30 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/22 18:47:05 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:20:19 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_echo(t_minishell *mini)
 		ft_putstr_fd("\n", 1);
 }
 
-void test_built(t_token *token, t_minishell *mini)
+/* void test_built(t_token *token, t_minishell *mini)
 {
 	int	i;
 	int	j;
@@ -91,4 +91,4 @@ void test_built(t_token *token, t_minishell *mini)
 		// }
 		token = token->next;
 	}
-}
+} */
