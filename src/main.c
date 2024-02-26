@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/26 12:20:56 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:52:52 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,36 +25,44 @@ void	print_tokens(t_minishell *mini)
 	}
 }
 
-void print_cmd_args(t_cmd *cmd) {
-    int i = 0;
-    if (cmd->args == NULL) {
-        printf("No arguments.\n");
-        return;
-    }
-    while (cmd->args[i] != NULL) {
-        printf("Argument %d: %s\n", i, cmd->args[i]);
-        i++;
-    }
-}
-
-void print_cmd_list(t_minishell *mini)
+void	print_cmd_args(t_cmd *cmd)
 {
-    t_cmd *cmd = mini->cmd; // Assuming the command list is stored in mini->cmd
-    int i;
+	int	i;
 
-    while (cmd)
-    {
-        printf("Command: %s\n", cmd->name);
-        printf("Arguments: ");
-        for (i = 0; i < cmd->count; i++)
-        {
-            printf("%s ", cmd->args[i]);
-        }
-        printf("\n");
-        cmd = cmd->next;
-    }
+	if (cmd->args == NULL)
+	{
+		printf("No arguments.\n");
+		return ;
+	}
+	while (cmd)
+	{
+		i = 0;
+		while (cmd->args[i] != NULL)
+		{
+			printf("Argument %d: %s\n", i, cmd->args[i]);
+			i++;
+		}
+		cmd = cmd->next;
+	}
 }
 
+void	print_cmd_list(t_minishell *mini)
+{
+	int	i;
+
+	t_cmd *cmd = mini->cmd; // Assuming the command list is stored in mini->cmd
+	while (cmd)
+	{
+		printf("Command: %s\n", cmd->name);
+		printf("Arguments: ");
+		for (i = 0; i < cmd->count; i++)
+		{
+			printf("%s ", cmd->args[i]);
+		}
+		printf("\n");
+		cmd = cmd->next;
+	}
+}
 
 /* Leak arrumado, já que não tem algo que possa sair sem o ctrl + c,
  deixei para digitar "sair" que sai e não dá leak. */
@@ -73,20 +81,20 @@ int	main(void)
 	t_token		*current_token;
 	t_token		*next_token;
 	t_cmd		*cmd;
-	
+
 	mini = ft_calloc(1, sizeof(t_minishell));
 	while (1)
 	{
-		input = readline(PROMPT);
-		if (!ft_strncmp(input, "quit", 5))
-			break ;
+		input = readline("> ");
+		// if (!ft_strncmp(input, "quit", 5))
+		// 	break ;
 		add_history(input);
 		mini->token = NULL;
 		if (validator(input))
 		{
 			tokenizer(input, mini);
 			create_cmd_list(mini);
-			print_cmd_list(mini);
+			test_built(mini->token, mini);
 			current_token = mini->token;
 			while (current_token != NULL)
 			{
@@ -98,6 +106,6 @@ int	main(void)
 		}
 	}
 	clear_history();
-	free (mini);
+	free(mini);
 	return (0);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+         #
+#    By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/02/21 22:40:55 by jaqribei         ###   ########.fr        #
+#    Updated: 2024/02/26 17:27:51 by eddos-sa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ TOKEN_DIR = tokenizer
 SRC_DIR = src
 TOKEN_SRC = token_identifiers.c token_identifiers_utils.c tokenizer.c tokenizer_utils.c
 
-MINISHELL_SRC = main.c utils.c errors.c test_built.c cmd.c redirections/heredoc.c redirections/redirect.c
+MINISHELL_SRC = main.c utils.c errors.c test_built.c cmd.c redirections/heredoc.c redirections/redirect.c builtins/echo.c
 
 SRC_OBJ = $(addprefix $(OBJ_DIR)/, $(MINISHELL_SRC:%.c=%.o))
 TOKEN_OBJ = $(addprefix $(OBJ_DIR)/$(TOKEN_DIR)/, $(TOKEN_SRC:%.c=%.o))

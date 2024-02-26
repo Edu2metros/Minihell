@@ -6,11 +6,22 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/26 12:21:26 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:19:10 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void signal_handler(int signal)
+{
+	if (signal == SIGINT)
+	{
+		ft_putstr_fd("\n", 1);
+		rl_on_new_line();
+		rl_replace_line ("", 0);
+		rl_redisplay();
+	}
+}
 
 void	hand_heredoc(t_minishell *mini)
 {
@@ -20,7 +31,8 @@ void	hand_heredoc(t_minishell *mini)
 	int		fd;
 	
 	token = mini->token;
-	while (token)
+	// pid_t pid = fork();
+	while (token && !pid)
 	{
 		if (token->type == HEREDOC && token->next->type == WORD)
 		{
@@ -38,10 +50,12 @@ void	hand_heredoc(t_minishell *mini)
 				}
 				ft_putendl_fd(input, fd);
 				free(input);
+				// signal(SIGINT, signal_handler);
 			}
 		}
 		token = token->next;
 	}
+	waitpid(pid, NULL, NULL);
 }
 
 
@@ -101,13 +115,13 @@ void	hand_heredoc(t_minishell *mini)
 
 /* int	check_files(char *file_name)
 {
-	if (access(file_name, F_OK) == -1)
+	if (access(file_name, F_OK) == 0)
 		return (EXIST);
-	if (access(file_name, R_OK) == -1)
+	if (access(file_name, R_OK) == 0)
 		return (READABLE);
-	if (access(file_name, W_OK) == -1)
+	if (access(file_name, W_OK) == 0)
 		return (WRITEABLE);
-	if (access(file_name, X_OK) == -1)
+	if (access(file_name, X_OK) == 0)
 		return (EXECUTABLE);
 } */
 

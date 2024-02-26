@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/26 14:57:38 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:10:18 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # define PROMPT "\e[1;34m😤 Minishell\e[0m\e[1;33m -> \e[0m"
 
-//TOKEN
-enum  e_token
+// TOKEN
+enum					e_token
 {
 	OUTPUT = 1,
 	INPUT,
@@ -51,13 +51,14 @@ enum  e_token
 # define EXIT -9
 
 # include "./libft/libft.h"
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdbool.h>
-# include <sys/wait.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 # include <unistd.h>
-# include <fcntl.h>
 
 typedef struct s_token
 {
@@ -93,9 +94,8 @@ typedef struct s_minishell
 	char				**path;
 	char				*execute_path;
 	char				**words;
-		struct s_validation	*validations;
-	struct s_cmd		*cmd;
-	t_cmd				*list_cmd;
+	struct s_validation	*validations;
+	t_cmd				*cmd;
 	t_token				*token;
 	t_redirect			*redirect_list;
 	char				*pwd;
@@ -124,28 +124,27 @@ int						process_token_builtin(char *input, t_minishell *mini,
 							int i, int start);
 int						process_token_word(char *input, t_minishell *mini,
 							int i, int start);
-int						process_token_flag(char *input, t_minishell *mini, int i,
-							int start);
+int						process_token_flag(char *input, t_minishell *mini,
+							int i, int start);
 int						process_token_operator(char *input, t_minishell *mini,
 							int i, int start);
 int						process_token_dollar(char *input, t_minishell *mini,
 							int i, int start);
 int						is_redirect(t_minishell *mini);
 // int						redirect_or_pipe(t_minishell *mini);
-void					ft_echo(t_minishell *mini);
+void					ft_echo(t_minishell *mini, t_cmd *cmd);
 void					ft_pwd(t_minishell *mini);
 void					test_built(t_token *token, t_minishell *mini);
 void					create_cmd_list(t_minishell *mini);
-void					add_cmd(t_minishell *mini, t_token **token, t_cmd **cmd, int *count);
-void					add_cmd_to_mini(t_minishell *mini, t_cmd *cmd);
+void					add_cmd(t_minishell *mini, t_token **token, t_cmd **cmd,
+							int *count);
 t_cmd					*cmd_new_node(char *content, int type);
-void					populate_cmd_args(t_minishell *mini, t_token **token, t_cmd *cmd);
+void					populate_cmd_args(t_minishell *mini, t_token **token,
+							t_cmd *cmd);
 void					print_cmd_args(t_cmd *cmd);
 void					hand_heredoc(t_minishell *mini);
 void					print_tokens(t_minishell *mini);
 void					ft_redirect_out(t_minishell *mini);
-
-
-
+t_cmd					*lst_first(t_cmd *cmd);
 
 #endif

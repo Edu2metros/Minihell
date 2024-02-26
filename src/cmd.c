@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/26 15:00:41 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:25:38 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,29 +43,9 @@ t_cmd	*cmd_new_node(char *content, int type)
 	cmd->type = type;
 	cmd->args = NULL;
 	cmd->count = 0;
-	cmd->output = NULL;
-	cmd->input = NULL;
 	cmd->next = NULL;
 	cmd->previous = NULL;
 	return (cmd);
-}
-
-// void	add_cmd(t_cmd *cmd)
-void	add_cmd_to_mini(t_minishell *mini, t_cmd *cmd)
-{
-	t_cmd	*aux;
-
-	aux = cmd;
-	// print_cmd_args(cmd);
-	if (!aux)
-	{
-		aux = cmd;
-		return ;
-	}
-	while (aux->next)
-		aux = aux->next;
-	aux->next = cmd;
-	aux->next->previous = aux;
 }
 
 int	token_list_size(t_token *token)
@@ -100,14 +80,15 @@ void populate_cmd_args(t_minishell *mini, t_token **token, t_cmd *cmd)
 
     while (*token && (*token)->type != PIPE)
     {
-        if ((*token)->type == WORD && (*token)->previous && (*token)->previous->type != is_redirect(mini))
+        if ((*token)->type == WORD)
         {
             cmd->args[cmd->count] = ft_strdup((*token)->content);
             cmd->count++;
         }
-        *token = (*token)->next; 
+        *token = (*token)->next;
     }
     cmd->args[cmd->count] = NULL;
+	cmd->count = 0;
 }
 
 
@@ -116,15 +97,13 @@ void	add_cmd(t_minishell *mini, t_token **token, t_cmd **cmd, int *count)
 	*count = 1;
 	*cmd = add_new_node(*cmd, (mini->token)->content, (mini->token)->type);
 	populate_cmd_args(mini, token, *cmd);
-	add_cmd_to_mini(mini, *cmd);
-	printf("\n=========================  ARGS  =========================\n\n");
-	print_cmd_args(*cmd);
+/* 	printf("\n=========================  ARGS  =========================\n\n");
+	print_cmd_args(*cmd); */
 }
 
 void	create_cmd_list(t_minishell *mini)
 {
 	t_token	*token;
-	t_cmd	*cmd = NULL;
 	int		count;
 	
 	token = mini->token;
@@ -132,11 +111,21 @@ void	create_cmd_list(t_minishell *mini)
 	while (token)
 	{
 		if (token->type == WORD && !count)
-			add_cmd(mini, &token, &cmd, &count);
+			add_cmd(mini, &token, &mini->cmd, &count);
 		else
 		{
 			count = 0;
 			token = token->next;
 		}
 	}
+}
+
+t_cmd	*lst_first(t_cmd *cmd)
+{
+	t_cmd	*result;
+
+	result = cmd;
+	while (result != NULL && result->previous != NULL)
+		result = result->previous;
+	return (result);
 }
