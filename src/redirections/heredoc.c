@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/26 18:19:10 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/27 13:06:49 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	hand_heredoc(t_minishell *mini)
 	int		fd;
 	
 	token = mini->token;
-	// pid_t pid = fork();
+	pid_t pid = fork();
 	while (token && !pid)
 	{
 		if (token->type == HEREDOC && token->next->type == WORD)
@@ -40,21 +40,23 @@ void	hand_heredoc(t_minishell *mini)
 			fd = open("Heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			while (1)
 			{
-				input = readline("> ");
-				if (!input || !(ft_strcmp(input, delimiter)))
+				input = readline(">>>>> ");
+				if (!input || (ft_strcmp(input, delimiter) == 0))
 				{
 					free(input);
 					close(fd);
 					unlink("Heredoc");
-					break ;
+					break;
 				}
 				ft_putendl_fd(input, fd);
 				free(input);
-				// signal(SIGINT, signal_handler);
+				signal(SIGINT, signal_handler);
 			}
 		}
 		token = token->next;
 	}
+	if(pid == 0)
+		exit(1);
 	waitpid(pid, NULL, NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/26 17:25:38 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/27 14:34:20 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,28 +48,9 @@ t_cmd	*cmd_new_node(char *content, int type)
 	return (cmd);
 }
 
-int	token_list_size(t_token *token)
-{
-	int	count;
-
-	count = 0;
-	while (token && token->type != PIPE)
-	{
-		// if(token && token->previous->type != is_redirect(get_control()->))
-		// 	count++;
-		// token = token->next;
-		if (token->type == WORD && token->previous && token->previous->type != INPUT
-		&& token->previous->type != OUTPUT && token->previous->type != APPEND
-		&& token->previous->type != HEREDOC)
-		count++;
-		token = token->next;
-	}
-	return (count);
-}
-
 void populate_cmd_args(t_minishell *mini, t_token **token, t_cmd *cmd)
 {
-    cmd->args = ft_calloc(500, sizeof(char *));
+    cmd->args = ft_calloc(lstsize(*token), sizeof(char *));
     if (!cmd->args)
         return ;
 
@@ -97,9 +78,10 @@ void	add_cmd(t_minishell *mini, t_token **token, t_cmd **cmd, int *count)
 	*count = 1;
 	*cmd = add_new_node(*cmd, (mini->token)->content, (mini->token)->type);
 	populate_cmd_args(mini, token, *cmd);
-/* 	printf("\n=========================  ARGS  =========================\n\n");
-	print_cmd_args(*cmd); */
+	printf("\n=========================  ARGS  =========================\n\n");
+	print_cmd_args(*cmd);
 }
+
 
 void	create_cmd_list(t_minishell *mini)
 {
@@ -118,6 +100,7 @@ void	create_cmd_list(t_minishell *mini)
 			token = token->next;
 		}
 	}
+	lstclear_token(&token);
 }
 
 t_cmd	*lst_first(t_cmd *cmd)

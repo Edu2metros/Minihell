@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/26 17:52:52 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/27 14:14:40 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,21 @@ t_minishell	*get_control(void)
 	return (&control);
 }
 
+void	lstclear_cmd(t_cmd **lst)
+{
+	t_cmd	*current;
+	t_cmd	*next;
+
+	current = *lst;
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current);
+		current = next;
+	}
+	*lst = NULL;
+}
+
 int	main(void)
 {
 	t_minishell	*mini;
@@ -85,9 +100,9 @@ int	main(void)
 	mini = ft_calloc(1, sizeof(t_minishell));
 	while (1)
 	{
-		input = readline("> ");
-		// if (!ft_strncmp(input, "quit", 5))
-		// 	break ;
+		input = readline(PROMPT);
+		if (!ft_strncmp(input, "quit", 5))
+			break ;
 		add_history(input);
 		mini->token = NULL;
 		if (validator(input))
@@ -106,6 +121,7 @@ int	main(void)
 		}
 	}
 	clear_history();
+	lstclear_cmd(&cmd);
 	free(mini);
 	return (0);
 }

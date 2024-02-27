@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:42:42 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/21 21:00:35 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/27 14:34:29 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,31 @@ void	free_token(t_minishell *mini)
 	mini->token = NULL;
 }
 
-// int	token_list_size(t_token *token)
-// {
-// 	int	count;
+void	lstclear_token(t_token **lst)
+{
+	t_token	*current;
+	t_token	*next;
 
-// 	count = 0;
-// 	while (token && token->type != PIPE)
-// 	{
-// 		// if (token->type == WORD && token->previous && token->previous->type != is_redirect(mini))
-// 		// 	count++;
-// 		// token = token->next;
-// 			if (token->type == WORD && token->previous && token->previous->type != INPUT
-// 			&& token->previous->type != OUTPUT && token->previous->type != APPEND
-// 			&& token->previous->type != HEREDOC)
-// 			count++;
-// 		token = token->next;
-// 	}
-// 	return (count);
-// }
+	current = *lst;
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current);
+		current = next;
+	}
+	*lst = NULL;
+}
+
+
+int	lstsize(t_token *lst)
+{
+	int	len;
+
+	len = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		len++;
+	}
+	return (len);
+}

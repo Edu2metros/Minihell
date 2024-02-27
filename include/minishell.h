@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/26 18:10:18 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/27 14:34:37 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,21 @@ typedef struct s_token
 	struct s_token		*previous;
 }						t_token;
 
-typedef struct s_redirect
+typedef struct s_redirect_out
 {
 	int					type;
 	char				*content;
 	int					fd;
 	struct s_token		*next;
-}						t_redirect;
+}						t_redirect_out;
+
+typedef struct s_redirect_in
+{
+	int					type;
+	char				*content;
+	int					fd;
+	struct s_token		*next;
+}						t_redirect_in;
 
 typedef struct s_cmd
 {
@@ -97,7 +105,8 @@ typedef struct s_minishell
 	struct s_validation	*validations;
 	t_cmd				*cmd;
 	t_token				*token;
-	t_redirect			*redirect_list;
+	t_redirect_in		*redirect_list_in;
+	t_redirect_out		*redirect_list_out;
 	char				*pwd;
 }						t_minishell;
 
@@ -146,5 +155,7 @@ void					hand_heredoc(t_minishell *mini);
 void					print_tokens(t_minishell *mini);
 void					ft_redirect_out(t_minishell *mini);
 t_cmd					*lst_first(t_cmd *cmd);
+void					lstclear_token(t_token **lst);
+int						lstsize(t_token *lst);
 
 #endif
