@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/27 13:06:49 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:10:40 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void signal_handler(int signal)
 	if (signal == SIGINT)
 	{
 		ft_putstr_fd("\n", 1);
-		rl_on_new_line();
 		rl_replace_line ("", 0);
 		rl_redisplay();
+		// exit(130);
 	}
 }
 
@@ -30,8 +30,13 @@ void	hand_heredoc(t_minishell *mini)
 	char	*input;
 	int		fd;
 	
-	token = mini->token;
 	pid_t pid = fork();
+	if(signal(SIGINT, signal_handler))
+	{
+		printf("saiu\n");
+		return ;
+	}
+	token = mini->token;
 	while (token && !pid)
 	{
 		if (token->type == HEREDOC && token->next->type == WORD)
@@ -50,7 +55,6 @@ void	hand_heredoc(t_minishell *mini)
 				}
 				ft_putendl_fd(input, fd);
 				free(input);
-				signal(SIGINT, signal_handler);
 			}
 		}
 		token = token->next;
@@ -113,18 +117,6 @@ void	hand_heredoc(t_minishell *mini)
 		}
 	}
 	return (1);
-} */
-
-/* int	check_files(char *file_name)
-{
-	if (access(file_name, F_OK) == 0)
-		return (EXIST);
-	if (access(file_name, R_OK) == 0)
-		return (READABLE);
-	if (access(file_name, W_OK) == 0)
-		return (WRITEABLE);
-	if (access(file_name, X_OK) == 0)
-		return (EXECUTABLE);
 } */
 
 // 			file = token->next->content;

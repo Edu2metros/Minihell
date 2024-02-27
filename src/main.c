@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/27 14:14:40 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/27 17:13:23 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,12 @@ void	print_cmd_list(t_minishell *mini)
 	t_cmd *cmd = mini->cmd; // Assuming the command list is stored in mini->cmd
 	while (cmd)
 	{
-		printf("Command: %s\n", cmd->name);
-		printf("Arguments: ");
 		for (i = 0; i < cmd->count; i++)
-		{
 			printf("%s ", cmd->args[i]);
-		}
 		printf("\n");
 		cmd = cmd->next;
 	}
 }
-
-/* Leak arrumado, já que não tem algo que possa sair sem o ctrl + c,
- deixei para digitar "sair" que sai e não dá leak. */
 
 t_minishell	*get_control(void)
 {

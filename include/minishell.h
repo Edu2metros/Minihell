@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/27 14:34:37 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/27 17:12:03 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,21 @@ enum					e_token
 	DOLLAR,
 	QUOTE,
 	DOUBLE_QUOTE,
-	// AND,
-	// OR,
-	// EXEC,
+	//IDENTIFIER
+	FLAG,
+	EXIST,
+	READABLE,
+	WRITEABLE,
+	EXECUTABLE,
+	//BUILT IN
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT
 };
-
-// IDENTIFIER
-// # define COMMAND 8
-// # define TOKEN 9
-# define FLAG -2
-# define EXIST 10
-# define READABLE 11
-# define WRITEABLE 12
-# define EXECUTABLE 13
-
-// BUILT IN
-# define ECHO -3
-# define CD -4
-# define PWD -5
-# define EXPORT -6
-# define UNSET -7
-# define ENV -8
-# define EXIT -9
 
 # include "./libft/libft.h"
 # include <fcntl.h>
