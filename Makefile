@@ -6,7 +6,11 @@
 #    By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2024/02/28 15:41:33 by jaqribei         ###   ########.fr        #
+=======
+#    Updated: 2024/02/28 14:26:44 by eddos-sa         ###   ########.fr        #
+>>>>>>> 23886b165f1eca9ebdf2d1a323bc8d987f48645b
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +59,11 @@ src += $(addprefix tokenizer/, token_identifiers.c \
 
 SRC_OBJ = $(addprefix $(OBJ_DIR)/, $(src:%.c=%.o))
 
+<<<<<<< HEAD
 MINI_OBJ = $(SRC_OBJ)
+=======
+MINISHELL_SRC = main.c utils.c errors.c cmd.c redirections/heredoc.c builtins/echo.c
+>>>>>>> 23886b165f1eca9ebdf2d1a323bc8d987f48645b
 
 all: libft $(NAME)
 

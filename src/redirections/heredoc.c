@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/27 19:10:40 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/28 14:27:10 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	hand_heredoc(t_minishell *mini)
 	}
 	if(pid == 0)
 		exit(1);
-	waitpid(pid, NULL, NULL);
+	waitpid(pid, NULL, 0);
 }
 
 
