@@ -6,7 +6,7 @@
 #    By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/02/28 15:46:56 by jaqribei         ###   ########.fr        #
+#    Updated: 2024/02/28 16:22:39 by jaqribei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ src += $(addprefix tokenizer/, token_identifiers.c \
 								tokenizer_utils.c \
 								tokenizer.c)
 
- src += $(addprefix builtins/, cd.c \
+src += $(addprefix builtins/, cd.c \
 								echo.c \
 								env.c \
 								exit.c \
@@ -46,7 +46,7 @@ src += $(addprefix tokenizer/, token_identifiers.c \
 								pwd.c \
 								unset.c)
 
- src += $(addprefix redirects/, heredoc.c)
+src += $(addprefix redirects/, heredoc.c)
  								# redirect_hand_files.c \
  								# redirect_in.c \
  								# redirect_out.c \
@@ -55,16 +55,14 @@ src += $(addprefix tokenizer/, token_identifiers.c \
 
 SRC_OBJ = $(addprefix $(OBJ_DIR)/, $(src:%.c=%.o))
 
-MINISHELL_SRC = main.c utils.c errors.c cmd.c redirections/heredoc.c builtins/echo.c
-
 all: libft $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)%.c
 	@mkdir -p $(@D)
 	@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 
-$(NAME): $(MINI_OBJ)
-	@$(CC) $(FLAGS) $(MINI_OBJ) ./include/libft/libft.a -lreadline -o $(NAME)
+$(NAME): $(SRC_OBJ)
+	@$(CC) $(FLAGS) $(SRC_OBJ) ./include/libft/libft.a -lreadline -o $(NAME)
 
 #******************************************************************************#
 #									TARGETS									   #
