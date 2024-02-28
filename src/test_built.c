@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   test_built.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:48:30 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/26 17:31:37 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:25:06 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	ft_pwd(t_minishell *mini)
-{
-	char	*pwd;
-
-	pwd = getcwd(NULL, 0);
-	if (pwd)
-	{
-		ft_putstr_fd(pwd, 1);
-		ft_putstr_fd("\n", 1);
-	}
-	else
-		ft_putstr_fd("error", 1);
-	mini->pwd = ft_calloc((ft_strlen(pwd) + 1), sizeof(char *));
-	if (mini->pwd)
-		mini->pwd = ft_strdup(pwd);
-	free(pwd);
-}
 
 void	test_built(t_token *token, t_minishell *mini)
 {
