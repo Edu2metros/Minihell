@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/28 14:24:38 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/28 19:16:35 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,5 +147,7 @@ void						ft_redirect_out(t_minishell *mini);
 t_cmd						*lst_first(t_cmd *cmd);
 void						lstclear_token(t_token **lst);
 int							lstsize(t_token *lst);
+void						hand_cd(t_cmd *cmd);
+
 
 #endif

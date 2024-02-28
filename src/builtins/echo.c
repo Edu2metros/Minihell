@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 23:57:02 by  jaqribei         #+#    #+#             */
-/*   Updated: 2024/02/26 17:28:01 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/28 20:11:06 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,3 +41,5 @@ void	ft_echo(t_minishell *mini, t_cmd *cmd)
 	if (n_flag == 0)
 		ft_putstr_fd("\n", 1);
 }
+
+//need to check the quote stuff, to not print quotes and do not ignore spaces

@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/28 13:36:30 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:29:50 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	handle_redirects(t_minishell *mini)
 		if (is_redirect(mini) && (aux != NULL))
 		{
 			// if (token->type == TOKEN_HERE_DOC)
-			// 	handle_here_doc(&cmd->redir_in, token, index);
+			// 	handle_heredoc();
 			if (token->type == INPUT)
 				redirect_in_list(token, get_control()->redirect_list_in);
 			else if (token->type == OUTPUT || token->type == APPEND)

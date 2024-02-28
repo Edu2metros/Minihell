@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:48:30 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/28 16:25:06 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/28 19:32:39 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	test_built(t_token *token, t_minishell *mini)
 	j = 0;
 	while (mini->cmd != NULL)
 	{
-		if (mini->cmd->type == WORD && is_builtin(mini->cmd->name) < 0)
+		if (mini->cmd->type == WORD)
 		{
-			if (is_builtin(token->content) == PWD)
+			if (is_builtin(mini->cmd->name) == PWD)
 			{
 				printf("\n=========================    PWD    =========================\n\n");
 				ft_pwd(mini);
@@ -33,6 +33,11 @@ void	test_built(t_token *token, t_minishell *mini)
 			{
 				printf("\n=========================    ECHO    =========================\n\n");
 				ft_echo(mini, mini->cmd);
+			}			
+			if (is_builtin(mini->cmd->name) == CD)
+			{
+				printf("\n=========================    CD    =========================\n\n");
+				hand_cd(mini->cmd);
 			}
 		}
 		if (token->type == HEREDOC)
@@ -40,11 +45,6 @@ void	test_built(t_token *token, t_minishell *mini)
 			printf("\n=========================  HEREDOC  =========================\n\n");
 			hand_heredoc(mini);
 		}
-		// if (token->type == OUTPUT)
-		// {
-		// 	printf("\n=========================  OUTPUT  =========================\n\n");
-		// 	ft_redirect_out(mini);
-		// }
 	mini->cmd = mini->cmd->next;
 	}
 }
