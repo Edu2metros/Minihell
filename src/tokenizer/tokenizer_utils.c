@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:42:42 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/27 14:34:29 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/28 14:22:33 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	lstclear_token(t_token **lst)
 	while (current != NULL)
 	{
 		next = current->next;
+		free(current->content);
 		free(current);
 		current = next;
 	}
