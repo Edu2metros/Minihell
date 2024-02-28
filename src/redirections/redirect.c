@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/27 19:49:22 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/27 21:16:30 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,29 @@ int	check_files(char *file_name)
 		return (EXECUTABLE);
 	else
 		return (0);
+}
+
+void	handle_out_files(t_redirect_out *redirect)
+{
+	char	*file;
+
+	file = redirect->content;
+	if (redirect->type == OUTPUT)
+		redirect->fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else if(redirect->type == APPEND)
+		redirect->fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);	
+}
+
+void	handle_in_files(t_redirect_out *redirect)
+{
+	char	*file;
+
+	if (redirect->type == INPUT)
+	{
+		file = redirect->content;
+		redirect->fd = open(file, O_RDONLY); // only reads the file, instead wait for a command like cat < texto.txt
+	}
+	// checl if we will treat heredoc here, or if is that another way(?)
 }
 
 t_redirect_out	*new_redirect_out(char *content, int type)
@@ -49,72 +72,6 @@ t_redirect_out	*add_redirect_out(t_redirect_out *redirect, char *content,
 	new = new_redirect_out(content, type);
 	redirect->next = new;
 	return (new);
-}
-
-void	redirect_out_list(t_token **token, t_redirect_out *redirect)
-{
-	while (*token)
-	{
-		if ((*token)->type == OUTPUT || (*token)->type == APPEND)
-			add_redirect_out(redirect, (*token)->content, (*token)->type);
-		*token = (*token)->next;
-	}
-}
-
-t_redirect_in	*new_redirect_in(char *content, int type)
-{
-	t_redirect_in	*redirect;
-
-	redirect = malloc(sizeof(t_redirect_in));
-	redirect->type = type;
-	redirect->content = ft_strdup(content);
-	redirect->fd = 0;
-	redirect->next = NULL;
-	return (redirect);
-}
-
-t_redirect_in	*add_redirect_in(t_redirect_in *redirect, char *content,
-		int type)
-{
-	t_redirect_in	*new;
-
-	if (!redirect)
-		return (new_redirect_in(content, type));
-	new = NULL;
-	new = new_redirect_in(content, type);
-	redirect->next = new;
-	return (new);
-}
-t_bool	validate_output_file(t_token *current_tkn, size_t index)
-{
-	if (check_file_exists(current_tkn->next->value))
-	{
-		if (!check_file_writable(current_tkn->next->value))
-		{
-			ft_file_error(current_tkn->next->value, "Permission denied\n",
-				PERMISSION_ERROR, index);
-			return (FALSE);
-		}
-	}
-	else if (check_file_executable(current_tkn->next->value))
-	{
-		ft_file_error(current_tkn->next->value, "Is a directory\n",
-			EXIT_FAILURE, index);
-		return (FALSE);
-	}
-	return (TRUE);
-}
-
-void	handle_files_out(t_redirect_out *redirect)
-{
-	char	*file;
-
-	file = redirect->content;
-	if (redirect->type == OUTPUT)
-		redirect->fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else if(redirect->type == APPEND)
-		redirect->fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	
 }
 
 t_redirect_out	*lstlast(t_redirect_out *lst)
@@ -145,8 +102,60 @@ void	redirect_out_list(t_token **token, t_redirect_out *redirect)
 			if (redirect_out_list == NULL)
 				redirect_out_list = new_red;
 			else
-				lstlast("??") == new_red;
-			handle_files_out(new_red);
+				lstlast(redirect_out_list) == new_red;
+			handle_out_files(new_red);
+		}
+		*token = (*token)->next;
+	}
+}
+
+t_redirect_in	*new_redirect_in(char *content, int type)
+{
+	t_redirect_in	*redirect;
+
+	redirect = malloc(sizeof(t_redirect_in));
+	redirect->type = type;
+	redirect->content = ft_strdup(content);
+	redirect->fd = 0;
+	redirect->next = NULL;
+	return (redirect);
+}
+
+t_redirect_in	*add_redirect_in(t_redirect_in *redirect, char *content,
+		int type)
+{
+	t_redirect_in	*new;
+
+	if (!redirect)
+		return (new_redirect_in(content, type));
+	new = NULL;
+	new = new_redirect_in(content, type);
+	redirect->next = new;
+	return (new);
+}
+
+void	redirect_in_list(t_token **token, t_redirect_out *redirect)
+{
+	t_redirect_out	*new_red;
+
+	while (*token)
+	{
+		if ((*token)->type == INPUT)
+		{
+			if (!check_files((*token)->next->content) == EXIST)
+					handle_error(0);
+			else if (!check_files((*token)->next->content) == READABLE)
+					handle_error(0); // Permission
+		}
+		new_red = add_redirect_in(redirect, (*token)->next->content,
+			(*token)->type);
+		if (new_red != NULL)
+		{
+			if (redirect_in_list == NULL)
+				redirect_in_list = new_red;
+			else
+				lstlast(redirect_in_list) == new_red;
+			handle_in_files(new_red);
 		}
 		*token = (*token)->next;
 	}
