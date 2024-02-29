@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:33:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/28 20:07:00 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/29 14:31:36 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,3 +55,5 @@ void	hand_cd(t_cmd *cmd)
 			handle_error(0); //path not find
 	}
 }
+
+

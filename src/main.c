@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/28 19:27:19 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/29 17:50:40 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ int	main(void)
 		if (validator(input))
 		{
 			tokenizer(input, mini);
+			handle_redirects(mini);
 			create_cmd_list(mini);
 			test_built(mini->token, mini);
 		}

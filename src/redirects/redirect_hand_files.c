@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect_files.c                                   :+:      :+:    :+:   */
+/*   redirect_hand_files.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:29:10 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/28 13:32:42 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/29 17:43:10 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,20 @@ void	handle_out_files(t_redirect_out *redirect)
 	if (redirect->type == OUTPUT)
 		redirect->fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if(redirect->type == APPEND)
-		redirect->fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);	
+		redirect->fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 }
 
-void	handle_in_files(t_redirect_out *redirect)
+void	handle_in_files(t_redirect_in *redirect)
 {
 	char	*file;
 
-	if (redirect->type == INPUT)
+	if (redirect->type == HEREDOC)
+	{
+		redirect->fd = open("heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	}
+	else if (redirect->type == INPUT)
 	{
 		file = redirect->content;
 		redirect->fd = open(file, O_RDONLY); // only reads the file, instead wait for a command like cat < texto.txt
 	}
-	// check if we will treat heredoc here, or if is that another way(?)
 }

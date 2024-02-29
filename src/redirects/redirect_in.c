@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:33:51 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/28 13:34:43 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/29 17:41:23 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,15 @@ t_redirect_in	*add_redirect_in(t_redirect_in *redirect, char *content,
 void	redirect_in_list(t_token **token, t_redirect_in *redirect)
 {
 	t_redirect_in	*new_red_in;
+	t_redirect_in	*last_node;
 
 	while (*token)
 	{
 		if ((*token)->type == INPUT)
 		{
-			if (!check_files((*token)->next->content) == EXIST)
+			if (check_files((*token)->next->content) != EXIST)
 					handle_error(0);
-			else if (!check_files((*token)->next->content) == READABLE)
+			else if (check_files((*token)->next->content) != READABLE)
 					handle_error(0); // Permission
 		}
 		new_red_in = add_redirect_in(redirect, (*token)->next->content,
@@ -59,7 +60,10 @@ void	redirect_in_list(t_token **token, t_redirect_in *redirect)
 			if (redirect == NULL)
 				redirect = new_red_in;
 			else
-				lstlast(redirect) == new_red_in;
+			{
+				last_node = lstlast_in(redirect);
+				last_node->next = new_red_in;
+			}
 			handle_in_files(new_red_in);
 		}
 		*token = (*token)->next;

@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:35:41 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/28 13:36:15 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/29 17:45:36 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,19 @@ t_redirect_out	*add_redirect_out(t_redirect_out *redirect, char *content,
 void	redirect_out_list(t_token **token, t_redirect_out *redirect)
 {
 	t_redirect_out	*new_red;
+	t_redirect_out	*last_node;
 
 	while (*token)
 	{
 		if ((*token)->type == OUTPUT)
 		{
 			if (check_files((*token)->next->content) == EXIST)
+			{
 				if (check_files((*token)->next->content) != WRITEABLE)
 					handle_error(0);
 				else if (check_files((*token)->next->content) == EXECUTABLE)
 					handle_error(0); // Diretório
+			}
 		}
 		new_red = add_redirect_out(redirect, (*token)->next->content,
 			(*token)->type);
@@ -60,7 +63,10 @@ void	redirect_out_list(t_token **token, t_redirect_out *redirect)
 			if (redirect == NULL)
 				redirect = new_red;
 			else
-				lstlast(redirect) == new_red;
+			{
+				last_node = lstlast_out(redirect);
+				last_node->next = new_red;
+			}
 			handle_out_files(new_red);
 		}
 		*token = (*token)->next;

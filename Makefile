@@ -6,7 +6,7 @@
 #    By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/02/28 16:22:39 by jaqribei         ###   ########.fr        #
+#    Updated: 2024/02/29 17:30:47 by jaqribei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,11 +46,11 @@ src += $(addprefix builtins/, cd.c \
 								pwd.c \
 								unset.c)
 
-src += $(addprefix redirects/, heredoc.c)
- 								# redirect_hand_files.c \
- 								# redirect_in.c \
- 								# redirect_out.c \
-								# redirect.c)
+src += $(addprefix redirects/, heredoc.c \
+ 								redirect_hand_files.c \
+ 								redirect_in.c \
+ 								redirect_out.c \
+								redirect.c)
 								
 
 SRC_OBJ = $(addprefix $(OBJ_DIR)/, $(src:%.c=%.o))
