@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/29 15:02:17 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/29 18:30:13 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	populate_cmd_args(t_token **token, t_cmd *cmd)
 	*token = (*token)->next;
 	while (*token && (*token)->type != PIPE)
 	{
-		if ((*token)->type == WORD)
+		if ((*token)->type == WORD || (*token)->type == DOLLAR)
 		{
 			cmd->args[cmd->count] = ft_strdup((*token)->content);
 			cmd->count++;

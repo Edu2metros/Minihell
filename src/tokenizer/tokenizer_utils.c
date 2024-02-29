@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:42:42 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/29 15:10:51 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/29 19:35:37 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	process_token_dollar(char *input, t_minishell *mini, int i, int start)
 {
 	char	*substr;
 
-	while (input[i] != '\0' && ft_isalpha(input[i]))
+	while (input[i] != '\0' && !my_isspace(input[i]) && !meta_char(input[i]))
 		i++;
-	substr = ft_substr(input, start, i);
+	substr = ft_substr(input, start, i - start);
 	add_token(substr, DOLLAR, mini);
 	return (i);
 }
@@ -31,7 +31,7 @@ void	add_token(char *str, int type, t_minishell *mini)
 	t_token	*new_token;
 	t_token	*last_token;
 
-	new_token = malloc(sizeof(t_token));
+	new_token = ft_calloc(1, sizeof(t_token));
 	if (!new_token)
 		exit(EXIT_FAILURE);
 	new_token->content = ft_strdup(str);
