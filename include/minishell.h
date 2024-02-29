@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/29 15:45:42 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/29 16:10:47 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # define PROMPT "\e[1;34m😤 Minishell\e[0m\e[1;33m -> \e[0m"
+# define HEREDOC_PROMPT "\e[1;34m💡 HereDoc\e[0m\e[1;33m -> \e[0m"
 
 # include "./libft/libft.h"
 # include <fcntl.h>
@@ -102,77 +103,78 @@ t_minishell					*get_control(void);
 // Token functions
 int							process_token_arg(char *input, t_minishell *mini,
 								int i);
-int							process_token_builtin(char *input,
-								t_minishell *mini, int i, int start);
 int							process_token_word(char *input, t_minishell *mini,
 								int i, int start);
 int							process_token_flag(char *input, t_minishell *mini,
 								int i, int start);
+int							process_token_dollar(char *input, t_minishell *mini,
+								int i, int start);
+int							process_token_builtin(char *input,
+								t_minishell *mini, int i, int start);
 int							process_token_operator(char *input,
 								t_minishell *mini, int i, int start);
 void						tokenizer(char *input, t_minishell *mini);
 void						add_token(char *str, int type, t_minishell *mini);
-int							process_token_dollar(char *input, t_minishell *mini,
-								int i, int start);
 
 // Redirect functions
-void						hand_heredoc(t_minishell *mini);
-int							check_files(char *file_name);
-void						handle_out_files(t_redirect_out *redirect);
-void						handle_in_files(t_redirect_out *redirect);
 t_redirect_in				*new_redirect_in(char *content, int type);
 t_redirect_in				*add_redirect_in(t_redirect_in *redirect,
 								char *content, int type);
-void						redirect_in_list(t_token **token,
-								t_redirect_in *redirect);
-t_redirect_out				*new_redirect_out(char *content, int type);
 t_redirect_out				*add_redirect_out(t_redirect_out *redirect,
 								char *content, int type);
+t_redirect_out				*lstlast(t_redirect_out *lst);
+t_redirect_out				*new_redirect_out(char *content, int type);
+int							check_files(char *file_name);
+void						hand_heredoc(t_minishell *mini);
+void						handle_redirects(t_minishell *mini);
+void						handle_in_files(t_redirect_out *redirect);
+void						handle_out_files(t_redirect_out *redirect);
+void						redirect_in_list(t_token **token,
+								t_redirect_in *redirect);
 void						redirect_out_list(t_token **token,
 								t_redirect_out *redirect);
-t_redirect_out				*lstlast(t_redirect_out *lst);
-void						handle_redirects(t_minishell *mini);
 
 // Print functions
-void						print_tokens(t_minishell *mini);
 void						print_cmd_args(t_cmd *cmd);
-void						print_cmd_list(t_minishell *mini);
 void						print_tokens(t_minishell *mini);
+void						print_tokens(t_minishell *mini);
+void						print_cmd_list(t_minishell *mini);
 
 // CMD functions
-int							is_redirect(t_minishell *mini);
-t_cmd						*add_new_node(t_cmd *cmd, char *content, int type);
-t_cmd						*cmd_new_node(char *content, int type);
-int							lstsize_pipe(t_token *token);
-void						populate_cmd_args(t_token **token, t_cmd *cmd);
-void						create_cmd_list(t_minishell *mini);
 t_cmd						*lst_first(t_cmd *cmd);
+t_cmd						*cmd_new_node(char *content, int type);
+t_cmd						*add_new_node(t_cmd *cmd, char *content, int type);
+int							lstsize_pipe(t_token *token);
+int							is_redirect(t_minishell *mini);
+void						create_cmd_list(t_minishell *mini);
+void						populate_cmd_args(t_token **token, t_cmd *cmd);
 
 // Builtins functions
+void						ft_pwd(void);
 void						hand_cd(t_cmd *cmd);
 void						ft_echo(t_cmd *cmd);
-void						ft_pwd(void);
+void						test_built(t_token *token, t_minishell *mini);
 
 // Error functions
 void						handle_error(int nbr);
 
 // Free functions
+void						free_cmd(t_cmd **cmd);
 void						lstclear_cmd(t_cmd **lst);
 void						free_tokens(t_token **token);
 void						free_redirect_in(t_redirect_in **redirect);
 void						free_redirect_out(t_redirect_out **redirect);
-void						free_cmd(t_cmd **cmd);
 
 // Utils functions
-int							ft_isalpha_mini(char input);
-int							ft_redirect(char *prompt, int i);
-int							handle_pipe(char *prompt);
-int							handle_red(char *prompt, char c);
-bool						validator(char *prompt);
 int							is_quote(char c);
-int							is_operator(char chr1, char chr2);
+int							is_builtin(char *input);
+int							handle_pipe(char *prompt);
 int							is_word(const char *input);
 int							is_flag(const char *input);
-int							is_builtin(char *input);
+int							ft_isalpha_mini(char input);
+int							ft_redirect(char *prompt, int i);
+int							handle_red(char *prompt, char c);
+int							is_operator(char chr1, char chr2);
+bool						validator(char *prompt);
 
 #endif

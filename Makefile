@@ -6,7 +6,7 @@
 #    By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/02/29 15:20:26 by eddos-sa         ###   ########.fr        #
+#    Updated: 2024/02/29 16:04:41 by eddos-sa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,8 @@ src += $(addprefix builtins/, cd.c \
 								exit.c \
 								export.c \
 								pwd.c \
-								unset.c)
+								unset.c \
+								builtin.c)
 
 src += $(addprefix redirects/, heredoc.c)
  								# redirect_hand_files.c \

@@ -1,37 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 16:33:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/29 15:59:57 by eddos-sa         ###   ########.fr       */
+/*   Created: 2024/02/29 15:58:01 by eddos-sa          #+#    #+#             */
+/*   Updated: 2024/02/29 16:04:58 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	hand_cd(t_cmd *cmd)
+void	test_built(t_token *token, t_minishell *mini)
 {
-	char	*pwd;
-	char	*path;
-	int		i;
+	int	i;
+	int	j;
 
-	printf("\n===================    CD    ===================n\n");
-	pwd = getcwd(NULL, 0);
-	i = 1;
-	if (!cmd->args[i])
-		path = getenv("HOME");
-	else
-		path = cmd->args[i];
-	if (chdir(path) != 0)
-		handle_error(0);
-	else
+	i = 0;
+	j = 0;
+	while (mini->cmd != NULL)
 	{
-		if (pwd != NULL)
-			setenv("PWD", pwd, 1);
-		else
-			handle_error(0);
+		if (mini->cmd->type == WORD)
+		{
+			if (is_builtin(mini->cmd->name) == PWD)
+				ft_pwd();
+			if (is_builtin(mini->cmd->name) == ECHO)
+				ft_echo(mini->cmd);
+			if (is_builtin(mini->cmd->name) == CD)
+				hand_cd(mini->cmd);
+		}
+		if (token->type == HEREDOC)
+			hand_heredoc(mini);
+		mini->cmd = mini->cmd->next;
 	}
 }

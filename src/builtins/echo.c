@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 23:57:02 by  jaqribei         #+#    #+#             */
-/*   Updated: 2024/02/29 14:57:37 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:59:41 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ft_echo(t_cmd *cmd)
 	int	n_flag;
 	int	i;
 
+	printf("\n===================    ECHO    ===================\n\n");
 	i = 1;
 	cmd = lst_first(cmd);
 	n_flag = 0;

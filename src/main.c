@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/29 15:35:48 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/29 16:03:38 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	main(void)
 		{
 			tokenizer(input, mini);
 			create_cmd_list(mini);
+			test_built(mini->token, mini);
 		}
 	}
 	clear_history();
