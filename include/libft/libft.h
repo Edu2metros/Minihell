@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 13:09:27 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/29 14:45:15 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:37:42 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,9 @@ long double			ft_atof(char *str);
 int					ft_isalldigit(const char *str);
 long int			ft_atol(const char *str);
 int					my_isspace(char c);
+int					meta_char(char c);
+int					ft_strcmp(char *s1, char *s2);
+int					check_quote(char *input);
 
 // PRINTF FUNCTIONS
 
@@ -85,5 +88,4 @@ int					ft_putptr(void *ptr);
 size_t				ft_putstr(char *str);
 int					ft_unsint(unsigned int nbr);
 
-int					ft_strcmp(char *s1, char *s2);
 #endif

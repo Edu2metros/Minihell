@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:42:42 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/07 17:52:27 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:10:51 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	process_token_dollar(char *input, t_minishell *mini, int i, int start)
 	return (i);
 }
 
-
 void	add_token(char *str, int type, t_minishell *mini)
 {
 	t_token	*new_token;
@@ -38,11 +37,13 @@ void	add_token(char *str, int type, t_minishell *mini)
 	new_token->content = ft_strdup(str);
 	new_token->type = type;
 	new_token->next = NULL;
+	new_token->previous = NULL;
 	if (mini->token)
 	{
 		last_token = mini->token;
 		while (last_token->next != NULL)
 			last_token = last_token->next;
+		new_token->previous = last_token;
 		last_token->next = new_token;
 	}
 	else
@@ -63,4 +64,38 @@ void	free_token(t_minishell *mini)
 		token = aux;
 	}
 	mini->token = NULL;
+}
+
+void	lstclear_token(t_token *lst)
+{
+	t_token	*current;
+	t_token	*next;
+
+	if (lst == NULL)
+	{
+		return ;
+	}
+	current = lst;
+	while (current->previous != NULL)
+		current = current->previous;
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current->content);
+		free(current);
+		current = next;
+	}
+}
+
+int	lstsize(t_token *lst)
+{
+	int	len;
+
+	len = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		len++;
+	}
+	return (len);
 }

@@ -3,59 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/02 14:15:55 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:35:48 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	print_tokens(t_minishell *mini)
+t_minishell	*get_control(void)
 {
-	t_token	*current_token;
+	static t_minishell	control;
 
-	current_token = mini->token;
-	while (current_token != NULL)
-	{
-		printf("Token: %s: Type: %d\n\n", current_token->content,
-			current_token->type);
-		current_token = current_token->next;
-	}
+	return (&control);
 }
 
-/* Leak arrumado, já que não tem algo que possa sair sem o ctrl + c,
- deixei para digitar "sair" que sai e não dá leak. */
+void	free_all(t_minishell *minishell)
+{
+	free_tokens(&(minishell->token));
+	free_redirect_in(&(minishell->redirect_list_in));
+	free_redirect_out(&(minishell->redirect_list_out));
+	free_cmd(&(minishell->cmd));
+}
 
 int	main(void)
 {
-	t_minishell	mini;
+	t_minishell	*mini;
 	char		*input;
-	t_token		*current_token;
-	t_token		*next_token;
 
+	mini = ft_calloc(1, sizeof(t_minishell));
 	while (1)
 	{
 		input = readline(PROMPT);
-		if (!ft_strncmp(input, "sair", 5))
+		if (!ft_strncmp(input, "quit", 5))
 			break ;
 		add_history(input);
-		mini.token = NULL;
+		mini->token = NULL;
 		if (validator(input))
 		{
-			tokenizer(input, &mini);
-			print_tokens(&mini);
-			current_token = mini.token;
-			while (current_token != NULL)
-			{
-				next_token = current_token->next;
-				free(current_token->content);
-				free(current_token);
-				current_token = next_token;
-			}
+			tokenizer(input, mini);
+			create_cmd_list(mini);
 		}
 	}
 	clear_history();
+	free_all(mini);
+	free(mini);
+	free(input);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/07 20:11:18 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:45:42 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,90 +15,164 @@
 
 # define PROMPT "\e[1;34m😤 Minishell\e[0m\e[1;33m -> \e[0m"
 
-// META CHAR
-# define GREAT 1
-# define LESS 2
-# define PIPE 3
-# define QUOTE 4
-# define DOUBLE_QUOTE 5
-# define DOUBLE_GREAT 6
-# define DOUBLE_LESS 7
-# define DOLLAR 11
-
-// IDENTIFIER
-# define COMMAND 8
-# define TOKEN 9
-# define WORD -1
-# define FLAG -2
-
-// BUILT IN
-# define ECHO -3
-# define CD -4
-# define PWD -5
-# define EXPORT -6
-# define UNSET -7
-# define ENV -8
-# define EXIT -9
-
 # include "./libft/libft.h"
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdbool.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
 
-typedef struct s_minishell
+enum						e_token
 {
-	char				**path;
-	char				*execute_path;
-	char				**words;
-	struct s_token		*token;
-	struct s_validation	*validations;
-	struct s_cmd		*cmd;
-}						t_minishell;
+	OUTPUT = 1,
+	INPUT,
+	PIPE,
+	APPEND,
+	HEREDOC,
+	WORD,
+	DOLLAR,
+	QUOTE,
+	DOUBLE_QUOTE,
+	FLAG,
+	EXIST,
+	READABLE,
+	WRITEABLE,
+	EXECUTABLE,
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT
+};
 
 typedef struct s_token
 {
-	int					type;
-	char				*content;
-	struct s_token		*next;
-	struct s_token		*previous;
-}						t_token;
+	int						type;
+	char					*content;
+	struct s_token			*next;
+	struct s_token			*previous;
+}							t_token;
+
+typedef struct s_redirect_out
+{
+	int						type;
+	char					*content;
+	int						fd;
+	struct s_redirect_out	*next;
+}							t_redirect_out;
+
+typedef struct s_redirect_in
+{
+	int						type;
+	char					*content;
+	int						fd;
+	struct s_redirect_in	*next;
+}							t_redirect_in;
 
 typedef struct s_cmd
 {
-	int					type;
-	char				*name;
-	char				**args;
-	struct s_cmd		*left;
-	struct s_cmd		*right;
-}						t_cmd;
+	int						type;
+	int						count;
 
-void					handle_error(int nbr);
-void					tokenizer(char *str, t_minishell *mini);
-bool					validator(char *prompt);
-int						check_quote(char *input);
-int						meta_char(char c);
-int						ft_redirect(char *prompt, int i);
+	char					*name;
+	char					**args;
+	struct s_cmd			*previous;
+	struct s_cmd			*next;
+}							t_cmd;
 
-// Utility Functions for Tokenization
-void					add_token(char *str, int type, t_minishell *mini);
-int						is_quote(char c);
-int						is_operator(char chr1, char chr2);
-int						is_word(const char *input);
-int						is_flag(const char *input);
-int						is_builtin(char *input);
-int						process_token_arg(char *input, t_minishell *mini,
-							int i);
-int						process_token_builtin(char *input, t_minishell *mini,
-							int i, int start);
-int						process_token_word(char *input, t_minishell *mini,
-							int i, int start);
-int						process_token_flag(char *input, t_minishell *mini, int i,
-							int start);
-int						process_token_operator(char *input, t_minishell *mini,
-							int i, int start);
-int						process_token_dollar(char *input, t_minishell *mini,
-							int i, int start);
+typedef struct s_minishell
+{
+	char					**path;
+	char					*execute_path;
+	char					**words;
+	struct s_validation		*validations;
+	t_cmd					*cmd;
+	t_token					*token;
+	t_redirect_in			*redirect_list_in;
+	t_redirect_out			*redirect_list_out;
+}							t_minishell;
+
+t_minishell					*get_control(void);
+
+// Token functions
+int							process_token_arg(char *input, t_minishell *mini,
+								int i);
+int							process_token_builtin(char *input,
+								t_minishell *mini, int i, int start);
+int							process_token_word(char *input, t_minishell *mini,
+								int i, int start);
+int							process_token_flag(char *input, t_minishell *mini,
+								int i, int start);
+int							process_token_operator(char *input,
+								t_minishell *mini, int i, int start);
+void						tokenizer(char *input, t_minishell *mini);
+void						add_token(char *str, int type, t_minishell *mini);
+int							process_token_dollar(char *input, t_minishell *mini,
+								int i, int start);
+
+// Redirect functions
+void						hand_heredoc(t_minishell *mini);
+int							check_files(char *file_name);
+void						handle_out_files(t_redirect_out *redirect);
+void						handle_in_files(t_redirect_out *redirect);
+t_redirect_in				*new_redirect_in(char *content, int type);
+t_redirect_in				*add_redirect_in(t_redirect_in *redirect,
+								char *content, int type);
+void						redirect_in_list(t_token **token,
+								t_redirect_in *redirect);
+t_redirect_out				*new_redirect_out(char *content, int type);
+t_redirect_out				*add_redirect_out(t_redirect_out *redirect,
+								char *content, int type);
+void						redirect_out_list(t_token **token,
+								t_redirect_out *redirect);
+t_redirect_out				*lstlast(t_redirect_out *lst);
+void						handle_redirects(t_minishell *mini);
+
+// Print functions
+void						print_tokens(t_minishell *mini);
+void						print_cmd_args(t_cmd *cmd);
+void						print_cmd_list(t_minishell *mini);
+void						print_tokens(t_minishell *mini);
+
+// CMD functions
+int							is_redirect(t_minishell *mini);
+t_cmd						*add_new_node(t_cmd *cmd, char *content, int type);
+t_cmd						*cmd_new_node(char *content, int type);
+int							lstsize_pipe(t_token *token);
+void						populate_cmd_args(t_token **token, t_cmd *cmd);
+void						create_cmd_list(t_minishell *mini);
+t_cmd						*lst_first(t_cmd *cmd);
+
+// Builtins functions
+void						hand_cd(t_cmd *cmd);
+void						ft_echo(t_cmd *cmd);
+void						ft_pwd(void);
+
+// Error functions
+void						handle_error(int nbr);
+
+// Free functions
+void						lstclear_cmd(t_cmd **lst);
+void						free_tokens(t_token **token);
+void						free_redirect_in(t_redirect_in **redirect);
+void						free_redirect_out(t_redirect_out **redirect);
+void						free_cmd(t_cmd **cmd);
+
+// Utils functions
+int							ft_isalpha_mini(char input);
+int							ft_redirect(char *prompt, int i);
+int							handle_pipe(char *prompt);
+int							handle_red(char *prompt, char c);
+bool						validator(char *prompt);
+int							is_quote(char c);
+int							is_operator(char chr1, char chr2);
+int							is_word(const char *input);
+int							is_flag(const char *input);
+int							is_builtin(char *input);
 
 #endif

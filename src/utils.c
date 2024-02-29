@@ -3,44 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:47:19 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/07 20:13:04 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:09:19 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-int	check_quote(char *input)
-{
-	int		i;
-	char	type;
-
-	i = 0;
-	type = 0;
-	while (*input != '\0')
-	{
-		if (*input == '\'' || *input == '"')
-			break ;
-		input++;
-	}
-	if (!*input)
-		return (2);
-	type = *input;
-	while (*input != '\0')
-	{
-		if (*input == type)
-			i++;
-		input++;
-	}
-	return (i % 2 == 0);
-}
-
-int	meta_char(char c)
-{
-	return (c == '|' || c == '>' || c == '<');
-}
 
 int	ft_isalpha_mini(char input)
 {
@@ -62,17 +32,6 @@ int	ft_redirect(char *prompt, int i)
 		return (0);
 	return (1);
 }
-
-/*
-Validations to do:
-Two or more redirections, pipes, or special chars, for example:
--> ||
--> >>>
--> <>
--> ><>
--> >>>
-and etc...
-*/
 
 int	handle_pipe(char *prompt)
 {
@@ -135,13 +94,3 @@ bool	validator(char *prompt)
 		return (false);
 	return (true);
 }
-
-// void	handle_error(int nbr)
-// {
-// 	static char	*message[2] = {
-// 		"Please close the quotes.",
-// 		"Syntax error.",
-// 	};
-
-// 	printf("%s\n", message[nbr]);
-// }

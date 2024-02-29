@@ -1,36 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   quote.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 16:33:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/29 15:11:32 by eddos-sa         ###   ########.fr       */
+/*   Created: 2024/02/29 15:10:27 by eddos-sa          #+#    #+#             */
+/*   Updated: 2024/02/29 15:10:33 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "libft.h"
 
-void	hand_cd(t_cmd *cmd)
+int	check_quote(char *input)
 {
-	char	*pwd;
-	char	*path;
 	int		i;
+	char	type;
 
-	pwd = getcwd(NULL, 0);
-	i = 1;
-	if (!cmd->args[i])
-		path = getenv("HOME");
-	else
-		path = cmd->args[i];
-	if (chdir(path) != 0)
-		handle_error(0);
-	else
+	i = 0;
+	type = 0;
+	while (*input != '\0')
 	{
-		if (pwd != NULL)
-			setenv("PWD", pwd, 1);
-		else
-			handle_error(0);
+		if (*input == '\'' || *input == '"')
+			break ;
+		input++;
 	}
+	if (!*input)
+		return (2);
+	type = *input;
+	while (*input != '\0')
+	{
+		if (*input == type)
+			i++;
+		input++;
+	}
+	return (i % 2 == 0);
 }

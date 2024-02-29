@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_identifiers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:46 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/06 15:37:24 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:11:47 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ int	is_operator(char chr1, char chr2)
 	if (!chr1)
 		return (0);
 	if (chr1 == '>' && chr2 == '>')
-		return (DOUBLE_GREAT);
+		return (APPEND);
 	else if (chr1 == '<' && chr2 == '<')
-		return (DOUBLE_LESS);
+		return (HEREDOC);
 	else if (chr1 == '>' && chr2 != '>')
-		return (GREAT);
+		return (OUTPUT);
 	else if (chr1 == '<' && chr2 != '<')
-		return (LESS);
+		return (INPUT);
 	else if (chr1 == '|')
 		return (PIPE);
 	return (0);
@@ -48,7 +48,8 @@ int	is_word(const char *input)
 	i = 0;
 	if (!input)
 		return (0);
-	while (input[i] != '\0' && ft_isalnum(input[i]))
+	while (input[i] != '\0' && (ft_isalnum(input[i]) || input[i] == '-'
+			|| is_quote(input[i])))
 	{
 		while (!my_isspace(input[i]) && input[i] != '\0')
 			i++;
@@ -70,7 +71,7 @@ int	is_flag(const char *input)
 		{
 			while (input[i] != ' ' && input[i] != '\0')
 				i++;
-			return (FLAG);
+			return (WORD);
 		}
 		i++;
 	}

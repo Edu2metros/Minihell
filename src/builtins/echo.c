@@ -3,45 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By:  jaqribei <jaqribei@student.42.fr>         +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 23:57:02 by  jaqribei         #+#    #+#             */
-/*   Updated: 2024/02/11 23:58:20 by  jaqribei        ###   ########.fr       */
+/*   Updated: 2024/02/29 14:57:37 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-
-// mimics the behavior of the echo command in a Unix shell.
-// Need to make the command list and rewiew the implementation of the echo command
-
-void	ft_echo(t_minishell *mini)
+void	ft_echo(t_cmd *cmd)
 {
-	int		n_flag;
-	int		i;
-	char	**args;
+	int	n_flag;
+	int	i;
 
-	args = mini->cmd->args;
+	i = 1;
+	cmd = lst_first(cmd);
 	n_flag = 0;
-	i = 0;
-	if (!args)
+	if (!cmd->args[i])
 		ft_putstr_fd("\n", 1);
-	else
+	while (cmd->args[i] && ft_strncmp(cmd->args[i], "-n", 2) == 0)
 	{
-		while (args[i] && ft_strncmp(args[i], "-n", 2) == 0)
-		{
-			n_flag = 1;
-			i++;
-		}
-		while (args[i] != NULL)
-		{
-			ft_putstr_fd(args[i], 1);
-			if (args[i + 1] != NULL)
-				ft_putstr_fd(" ", 1);
-			i++;
-		}
+		n_flag = 1;
+		i++;
 	}
-	if(n_flag == 0)
+	while (cmd->args[i] != NULL)
+	{
+		ft_putstr_fd(cmd->args[i], 1);
+		if (cmd->args[i + 1] != NULL)
+			ft_putstr_fd(" ", 1);
+		i++;
+	}
+	if (n_flag == 0)
 		ft_putstr_fd("\n", 1);
 }

@@ -49,7 +49,9 @@ SRC = \
 	ft_atol.c\
 	ft_isspace.c\
 	ft_strcmp.c\
-
+	quote.c\
+	ft_ismetachar.c\
+	
 BONUS_SRC = \
 	ft_lstnew_bonus.c\
 	ft_lstadd_front_bonus.c\
