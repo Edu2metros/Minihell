@@ -3,6 +3,8 @@
 		"minishell.h": "c",
 		"type_traits": "c",
 		"fcntl.h": "c",
-		"compare": "c"
+		"compare": "c",
+		"history.h": "c",
+		"libft.h": "c"
 	}
 }
