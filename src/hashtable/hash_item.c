@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:40:40 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/01 16:03:46 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:57:31 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_hash_item	*create_item(char *key, char *value)
 	return (item);
 }
 
-void	hand_hash_collision(t_hash_table **table, char *item, int index)
+void	hand_hash_collision(t_hash_table **table, t_hash_item *item, int index)
 {
 	t_hash_item	*current;
 

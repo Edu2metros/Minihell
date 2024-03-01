@@ -6,7 +6,7 @@
 #    By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/02/29 17:30:47 by jaqribei         ###   ########.fr        #
+#    Updated: 2024/03/01 16:54:48 by jaqribei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,10 @@ src += $(addprefix redirects/, heredoc.c \
  								redirect_out.c \
 								redirect.c)
 								
+src += $(addprefix hashtable/, hashtable.c \
+								hash_clear.c \
+								hash_item.c \
+								hash_print.c)
 
 SRC_OBJ = $(addprefix $(OBJ_DIR)/, $(src:%.c=%.o))
 

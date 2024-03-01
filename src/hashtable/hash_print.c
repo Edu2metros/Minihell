@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 21:02:12 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/29 21:02:38 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:55:38 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	print_table(t_hash_table **table)
 			while (item != NULL)
 			{
 				aux = item->next;
-				if (item->key =! NULL)
+				if (item->key != NULL)
 					printf("Key: %s, Value: %s\n", (*table)->item[i]->key, (*table)->item[i]->value);
 				item = aux;
 				index++;

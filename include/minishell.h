@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/01 14:54:49 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:00:24 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,5 +182,18 @@ t_redirect_in	*lstlast_in(t_redirect_in *lst);
 t_redirect_out	*lstlast_out(t_redirect_out *lst);
 void	handle_redirects(t_minishell *mini);
 
+//hash stuff
+t_hash_item		*create_item(char *key, char *value);
+t_hash_table	*create_hash_table(int size);
+void			free_item(t_hash_item *item);
+void			free_table(t_hash_table **table);
+void			erase_node(t_hash_table **table, t_hash_item *item, char *key);
+void			erase_table(t_hash_table **table, char *key);
+void			hand_hash_collision(t_hash_table **table, t_hash_item *item, int index);
+void			hash_insert(t_hash_table **table, char *key, char *value);
+char			*hash_search(t_hash_table *table, char *key);
+void			print_table(t_hash_table **table);
+unsigned long	hash_function(char *key);
+int				ft_strcmp_len(char *s1, char *s2);
 
 #endif
