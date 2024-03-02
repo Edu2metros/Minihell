@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/01 17:18:45 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/02 19:35:52 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,29 +66,22 @@ int	lstsize_pipe(t_token *token)
 	return (i);
 }
 
-int	expand_variable(t_token *token, char *input, int i)
+int	expand_variable(t_token *token, int i)
 {
-	int		start;
 	char	*substr;
+	int		start;
 
 	start = i;
-	while (!is_quote(input[i]) && !my_isspace(input[i]) && !meta_char(input[i])
-		&& input[i] != '$')
+	while (ft_isalnum(token->content[i]) || token->content[i] == '_')
 		i++;
-	substr = ft_substr(input, start, i - start);
-	printf("%s\n", substr);
+	substr = ft_substr(token->content, start, i - start);
 	if (getenv(substr) != NULL)
-	{
-		
-	}
-	printf("%s\n", token->content);
-	free(substr);
+		token->aux = ft_strjoin(token->aux, getenv(substr));
 	return (i);
 }
 
 void	handle_quote(t_token *token)
 {
-	char	*substr;
 	int		i;
 	int		start;
 	char	type;
@@ -97,25 +90,25 @@ void	handle_quote(t_token *token)
 	type = token->content[0];
 	if (token->type == QUOTE)
 	{
-		substr = ft_strdup(token->content);
-		free(token->content);
-		while (substr[i] == type)
+		token->aux = ft_strdup("");
+		while (token->content[i] == type)
 			i++;
 		start = i;
-		while (substr[i])
+		while (token->content[i])
 		{
-			if (substr[i] == type)
+			if (token->content[i] == type)
 				i++;
-			else if (substr[i] == '$' && type == '"')
-			{
-				i = expand_variable(token, substr, i + 1);
-			}
+			else if (token->content[i] == '$' && type == '"')
+				i = expand_variable(token, i + 1);
 			else
 			{
-				// token->content = strcat(token->content, substr);
+				token->aux = ft_strjoin_char(token->aux, token->content[i]);
 				i++;
 			}
 		}
+		free(token->content);
+		token->content = ft_strdup(token->aux);
+		free(token->aux);
 	}
 }
 

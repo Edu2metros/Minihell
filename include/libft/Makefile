@@ -51,6 +51,7 @@ SRC = \
 	ft_strcmp.c\
 	quote.c\
 	ft_ismetachar.c\
+	ft_strjoin_char.c\
 	
 BONUS_SRC = \
 	ft_lstnew_bonus.c\
