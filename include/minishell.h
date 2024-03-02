@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By:  jaqribei <jaqribei@student.42.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/01 17:00:24 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/02 16:15:59 by  jaqribei        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # define PROMPT "\e[1;34m😤 Minishell\e[0m\e[1;33m -> \e[0m"
+# define TABLE_SIZE 500
 
 // TOKEN
 enum						e_token
@@ -43,7 +44,6 @@ enum						e_token
 	EXIT
 };
 
-# define TABLE_SIZE 500
 
 # include "./libft/libft.h"
 # include <fcntl.h>
