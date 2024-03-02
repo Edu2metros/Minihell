@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/29 18:30:13 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:18:45 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,70 @@ int	lstsize_pipe(t_token *token)
 	return (i);
 }
 
+int	expand_variable(t_token *token, char *input, int i)
+{
+	int		start;
+	char	*substr;
+
+	start = i;
+	while (!is_quote(input[i]) && !my_isspace(input[i]) && !meta_char(input[i])
+		&& input[i] != '$')
+		i++;
+	substr = ft_substr(input, start, i - start);
+	printf("%s\n", substr);
+	if (getenv(substr) != NULL)
+	{
+		
+	}
+	printf("%s\n", token->content);
+	free(substr);
+	return (i);
+}
+
+void	handle_quote(t_token *token)
+{
+	char	*substr;
+	int		i;
+	int		start;
+	char	type;
+
+	i = 0;
+	type = token->content[0];
+	if (token->type == QUOTE)
+	{
+		substr = ft_strdup(token->content);
+		free(token->content);
+		while (substr[i] == type)
+			i++;
+		start = i;
+		while (substr[i])
+		{
+			if (substr[i] == type)
+				i++;
+			else if (substr[i] == '$' && type == '"')
+			{
+				i = expand_variable(token, substr, i + 1);
+			}
+			else
+			{
+				// token->content = strcat(token->content, substr);
+				i++;
+			}
+		}
+	}
+}
+
 void	populate_cmd_args(t_token **token, t_cmd *cmd)
 {
 	cmd->args = ft_calloc(lstsize_pipe(*token) + 1, sizeof(char *));
 	if (!cmd->args)
 		return ;
-	cmd->args[cmd->count] = ft_strdup((*token)->content);
-	cmd->count++;
-	*token = (*token)->next;
 	while (*token && (*token)->type != PIPE)
 	{
-		if ((*token)->type == WORD || (*token)->type == DOLLAR)
+		if ((*token)->type == WORD || (*token)->type == DOLLAR
+			|| (*token)->type == QUOTE)
 		{
+			handle_quote(*token);
 			cmd->args[cmd->count] = ft_strdup((*token)->content);
 			cmd->count++;
 		}

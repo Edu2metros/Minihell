@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:02:27 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/29 18:27:59 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/01 13:25:49 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ void	create_cmd_list(t_minishell *mini)
 	count = 0;
 	while (token)
 	{
-		if ((token->type == WORD || token->type == DOLLAR) && !count)
+		if ((token->type == WORD || token->type == DOLLAR
+				|| token->type == QUOTE) && !count)
 		{
 			count = 1;
 			mini->cmd = add_new_node(mini->cmd, (mini->token)->content,
-					(mini->token)->type);
+				(mini->token)->type);
 			populate_cmd_args(&token, mini->cmd);
 		}
 		else
@@ -35,6 +36,7 @@ void	create_cmd_list(t_minishell *mini)
 		}
 	}
 	free_tokens(&token);
+	print_cmd_args(mini->cmd);
 }
 
 t_cmd	*lst_first(t_cmd *cmd)

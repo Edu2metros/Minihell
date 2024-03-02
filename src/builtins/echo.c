@@ -6,13 +6,13 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 23:57:02 by  jaqribei         #+#    #+#             */
-/*   Updated: 2024/02/29 19:58:34 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:22:18 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	handle_dollar(t_cmd *cmd)
+/* void	handle_dollar(t_cmd *cmd)
 {
 	int		i;
 	char	*val;
@@ -20,13 +20,17 @@ void	handle_dollar(t_cmd *cmd)
 
 	i = 0;
 	j = 0;
+	if(cmd->args[i][j] == '"')
+	{
+		while(cmd->args[i][j] != '$' && cmd->args[i][j] != '\0')
+			j++;
+		if(cmd->args[i][j] == '\0')
+			return ;
+	}
+	else if(cmd->args[i][j] == '\'')
+		return ;
 	while (cmd->args[i])
 	{
-		if(cmd->args[i][0] == '"')
-		{
-			while()
-		}
-	
 		if (cmd->args[i][0] == '$')
 		{
 			val = ft_strdup(cmd->args[i]);
@@ -38,7 +42,17 @@ void	handle_dollar(t_cmd *cmd)
 		}
 		i++;
 	}
-}
+} */
+
+/* void handle_quotes(t_cmd *cmd)
+{
+	int i;
+	i = 0;
+	while(cmd->args[i] != NULL)
+	{
+
+	}
+} */
 
 void	ft_echo(t_cmd *cmd)
 {
@@ -51,7 +65,6 @@ void	ft_echo(t_cmd *cmd)
 	n_flag = 0;
 	if (!cmd->args[i])
 		ft_putstr_fd("\n", 1);
-	handle_dollar(cmd);
 	while (cmd->args[i] && ft_strncmp(cmd->args[i], "-n", 2) == 0)
 	{
 		n_flag = 1;
