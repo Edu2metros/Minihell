@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:02:27 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/01 13:25:49 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:40:12 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	create_cmd_list(t_minishell *mini)
 			count = 1;
 			mini->cmd = add_new_node(mini->cmd, (mini->token)->content,
 				(mini->token)->type);
-			populate_cmd_args(&token, mini->cmd);
+			populate_cmd_args(token, mini->cmd);
 		}
 		else
 		{

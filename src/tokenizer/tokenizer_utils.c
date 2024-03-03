@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:42:42 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/02 19:04:50 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/03 17:25:57 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int	process_token_dollar(char *input, t_minishell *mini, int i, int start)
 	substr = ft_substr(input, start, i - start);
 	tmp = getenv(substr);
 	if (tmp != NULL)
-		add_token(tmp, DOLLAR, mini);
+		add_token(tmp, DOLLAR, 0, mini);
 	free(substr);
 	return(i);
 }
 
-void	add_token(char *str, int type, t_minishell *mini)
+void		add_token(char *str, int type, int space, t_minishell *mini)
 {
 	t_token	*new_token;
 	t_token	*last_token;
@@ -44,6 +44,7 @@ void	add_token(char *str, int type, t_minishell *mini)
 	new_token->type = type;
 	new_token->next = NULL;
 	new_token->previous = NULL;
+	new_token->space = space;
 	if (mini->token)
 	{
 		last_token = mini->token;
@@ -78,9 +79,7 @@ void	lstclear_token(t_token *lst)
 	t_token	*next;
 
 	if (lst == NULL)
-	{
 		return ;
-	}
 	current = lst;
 	while (current->previous != NULL)
 		current = current->previous;

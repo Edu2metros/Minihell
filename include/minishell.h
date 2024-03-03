@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/02 17:38:41 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/03 17:04:05 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ enum						e_token
 typedef struct s_token
 {
 	int						type;
+	int						space;
 	char					*content;
 	char					*aux;
 	struct s_token			*next;
@@ -116,7 +117,7 @@ int							process_token_builtin(char *input,
 int							process_token_operator(char *input,
 								t_minishell *mini, int i, int start);
 void						tokenizer(char *input, t_minishell *mini);
-void						add_token(char *str, int type, t_minishell *mini);
+void						add_token(char *str, int type, int space, t_minishell *mini);
 
 // Redirect functions
 t_redirect_in				*new_redirect_in(char *content, int type);
@@ -149,7 +150,7 @@ t_cmd						*add_new_node(t_cmd *cmd, char *content, int type);
 int							lstsize_pipe(t_token *token);
 int							is_redirect(t_minishell *mini);
 void						create_cmd_list(t_minishell *mini);
-void						populate_cmd_args(t_token **token, t_cmd *cmd);
+void						populate_cmd_args(t_token *token, t_cmd *cmd);
 
 // Builtins functions
 void						ft_pwd(void);

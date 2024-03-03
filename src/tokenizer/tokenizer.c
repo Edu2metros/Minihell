@@ -6,32 +6,27 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:29 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/02 18:53:16 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/03 17:10:43 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-/*
-Se a quantidade total de aspas for par levando o tipo de aspa da primeira passa
-Ignora o mesmo tipo de aspa até achar algo que é != aspa
-Dois levares, se for duplas vai pra um canto, se for simples vai pra outro canto
-expande a variável assim que achar e se a primeira aspa encontrada for duplas
-*/
-
 int	process_token_quote(char *input, t_minishell *mini, int i, int start)
 {
 	int		type;
 	char	*substr;
-
-	type = is_quote(input[i]);
+	type = input[i];
 	i++;
 	while (input[i] != '\0' && input[i] != type)
 		i++;
 	substr = ft_substr(input, start, i - start + 1);
-	add_token(substr, QUOTE, mini);
+	if(my_isspace(input[i + 1]))
+		add_token(substr, QUOTE, 1, mini);
+	else
+		add_token(substr, QUOTE, 0, mini);
 	free(substr);
-	return (i);
+	return (i + 1);
 }
 
 void	tokenizer(char *input, t_minishell *mini)
