@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   test_built.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By:  jaqribei <jaqribei@student.42.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:48:30 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/29 16:41:08 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/03 01:05:37 by  jaqribei        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	test_built(t_token *token, t_minishell *mini)
+void	test_built(t_token *token, t_minishell * mini, t_hash_table **table)
 {
 	int i;
 	int j;
@@ -39,11 +39,11 @@ void	test_built(t_token *token, t_minishell *mini)
 			// 	printf("\n=========================    CD    =========================\n\n");
 			// 	hand_cd(mini->cmd);
 			// }
-			// if (is_builtin(mini->cmd->name) == ENV)
-			// {
-			// 	printf("\n=========================    ENV    =========================\n\n");
-			// 	env(mini->cmd);
-			// }
+			if (is_builtin(mini->cmd->name) == ENV)
+			{
+				printf("\n=========================    ENV    =========================\n\n");
+				env(mini->cmd, table);
+			}
 		}
 		if (token->type == HEREDOC)
 		{

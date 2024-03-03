@@ -6,7 +6,7 @@
 /*   By:  jaqribei <jaqribei@student.42.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:07:53 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/02 17:07:12 by  jaqribei        ###   ########.fr       */
+/*   Updated: 2024/03/03 00:43:53 by  jaqribei        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ t_hash_table	*hash_population(t_minishell *mini, t_hash_table **table)
 	(*table) = create_hash_table(TABLE_SIZE);
 	while(__environ[len])
 		len++;
+	str = malloc(sizeof(char *) * (len + 1));
 	while(__environ[i])
 	{
 		str = ft_split(__environ[i], '=');

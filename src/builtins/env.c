@@ -3,31 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By:  jaqribei <jaqribei@student.42.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:31:41 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/02/29 16:35:39 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/03 01:16:07 by  jaqribei        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	env(t_cmd *cmd)
+void	env(t_cmd *cmd, t_hash_table **table)
 {
-	int	i;
-
-	get_control()->env = __environ;
-	if (!cmd->args[i])
+	if (cmd->args[1] != NULL) // env does not have any arguments
 	{
-		i = 0;
-		while (get_control()->env[i])
-		{
-			if(strchr(get_control()->env[i], '='))
-				printf("%s\n", get_control()->env[i]);
-		}
-		i++;
+		// get_control()->code_erro;
+		printf("env: '%s': No such file or directory\n", cmd->args[1]);
+		return ;
 	}
 	else
-		printf("env: '%s': No such file or directory\n", cmd->args[1]);
-	
+		print_table(table);	
 }

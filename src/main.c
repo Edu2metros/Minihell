@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By:  jaqribei <jaqribei@student.42.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/29 17:50:40 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/03 01:06:49 by  jaqribei        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ int	main(void)
 			tokenizer(input, mini);
 			handle_redirects(mini);
 			create_cmd_list(mini);
-			test_built(mini->token, mini);
+			test_built(mini->token, mini, mini->table);
 		}
 	}
 	clear_history();

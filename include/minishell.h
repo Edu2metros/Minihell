@@ -6,7 +6,7 @@
 /*   By:  jaqribei <jaqribei@student.42.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/02 16:15:59 by  jaqribei        ###   ########.fr       */
+/*   Updated: 2024/03/03 01:05:58 by  jaqribei        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ typedef struct s_minishell
 	t_token					*token;
 	t_redirect_in			*redirect_list_in;
 	t_redirect_out			*redirect_list_out;
+	t_hash_table			**table;
 }							t_minishell;
 
 t_minishell					*get_control(void);
@@ -151,7 +152,7 @@ int							is_redirect(t_minishell *mini);
 // int						redirect_or_pipe(t_minishell *mini);
 void						ft_echo(t_minishell *mini, t_cmd *cmd);
 void						ft_pwd(t_minishell *mini);
-void						test_built(t_token *token, t_minishell *mini);
+void						test_built(t_token *token, t_minishell *mini, t_hash_table **table);
 void						create_cmd_list(t_minishell *mini);
 void						add_cmd(t_minishell *mini, t_token **token,
 								t_cmd **cmd, int *count);
@@ -166,7 +167,6 @@ t_cmd						*lst_first(t_cmd *cmd);
 void						lstclear_token(t_token **lst);
 int							lstsize(t_token *lst);
 void						hand_cd(t_cmd *cmd);
-void	env(t_cmd *cmd);
 int	check_files(char *file_name);
 void	handle_out_files(t_redirect_out *redirect);
 void	handle_in_files(t_redirect_in *redirect);
@@ -181,6 +181,8 @@ void	redirect_out_list(t_token **token, t_redirect_out *redirect);
 t_redirect_in	*lstlast_in(t_redirect_in *lst);
 t_redirect_out	*lstlast_out(t_redirect_out *lst);
 void	handle_redirects(t_minishell *mini);
+void	env(t_cmd *cmd, t_hash_table **table);
+
 
 //hash stuff
 t_hash_item		*create_item(char *key, char *value);
