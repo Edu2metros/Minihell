@@ -6,7 +6,7 @@
 #    By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/03/01 15:56:17 by eddos-sa         ###   ########.fr        #
+#    Updated: 2024/03/03 17:32:46 by eddos-sa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,11 @@ src += $(addprefix cmd/, cmd.c \
 						 cmd2.c)
 
 src += $(addprefix print/, print.c)
+
+src += $(addprefix hashtable/, hash_clear.c \
+								hash_item.c \
+								hash_print.c \
+								hashtable.c)
 
 SRC_OBJ = $(addprefix $(OBJ_DIR)/, $(src:%.c=%.o))
 
