@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/03 17:27:06 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:36:28 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,12 @@ typedef struct s_cmd
 {
 	int						type;
 	int						count;
-
+	int						fd;
 	char					*name;
 	char					**args;
 	struct s_cmd			*previous;
 	struct s_cmd			*next;
 }							t_cmd;
-
 
 typedef struct s_hash_item
 {
@@ -134,7 +133,8 @@ int							process_token_builtin(char *input,
 int							process_token_operator(char *input,
 								t_minishell *mini, int i, int start);
 void						tokenizer(char *input, t_minishell *mini);
-void						add_token(char *str, int type, int space, t_minishell *mini);
+void						add_token(char *str, int type, int space,
+								t_minishell *mini);
 
 // Redirect functions
 t_redirect_in				*new_redirect_in(char *content, int type);
@@ -145,7 +145,7 @@ t_redirect_out				*add_redirect_out(t_redirect_out *redirect,
 t_redirect_out				*lstlast(t_redirect_out *lst);
 t_redirect_out				*new_redirect_out(char *content, int type);
 int							check_files(char *file_name);
-void						hand_heredoc(t_minishell *mini);
+void						hand_heredoc(t_cmd *cmd);
 void						handle_redirects(t_minishell *mini);
 void						handle_in_files(t_redirect_out *redirect);
 void						handle_out_files(t_redirect_out *redirect);
@@ -167,7 +167,7 @@ t_cmd						*add_new_node(t_cmd *cmd, char *content, int type);
 int							lstsize_pipe(t_token *token);
 int							is_redirect(t_minishell *mini);
 void						create_cmd_list(t_minishell *mini);
-void						populate_cmd_args(t_token *token, t_cmd *cmd);
+t_token						*populate_cmd_args(t_token *token, t_cmd *cmd);
 
 // Builtins functions
 void						ft_pwd(void);
@@ -198,22 +198,24 @@ int							handle_red(char *prompt, char c);
 int							is_operator(char chr1, char chr2);
 bool						validator(char *prompt);
 
-//hash_table functions
+// hash_table functions
 
-t_hash_item		*create_item(char *key, char *value);
-t_hash_table	*create_hash_table(int size);
-t_hash_table	*hash_population(t_minishell *mini, t_hash_table **table);
-unsigned long	hash_function(char *key);
-void			free_item(t_hash_item *item);
-void			free_table(t_hash_table **table);
-void			erase_node(t_hash_table **table, t_hash_item *item, char *key);
-void			erase_table(t_hash_table **table, char *key);
-void			hand_hash_collision(t_hash_table **table, t_hash_item *item, int index);
-void			hash_insert(t_hash_table **table, char *key, char *value);
-char			*hash_search(t_hash_table *table, char *key);
-void			print_table(t_hash_table **table);
-int				ft_strcmp_len(char *s1, char *s2);
-
-
+t_hash_item					*create_item(char *key, char *value);
+t_hash_table				*create_hash_table(int size);
+t_hash_table				*hash_population(t_minishell *mini,
+								t_hash_table **table);
+unsigned long				hash_function(char *key);
+void						free_item(t_hash_item *item);
+void						free_table(t_hash_table **table);
+void						erase_node(t_hash_table **table, t_hash_item *item,
+								char *key);
+void						erase_table(t_hash_table **table, char *key);
+void						hand_hash_collision(t_hash_table **table,
+								t_hash_item *item, int index);
+void						hash_insert(t_hash_table **table, char *key,
+								char *value);
+char						*hash_search(t_hash_table *table, char *key);
+void						print_table(t_hash_table **table);
+int							ft_strcmp_len(char *s1, char *s2);
 
 #endif

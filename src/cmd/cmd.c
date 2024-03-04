@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/03 16:52:45 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:55:06 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,13 +122,13 @@ void	next_quote(t_token *token)
 	if (current->type == QUOTE)
 	{
 		handle_quote(current);
-		if(current->space)
+		if (current->space)
 			current->content = ft_strjoin(current->content, " ");
 		while (next != NULL && next->type == QUOTE)
 		{
 			handle_quote(next);
 			current->content = ft_strjoin(current->content, next->content);
-			if(next->space)
+			if (next->space)
 				current->content = ft_strjoin(current->content, " ");
 			current->next = next->next;
 			free(next->content);
@@ -138,22 +138,40 @@ void	next_quote(t_token *token)
 	}
 }
 
-void	populate_cmd_args(t_token *token, t_cmd *cmd)
+t_token	*populate_cmd_args(t_token *token, t_cmd *cmd)
 {
 	cmd->args = ft_calloc(lstsize_pipe(token) + 1, sizeof(char *));
 	if (!cmd->args)
-		return ;
+	{
+		printf("Allocation Error\n");
+		exit(EXIT_FAILURE);
+	}
 	while (token && token->type != PIPE)
 	{
-		if (token->type == WORD || token->type == DOLLAR
-			|| token->type == QUOTE)
-		{
-			next_quote(token);
-			cmd->args[cmd->count] = ft_strdup(token->content);
-			cmd->count++;
-		}
+		next_quote(token);
+		cmd->args[cmd->count] = ft_strdup(token->content);
+		cmd->count++;
 		token = token->next;
 	}
 	cmd->args[cmd->count] = NULL;
 	cmd->count = 0;
+	return (token);
+}
+
+void	create_cmd_list(t_minishell *mini)
+{
+	t_token *token;
+	int count;
+	token = mini->token;
+	count = 0;
+	while (token)
+	{
+		mini->cmd = add_new_node(mini->cmd, (mini->token)->content,
+			(mini->token)->type);
+		token = populate_cmd_args(token, mini->cmd);
+		if(token != NULL)
+			token = token->next;
+	}
+	free_tokens(&token);
+	print_cmd_args(mini->cmd);
 }

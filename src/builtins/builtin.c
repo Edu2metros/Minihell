@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:58:01 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/03 18:22:07 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:49:19 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ void execution(t_cmd *cmd)
 	{
 		tmp = ft_strjoin(path[i], "/");
 		tmp = ft_strjoin(tmp, cmd->name);
+		if(cmd->fd)
+		{
+			dup2(cmd->fd, 0);
+			close(cmd->fd);
+		}
 		if (access(tmp, F_OK) == 0)
 		{
 			execve(tmp, cmd->args, NULL);
@@ -36,7 +41,6 @@ void execution(t_cmd *cmd)
 	}
 	if (pid)
 		waitpid(pid, NULL, 0);
-	return(EXIT_SUCCESS);
 }
 
 void	test_built(t_token *token, t_minishell *mini)
@@ -44,13 +48,20 @@ void	test_built(t_token *token, t_minishell *mini)
 	int	i;
 	int	j;
 	t_hash_table		*table;
-
+	t_cmd *aux;
+	aux = mini->cmd;
 	i = 0;
 	j = 0;
 	table = hash_population(mini, &table);
 	
 	while (mini->cmd != NULL)
 	{
+		while(aux->next)
+		{
+			if(aux->type == HEREDOC)
+				hand_heredoc(aux);
+			aux = aux->next;
+		}
 		if (mini->cmd->type == WORD)
 		{
 			if (is_builtin(mini->cmd->name) == PWD)
@@ -64,8 +75,6 @@ void	test_built(t_token *token, t_minishell *mini)
 			else
 				execution(mini->cmd);
 		}
-		if (token->type == HEREDOC)
-			hand_heredoc(mini);
 		mini->cmd = mini->cmd->next;
 	}
 }

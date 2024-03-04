@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:12:49 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/03 17:40:31 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:49:54 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,21 @@ void	print_tokens(t_minishell *mini)
 
 void	print_cmd_args(t_cmd *cmd)
 {
-	int	i;
-
-	if (cmd->args == NULL)
-	{
-		printf("No arguments.\n");
-		return ;
-	}
-	while (cmd)
+	int i;
+	int j;
+	t_cmd *aux;
+	j = 0;
+	aux = lst_first(cmd);
+	while(aux)
 	{
 		i = 0;
-		while (cmd->args[i] != NULL)
+		while(aux->args[i])
 		{
-			printf("Argument %d: %s\n", i, cmd->args[i]);
+			printf("Node: %d, Arg: %d String: %s \n", j, i, aux->args[i]);
 			i++;
 		}
-		cmd = cmd->next;
+		j++;
+		aux = aux->next;
 	}
 }
 

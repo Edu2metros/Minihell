@@ -6,39 +6,11 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:02:27 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/03 18:12:56 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:40:22 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	create_cmd_list(t_minishell *mini)
-{
-	t_token	*token;
-	int		count;
-
-	token = mini->token;
-	count = 0;
-	while (token)
-	{
-		if ((token->type == WORD || token->type == DOLLAR
-				|| token->type == QUOTE) && !count)
-		{
-			count = 1;
-			mini->cmd = add_new_node(mini->cmd, (mini->token)->content,
-				(mini->token)->type);
-			populate_cmd_args(token, mini->cmd);
-			token = token->next;
-		}
-		else
-		{
-			count = 0;
-			token = token->next;
-		}
-	}
-	free_tokens(&token);
-	print_cmd_args(mini->cmd);
-}
 
 t_cmd	*lst_first(t_cmd *cmd)
 {
