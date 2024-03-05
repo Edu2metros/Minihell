@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/05 18:29:53 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/05 20:17:20 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ t_redirect_out				*add_redirect_out(t_redirect_out *redirect,
 t_redirect_out				*lstlast_out(t_redirect_out *lst);
 t_redirect_out				*new_redirect_out(char *content, int type);
 int							check_files(char *file_name);
-void						hand_heredoc(t_cmd *cmd);
+void						hand_heredoc(t_minishell *mini);
 void						handle_redirects(t_minishell *mini);
 void						handle_in_files(t_redirect_in *redirect);
 void						handle_out_files(t_redirect_out *redirect);

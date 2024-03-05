@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:29:10 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/05 18:41:56 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/05 20:04:58 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,12 @@ int	check_files(char *file_name)
 void	handle_out_files(t_redirect_out *redirect)
 {
 	char	*file;
-	char	buffer[1024];
-	ssize_t	bytes_read;
 	
 	file = redirect->content;
 	if (redirect->type == OUTPUT)
 	{
 		redirect->fd_out = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		printf("fd_out: %d\n", redirect->fd_out);
-		bytes_read = read(redirect->fd_out, buffer, 1024);
-		printf("buffer: %s\n", buffer);
 		if (redirect->fd_out == -1)
 			return ;
 	}
@@ -46,9 +42,6 @@ void	handle_out_files(t_redirect_out *redirect)
 	{
 		redirect->fd_out = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		printf("fd_out: %d\n", redirect->fd_out);
-		bytes_read = read(redirect->fd_out, buffer, 1024);
-		printf("buffer: %s\n", buffer);
-		printf("buffer: %s\n", buffer);
 		if (redirect->fd_out == -1)
 			return ;
 	}
@@ -62,5 +55,6 @@ void	handle_in_files(t_redirect_in *redirect)
 	{
 		file = redirect->content;
 		redirect->fd_in = open(file, O_RDONLY);
+		printf("fd_in: %d\n", redirect->fd_in);
 	}
 }

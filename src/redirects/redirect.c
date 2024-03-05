@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/05 18:27:40 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/05 20:19:14 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,17 @@ void	handle_redirects(t_minishell *mini)
 		aux = token->next;
 		if (token->type == OUTPUT || token->type == INPUT || token->type == APPEND || token->type == HEREDOC && (aux != NULL))
 		{
-			// if (token->type == HEREDOC)
-			// 	deal with it
+			if (token->type == HEREDOC)
+			{
+				redirect_in_list(&token, &mini->redirect_list_in);
+				hand_heredoc(mini);
+			}
 			if (token->type == INPUT)
 				redirect_in_list(&token, &mini->redirect_list_in);
 			else if (token->type == OUTPUT || token->type == APPEND)
 				redirect_out_list(&token, &mini->redirect_list_out);
 			// aux = token->next->next;
 			//maybe remove token and token next
-			
 		}
 		token = aux;
 	}

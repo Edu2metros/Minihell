@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:35:41 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/05 18:42:25 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/05 19:55:01 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	redirect_out_list(t_token **token, t_redirect_out **redirect)
 {
 	t_redirect_out	*new_red;
 
-	if ((*token)->type == OUTPUT)
+	if ((*token)->type == OUTPUT || (*token)->type == APPEND)
 	{
 		if (check_files((*token)->next->content) == EXIST)
 		{
@@ -40,12 +40,12 @@ void	redirect_out_list(t_token **token, t_redirect_out **redirect)
 					(*token)->next->content);
 				return ;
 			}
-		if (check_files((*token)->next->content) == EXECUTABLE)
-		{
-			printf("minishell: %s: Is a directory\n",
-				(*token)->next->content);
-			return ;
-		}
+			if (check_files((*token)->next->content) == EXECUTABLE)
+			{
+				printf("minishell: %s: Is a directory\n",
+					(*token)->next->content);
+				return ;
+			}
 		}
 	}
 	if ((*token)->next)

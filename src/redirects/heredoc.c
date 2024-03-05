@@ -3,37 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/04 13:59:33 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/05 20:16:57 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-/* 
-Etapas:
-Lidar com Ctrl + C;
-Pegar o que foi enviado e mandar pra args (?)
-*/
 
-void hand_heredoc(t_cmd *cmd)
+void	hand_heredoc(t_minishell *mini)
 {
-	t_cmd *aux;
-	char *input;
-	int i;
-	i = 0;
-	while(!ft_strcmp(cmd->args[i], "<<"))
-		i++;
-	printf("%s\n", cmd->args[i + 1]);
-	cmd->fd = open("/tmp/.Heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	while(1)
+	t_token	*token;
+	char	*delimiter;
+	char	*input;
+	int		fd;
+	
+	token = mini->token;
+	while (token)
 	{
-		input = readline(HEREDOC_PROMPT);
-		if(!input || !ft_strcmp(input, cmd->args[i + 1]))
-			break;
-		ft_putendl_fd(input, cmd->fd);
-		free(input);
+		if (token->type == HEREDOC && token->next->type == WORD)
+		{
+			delimiter = token->next->content;
+			mini->redirect_list_in->fd_in = open("Heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			while (1)
+			{
+				input = readline(">> ");
+				if (!input || (ft_strcmp(input, delimiter) == 0))
+				{
+					free(input);
+					close(mini->redirect_list_in->fd_in);
+					unlink("Heredoc");
+					break;
+				}
+				ft_putendl_fd(input, mini->redirect_list_in->fd_in);
+				free(input);
+			}
+		}
+		token = token->next;
 	}
-	free(input);
 }

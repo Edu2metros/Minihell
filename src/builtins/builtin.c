@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:58:01 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/05 14:37:19 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/05 20:17:55 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ void	test_built(t_token *token, t_minishell *mini)
 	
 	while (mini->cmd != NULL)
 	{
-		while(aux->next)
-		{
-			if(aux->type == HEREDOC)
-				hand_heredoc(aux);
-			aux = aux->next;
-		}
+		// while(aux->next)
+		// {
+		// 	if(aux->type == HEREDOC)
+		// 		hand_heredoc(aux);
+		// 	aux = aux->next;
+		// }
 		if (mini->cmd->type == WORD)
 		{
 			if (is_builtin(mini->cmd->name) == PWD)
