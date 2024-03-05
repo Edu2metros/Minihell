@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:58:01 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/04 12:49:19 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/05 14:37:19 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void execution(t_cmd *cmd)
 	if (pid)
 		waitpid(pid, NULL, 0);
 }
-
 void	test_built(t_token *token, t_minishell *mini)
 {
 	int	i;
@@ -72,6 +71,8 @@ void	test_built(t_token *token, t_minishell *mini)
 				hand_cd(mini->cmd);
 			if (is_builtin(mini->cmd->name) == ENV)
 				env(mini->cmd, &table);
+			// if (is_builtin(mini->cmd->name) == EXPORT)
+			// 	print_export(&table);
 			else
 				execution(mini->cmd);
 		}
