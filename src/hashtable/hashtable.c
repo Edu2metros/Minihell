@@ -6,7 +6,7 @@
 /*   By:  jaqribei <jaqribei@student.42.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:07:53 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/03 03:19:42 by  jaqribei        ###   ########.fr       */
+/*   Updated: 2024/03/03 20:56:24 by  jaqribei        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,49 @@ t_hash_table	*create_hash_table(int size)
 	}
 	return (table);
 }
+int	count_equals_chr(char *str, char c)
+{
+	int	i;
+	int	equals;
+
+	i = 0;
+	equals = 0;
+	if (str == NULL || *str == '\0')
+		return (equals);
+	while (str[i])
+	{
+		if(str[i] == c)
+			equals++;
+		i++;
+	}
+	return (equals);
+}
+
+void	hash_insert_equals(char **str)
+{
+	int		i;
+	char	*aux;
+
+	i = 1;
+	while (str[i])
+	{
+		if (str[i + 1] != NULL)
+		{
+			aux = ft_strdup(str[i]);
+			free(str[i]);
+			str[i] = ft_strjoin(aux, "=");
+			free(aux);
+		}
+		if (i > 1)
+		{
+			aux = ft_strdup(str[1]);
+			free(str[1]);
+			str[1] = ft_strjoin(aux, str[i]);
+			free(aux);
+		}
+		i++;
+	}
+}
 
 t_hash_table	*hash_population(t_minishell *mini, t_hash_table **table)
 {
@@ -79,8 +122,8 @@ t_hash_table	*hash_population(t_minishell *mini, t_hash_table **table)
 	while(__environ[i])
 	{
 		str = ft_split(__environ[i], '=');
-		// if(count_split_chr(__environ[i], '=') > 1)
-		// 	preper_to_insert(str);
+		if (count_equals_chr(__environ[i], '=') > 1)
+			hash_insert_equals(str);
 		if(str[0] != NULL && str[1] != NULL)
 			hash_insert(table, str[0], str[1]);
 		else if (str[0] != NULL)
@@ -88,7 +131,5 @@ t_hash_table	*hash_population(t_minishell *mini, t_hash_table **table)
 		i++;
 		free_split(str);
 	}
-	printf("len: %d\n", len);
-	printf("i: %d\n", i);
 	return (*table);
 }
