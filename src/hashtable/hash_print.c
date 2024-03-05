@@ -33,7 +33,7 @@ void	print_table(t_hash_table **table)
 			{
 				aux = current->next;
 				if (current->key != NULL && current->value != NULL)
-					printf("Key: %s, Value: %s\n", current->key, current->value);
+					printf("%s=%s\n", current->key, current->value);
 				current = aux;
 				index++;
 			}
