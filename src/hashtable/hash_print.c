@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hash_print.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By:  jaqribei <jaqribei@student.42.fr>         +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 21:02:12 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/03 02:55:43 by  jaqribei        ###   ########.fr       */
+/*   Updated: 2024/03/06 13:31:46 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	print_table(t_hash_table **table)
 				aux = current->next;
 				if (current->key != NULL && current->value != NULL)
 					printf("%s=%s\n", current->key, current->value);
+				if(ft_strncmp(current->key, "a", 1) == 0)
+					printf("KEY: A posição: %i\n", index);
 				current = aux;
 				index++;
 			}

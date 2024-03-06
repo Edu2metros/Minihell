@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/04 13:36:28 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/06 12:57:52 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,13 @@ enum						e_token
 	ENV,
 	EXIT
 };
+
+typedef struct s_export
+{
+	char			*key;
+	char			*value;
+	struct s_export	*next;
+}					t_export;
 
 typedef struct s_token
 {
