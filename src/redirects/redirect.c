@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/06 16:33:25 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/06 20:13:57 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ t_redirect_in	*lstlast_in(t_redirect_in *lst)
 		lst = lst->next;
 	return (lst);
 }
+
+t_token	*first(t_token **lst)
+{
+	while (lst != NULL && (*lst)->previous != NULL)
+		lst = &(*lst)->previous;
+	return (*lst);
+}
+
 
 void	clear_token_node(t_token **token_list, t_token *target_tkn)
 {
@@ -72,9 +80,8 @@ void	handle_redirects(t_minishell *mini)
 				redirect_in_list(&token, &mini->redirect_list_in);
 			else if (token->type == OUTPUT || token->type == APPEND)
 				redirect_out_list(&token, &mini->redirect_list_out);
-			aux = token->next->next;
 			clear_token_node(&mini->token, token->next);
-			clear_token_node(&mini->token, token);
+			clear_token_node(&mini->token, token->next); //don't delete this, too much important, don't work without this line
 			print_tokens(mini);
 		}
 		token = aux;

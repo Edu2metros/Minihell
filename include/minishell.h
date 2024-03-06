@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/06 17:03:58 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/06 20:15:42 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ typedef struct s_hash_table
 	int						count;
 }							t_hash_table;
 
+// t_minishell					*get_control(void);
+
 typedef struct s_minishell
 {
 	char					**path;
@@ -125,6 +127,13 @@ typedef struct s_minishell
 }							t_minishell;
 
 t_minishell					*get_control(void);
+
+int	file_exist(char *file_name);
+int	file_is_readable(char *file_name);
+int	file_is_writable(char *file_name);
+int	file_is_executable(char *file_name);
+t_token	*first(t_token **lst);
+
 // Token functions
 int							process_token_arg(char *input, t_minishell *mini,
 								int i);
@@ -161,12 +170,6 @@ void						redirect_in_list(t_token **token,
 								t_redirect_in **redirect);
 void						redirect_out_list(t_token **token,
 								t_redirect_out **redirect);
-void						handle_redirects(t_minishell *mini);
-int							file_exist(char *file_name);
-int							file_is_readable(char *file_name);
-int							file_is_writable(char *file_name);
-int							file_is_executable(char *file_name);
-
 
 // Print functions
 void						print_cmd_args(t_cmd *cmd);
@@ -230,7 +233,7 @@ void						hand_hash_collision(t_hash_table **table,
 void						hash_insert(t_hash_table **table, char *key,
 								char *value);
 char						*hash_search(t_hash_table *table, char *key);
-void						print_table(t_hash_table **table);
+void						print_table(t_hash_table **tfd_outable);
 int							ft_strcmp_len(char *s1, char *s2);
 
 #endif

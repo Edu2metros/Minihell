@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/06 15:40:50 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/06 20:08:51 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	main(void)
 		if (validator(input))
 		{
 			tokenizer(input, mini);
-			handle_redirects(mini);
 			create_cmd_list(mini);
 			test_built(mini->token, mini);
 		}

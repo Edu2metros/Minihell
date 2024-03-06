@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:58:01 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/06 18:02:42 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/06 20:10:33 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	execution(t_cmd *cmd, t_minishell *mini)
 		waitpid(pid, NULL, 0);
 	// kill(pid, SIGKILL);
 }
-
 void	test_built(t_token *token, t_minishell *mini)
 {
 	int		i;

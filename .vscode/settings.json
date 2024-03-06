@@ -1,6 +1,10 @@
 {
 	"files.associations": {
 		"minishell.h": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"typeinfo": "c",
+		"*.tcc": "c",
+		"cmath": "c",
+		"type_traits": "c"
 	}
 }

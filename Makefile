@@ -6,7 +6,7 @@
 #    By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/03/06 16:17:02 by eddos-sa         ###   ########.fr        #
+#    Updated: 2024/03/06 20:08:34 by eddos-sa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,10 @@ libft:
 	@make -C ./include/libft
 
 valgrind: all
-	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=supression.sup ./$(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --suppressions=supression.sup ./$(NAME)
+
+gdb: all
+	@gdb --tui ./$(NAME)
 
 gdb: all
 	@gdb --tui ./$(NAME)
