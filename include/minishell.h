@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/06 20:15:42 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/06 20:27:31 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ int	file_is_readable(char *file_name);
 int	file_is_writable(char *file_name);
 int	file_is_executable(char *file_name);
 t_token	*first(t_token **lst);
+int	ft_array_len(char **array);
 
 // Token functions
 int							process_token_arg(char *input, t_minishell *mini,
