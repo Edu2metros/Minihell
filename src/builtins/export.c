@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 12:01:10 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/06 13:34:02 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/06 17:56:55 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ void	print_export(t_hash_table *hash)
 		current_item = hash->item[i];
 		while (current_item != NULL)
 		{
-			if(ft_strncmp(current_item->key, "a", 1) == 0)
-				printf("KEY: A posição: %i\n", i);
 			new_export = create_new_export(current_item);
 			export_list = insert_export(export_list, new_export);
 			current_item = current_item->next;
@@ -100,6 +98,9 @@ void	print_export(t_hash_table *hash)
 	}
 	print_n_free(export_list);
 }
+// tirar as aspas
+// pesquisar na tabela se existe a variavel
+// unset só achar e apagar
 
 void	export(t_cmd *cmd, t_hash_table *hash)
 {
@@ -107,7 +108,7 @@ void	export(t_cmd *cmd, t_hash_table *hash)
 	char	*key;
 	char	*value;
 	int		i;
-
+	
 	i = 1;
 	if (ft_array_len(cmd->args) == 1)
 		print_export(hash);
@@ -119,7 +120,7 @@ void	export(t_cmd *cmd, t_hash_table *hash)
 			if (equal_pos == NULL)
 			{
 				key = ft_strdup(cmd->args[i]);
-				value = ft_strdup("''");
+				value = ft_strdup("");
 			}
 			else
 			{
@@ -135,5 +136,5 @@ void	export(t_cmd *cmd, t_hash_table *hash)
 			i++;
 		}
 	}
-	print_table(&hash);
+	// print_table(&hash);
 }

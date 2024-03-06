@@ -6,7 +6,7 @@
 #    By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/03/03 17:32:46 by eddos-sa         ###   ########.fr        #
+#    Updated: 2024/03/06 16:17:02 by eddos-sa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,11 +47,11 @@ src += $(addprefix builtins/, cd.c \
 								unset.c \
 								builtin.c)
 
-src += $(addprefix redirects/, heredoc.c)
- 								# redirect_hand_files.c \
- 								# redirect_in.c \
- 								# redirect_out.c \
-								# redirect.c)
+src += $(addprefix redirects/, heredoc.c \
+ 								redirect_hand_files.c \
+ 								redirect_in.c \
+ 								redirect_out.c \
+								redirect.c)
 								
 src += $(addprefix cmd/, cmd.c \
 						 cmd2.c)
@@ -83,6 +83,9 @@ libft:
 
 valgrind: all
 	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=supression.sup ./$(NAME)
+
+gdb: all
+	@gdb --tui ./$(NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR)

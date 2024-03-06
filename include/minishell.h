@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/06 12:57:52 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/06 17:03:58 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ enum						e_token
 
 typedef struct s_export
 {
-	char			*key;
-	char			*value;
-	struct s_export	*next;
-}					t_export;
+	char					*key;
+	char					*value;
+	struct s_export			*next;
+}							t_export;
 
 typedef struct s_token
 {
@@ -74,7 +74,7 @@ typedef struct s_redirect_out
 {
 	int						type;
 	char					*content;
-	int						fd;
+	int						fd_out;
 	struct s_redirect_out	*next;
 }							t_redirect_out;
 
@@ -82,7 +82,7 @@ typedef struct s_redirect_in
 {
 	int						type;
 	char					*content;
-	int						fd;
+	int						fd_in;
 	struct s_redirect_in	*next;
 }							t_redirect_in;
 
@@ -111,8 +111,6 @@ typedef struct s_hash_table
 	int						count;
 }							t_hash_table;
 
-// t_minishell					*get_control(void);
-
 typedef struct s_minishell
 {
 	char					**path;
@@ -126,6 +124,7 @@ typedef struct s_minishell
 	t_hash_table			*table;
 }							t_minishell;
 
+t_minishell					*get_control(void);
 // Token functions
 int							process_token_arg(char *input, t_minishell *mini,
 								int i);
@@ -144,22 +143,30 @@ void						add_token(char *str, int type, int space,
 								t_minishell *mini);
 
 // Redirect functions
+// Redirect functions
 t_redirect_in				*new_redirect_in(char *content, int type);
-t_redirect_in				*add_redirect_in(t_redirect_in *redirect,
+t_redirect_in				*add_redirect_in(t_redirect_in **redirect,
 								char *content, int type);
+t_redirect_in				*lstlast_in(t_redirect_in *lst);
 t_redirect_out				*add_redirect_out(t_redirect_out *redirect,
 								char *content, int type);
-t_redirect_out				*lstlast(t_redirect_out *lst);
+t_redirect_out				*lstlast_out(t_redirect_out *lst);
 t_redirect_out				*new_redirect_out(char *content, int type);
 int							check_files(char *file_name);
-void						hand_heredoc(t_cmd *cmd);
+void						hand_heredoc(t_minishell *mini);
 void						handle_redirects(t_minishell *mini);
-void						handle_in_files(t_redirect_out *redirect);
+void						handle_in_files(t_redirect_in *redirect);
 void						handle_out_files(t_redirect_out *redirect);
 void						redirect_in_list(t_token **token,
-								t_redirect_in *redirect);
+								t_redirect_in **redirect);
 void						redirect_out_list(t_token **token,
-								t_redirect_out *redirect);
+								t_redirect_out **redirect);
+void						handle_redirects(t_minishell *mini);
+int							file_exist(char *file_name);
+int							file_is_readable(char *file_name);
+int							file_is_writable(char *file_name);
+int							file_is_executable(char *file_name);
+
 
 // Print functions
 void						print_cmd_args(t_cmd *cmd);
@@ -182,6 +189,7 @@ void						hand_cd(t_cmd *cmd);
 void						ft_echo(t_cmd *cmd);
 void						env(t_cmd *cmd, t_hash_table **table);
 void						test_built(t_token *token, t_minishell *mini);
+void						export(t_cmd *cmd, t_hash_table *hash);
 
 // Error functions
 void						handle_error(int nbr);
