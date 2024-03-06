@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/05 20:17:20 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/06 19:34:15 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,8 @@ void						redirect_in_list(t_token **token,
 void						redirect_out_list(t_token **token,
 								t_redirect_out **redirect);
 void						handle_redirects(t_minishell *mini);
+void						clear_token_node(t_token **token_list, t_token *target_tkn);
+t_token						*first(t_token **lst);
 
 
 // Print functions
@@ -218,7 +220,7 @@ void						hand_hash_collision(t_hash_table **table,
 void						hash_insert(t_hash_table **table, char *key,
 								char *value);
 char						*hash_search(t_hash_table *table, char *key);
-void						print_table(t_hash_table **table);
+void						print_table(t_hash_table **tfd_outable);
 int							ft_strcmp_len(char *s1, char *s2);
 
 #endif

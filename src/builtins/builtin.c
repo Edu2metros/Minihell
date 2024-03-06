@@ -6,13 +6,13 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:58:01 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/05 20:17:55 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/06 18:56:11 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void execution(t_cmd *cmd)
+void execution(t_cmd *cmd, t_minishell *mini)
 {
 	char **path;
 	char *tmp;
@@ -26,13 +26,15 @@ void execution(t_cmd *cmd)
 	{
 		tmp = ft_strjoin(path[i], "/");
 		tmp = ft_strjoin(tmp, cmd->name);
-		if(cmd->fd)
-		{
-			dup2(cmd->fd, 0);
-			close(cmd->fd);
-		}
+		// if(cmd->fd)
+		// {
+		// 	dup2(cmd->fd, 0);
+		// 	close(cmd->fd);
+		// }
 		if (access(tmp, F_OK) == 0)
 		{
+			dup2(mini->redirect_list_out->fd_out, 1);
+			printf("fd_out: %d\n", mini->redirect_list_out->fd_out);
 			execve(tmp, cmd->args, NULL);
 			break;
 		}
@@ -74,7 +76,7 @@ void	test_built(t_token *token, t_minishell *mini)
 			// if (is_builtin(mini->cmd->name) == EXPORT)
 			// 	print_export(&table);
 			else
-				execution(mini->cmd);
+				execution(mini->cmd, mini);
 		}
 		mini->cmd = mini->cmd->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/05 18:32:29 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/06 19:11:51 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ int	main(void)
 		{
 			tokenizer(input, mini);
 			handle_redirects(mini);
-		if (mini->redirect_list_out != NULL)
-			printf("fd_out: %d\n", mini->redirect_list_out->fd_out);
-		else
-			printf("fd_in: NULL\n");
-			// create_cmd_list(mini);
-			// test_built(mini->token, mini);
+			// if (mini->redirect_list_out != NULL)
+			// 	printf("fd_out: %d\n", mini->redirect_list_out->fd_out);
+			// else
+			// 	printf("fd_in: NULL\n");
+			create_cmd_list(mini);
+			test_built(mini->token, mini);
 		}
 	}
 	clear_history();

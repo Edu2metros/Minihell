@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:35:41 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/05 19:55:01 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/06 19:34:33 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,7 @@ void	redirect_out_list(t_token **token, t_redirect_out **redirect)
 {
 	t_redirect_out	*new_red;
 
-	if ((*token)->type == OUTPUT || (*token)->type == APPEND)
-	{
-		if (check_files((*token)->next->content) == EXIST)
-		{
-			if (check_files((*token)->next->content) != WRITEABLE)
-			{
-				printf("minishell: %s: Permission denied\n",
-					(*token)->next->content);
-				return ;
-			}
-			if (check_files((*token)->next->content) == EXECUTABLE)
-			{
-				printf("minishell: %s: Is a directory\n",
-					(*token)->next->content);
-				return ;
-			}
-		}
-	}
-	if ((*token)->next)
+	if ((*token))
 	{
 		new_red = new_redirect_out((*token)->next->content, (*token)->type);
 		if (new_red != NULL)
@@ -61,4 +43,26 @@ void	redirect_out_list(t_token **token, t_redirect_out **redirect)
 		}
 		*token = (*token)->next;
 	}
+	*token = first(token);
+
+	// if ((*token)->type == OUTPUT || (*token)->type == APPEND)
+	// {
+	// 	if (check_files((*token)->next->content) == EXIST)
+	// 	{
+	// 		if (check_files((*token)->next->content) != WRITEABLE)
+	// 		{
+	// 			printf("minishell: %s: Permission denied\n",
+	// 				(*token)->next->content);
+	// 			clear_token_node(token, *token);
+	// 			return ;
+	// 		}
+	// 		if (check_files((*token)->next->content) == EXECUTABLE)
+	// 		{
+	// 			printf("minishell: %s: Is a directory\n",
+	// 				(*token)->next->content);
+	// 			clear_token_node(token, *token);
+	// 			return ;
+	// 		}
+	// 	}		
+	// }
 }
