@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:58:01 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/06 20:10:33 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/06 20:42:54 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	test_built(t_token *token, t_minishell *mini)
 				env(mini->cmd, &mini->table);
 			if (is_builtin(mini->cmd->name) == EXPORT)
 				export(mini->cmd, mini->table);
+			if(is_builtin(mini->cmd->name) == UNSET)
+				unset(mini, mini->cmd);
 			else
 				execution(mini->cmd, mini);
 		}
