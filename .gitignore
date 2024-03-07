@@ -1,4 +1,4 @@
-objs/
+obj/
 minishell
 include/libft/objs
 include/libft/libft.a
