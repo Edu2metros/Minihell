@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:58:01 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/06 20:42:54 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 13:36:53 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ void	test_built(t_token *token, t_minishell *mini)
 	aux = mini->cmd;
 	i = 0;
 	j = 0;
+	// resolver o export se caso a variável já existir, atualizar o valor
+	// resolver o env (se a variável não tiver valor não pode ser imprimida no comando env mas tem que ser imprimida no export)
+	// resolver o cd
+	
 	while (mini->cmd != NULL)
 	{
 		// while(aux->next)
@@ -61,15 +65,15 @@ void	test_built(t_token *token, t_minishell *mini)
 		{
 			if (is_builtin(mini->cmd->name) == PWD)
 				ft_pwd();
-			if (is_builtin(mini->cmd->name) == ECHO)
+			else if (is_builtin(mini->cmd->name) == ECHO)
 				ft_echo(mini->cmd);
-			if (is_builtin(mini->cmd->name) == CD)
+			else if (is_builtin(mini->cmd->name) == CD)
 				hand_cd(mini->cmd);
-			if (is_builtin(mini->cmd->name) == ENV)
+			else if (is_builtin(mini->cmd->name) == ENV)
 				env(mini->cmd, &mini->table);
-			if (is_builtin(mini->cmd->name) == EXPORT)
+			else if (is_builtin(mini->cmd->name) == EXPORT)
 				export(mini->cmd, mini->table);
-			if(is_builtin(mini->cmd->name) == UNSET)
+			else if(is_builtin(mini->cmd->name) == UNSET)
 				unset(mini, mini->cmd);
 			else
 				execution(mini->cmd, mini);

@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 20:24:26 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/06 20:42:02 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 13:25:35 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,21 @@
 void	hash_delete(t_hash_table *table, char *key)
 {
 	int			i;
-	t_hash_item	*temp_item;
-	t_hash_item	*prev_item;
 
 	i = 0;
 	while (i < table->size)
 	{
-		temp_item = table->item[i];
-		while (temp_item != NULL)
+		if(table->item[i])
 		{
-			if (ft_strncmp(temp_item->key, key, ft_strlen(key)) == 0)
+			if (ft_strcmp(table->item[i]->key, key) == 0)
 			{
-				if (prev_item != NULL)
-					prev_item->next = temp_item->next;
-				else
-					table->item[i] = temp_item->next;
-				free(temp_item->key);
-				free(temp_item->value);
-				free(temp_item);
-				return ;
+				free(table->item[i]->key);
+				free(table->item[i]->value);
+				free(table->item[i]);
+				table->item[i] = NULL;
+				table->count--;
+				break ;
 			}
-			prev_item = temp_item;
-			temp_item = temp_item->next;
 		}
 		i++;
 	}

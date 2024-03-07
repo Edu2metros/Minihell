@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/07 11:48:38 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 13:02:51 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	main(void)
 	t_minishell	*mini;
 	char		*input;
 
-	mini = ft_calloc(1, sizeof(t_minishell));
+	ft_bzero(get_control(), sizeof(t_minishell));
+	mini = get_control();
 	mini->table = hash_population(mini, &mini->table);
 	while (1)
 	{

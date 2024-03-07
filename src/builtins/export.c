@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 12:01:10 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/06 17:56:55 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 13:36:22 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,6 @@ void	print_export(t_hash_table *hash)
 	}
 	print_n_free(export_list);
 }
-// tirar as aspas
-// pesquisar na tabela se existe a variavel
-// unset só achar e apagar
 
 void	export(t_cmd *cmd, t_hash_table *hash)
 {

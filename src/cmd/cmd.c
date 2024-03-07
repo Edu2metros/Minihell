@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/06 20:58:29 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/07 13:06:20 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,18 @@ int	lstsize_pipe(t_token *token)
 int	expand_variable(t_token *token, int i)
 {
 	char	*substr;
+	char 	*tmp;
 	int		start;
 
 	start = i;
 	while (ft_isalnum(token->content[i]) || token->content[i] == '_')
 		i++;
 	substr = ft_substr(token->content, start, i - start);
-	if (getenv(substr) != NULL)
-		token->aux = ft_strjoin(token->aux, getenv(substr));
+	tmp = hash_search(get_control()->table, substr);
+	if (tmp != NULL)
+		token->aux = ft_strjoin(token->aux, tmp);
+	free(tmp);
+	free(substr);
 	return (i);
 }
 

@@ -6,12 +6,9 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:42:42 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/03 17:25:57 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 12:29:26 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// Process when you have the '$' token
-// but I have a doubt, what would be the limit? space?
 
 #include "../../include/minishell.h"
 
@@ -25,9 +22,10 @@ int	process_token_dollar(char *input, t_minishell *mini, int i, int start)
 	while (ft_isalnum(input[i]) || input[i] == '_')
 		i++;
 	substr = ft_substr(input, start, i - start);
-	tmp = getenv(substr);
+	tmp = hash_search(mini->table, substr);
 	if (tmp != NULL)
 		add_token(tmp, DOLLAR, 0, mini);
+	free(tmp);
 	free(substr);
 	return(i);
 }
