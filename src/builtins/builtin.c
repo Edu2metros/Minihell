@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:58:01 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/07 18:25:47 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 18:32:18 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	execution(t_cmd *cmd, t_minishell *mini)
 		tmp = ft_strjoin(tmp, cmd->name);
 		if (access(tmp, F_OK) == 0)
 		{
-			// if (mini->redirect_list_out->fd_out)
-			// 	printf("%i\n", dup2(mini->redirect_list_out->fd_out, 1));
+			if (mini->redirect_list_out->fd_out)
+				printf("%i\n", dup2(mini->redirect_list_out->fd_out, 1));
 			// if (mini->redirect_list_in->fd_in)
 			// 	printf("%i\n", dup2(mini->redirect_list_in->fd_in, 1));
 			execve(tmp, cmd->args, NULL);
