@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:58:01 by eddos-sa          #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2024/03/07 13:36:53 by eddos-sa         ###   ########.fr       */
-=======
-/*   Updated: 2024/03/07 13:38:20 by jaqribei         ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2024/03/07 13:44:58 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
