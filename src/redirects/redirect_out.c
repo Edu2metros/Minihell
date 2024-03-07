@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:35:41 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/07 13:35:44 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/07 18:41:05 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,4 @@ void	redirect_out_list(t_token **token, t_redirect_out **redirect)
 		}
 		*token = (*token)->next;
 	}
-	*token = first(token);
 }
