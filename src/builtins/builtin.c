@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:58:01 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/07 13:44:58 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 18:25:47 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	execution(t_cmd *cmd, t_minishell *mini)
 		tmp = ft_strjoin(tmp, cmd->name);
 		if (access(tmp, F_OK) == 0)
 		{
-			if (mini->redirect_list_out->fd_out)
-				printf("%i\n", dup2(mini->redirect_list_out->fd_out, 1));
+			// if (mini->redirect_list_out->fd_out)
+			// 	printf("%i\n", dup2(mini->redirect_list_out->fd_out, 1));
 			// if (mini->redirect_list_in->fd_in)
 			// 	printf("%i\n", dup2(mini->redirect_list_in->fd_in, 1));
 			execve(tmp, cmd->args, NULL);
@@ -40,8 +40,9 @@ void	execution(t_cmd *cmd, t_minishell *mini)
 	}
 	if (pid)
 		waitpid(pid, NULL, 0);
-	// kill(pid, SIGKILL);
+	kill(pid, SIGKILL);
 }
+
 void	test_built(t_token *token, t_minishell *mini)
 {
 	int		i;
@@ -51,12 +52,15 @@ void	test_built(t_token *token, t_minishell *mini)
 	aux = mini->cmd;
 	i = 0;
 	j = 0;
-	// resolver o export se caso a variável já existir, atualizar o valor
-	// resolver o env (se a variável não tiver valor não pode ser imprimida no comando env mas tem que ser imprimida no export)
 	// resolver o cd
 	
 	while (mini->cmd != NULL)
 	{
+		if(mini->cmd->name == NULL)
+		{
+			printf("nulo\n");
+			break;
+		}
 		// while(aux->next)
 		// {
 		// 	if(aux->type == HEREDOC)
@@ -77,6 +81,8 @@ void	test_built(t_token *token, t_minishell *mini)
 				export(mini->cmd, mini->table);
 			else if(is_builtin(mini->cmd->name) == UNSET)
 				unset(mini, mini->cmd);
+			else if(is_builtin(mini->cmd->name) == EXIT)
+				ft_exit(mini->cmd, mini->cmd->args[1]);
 			else
 				execution(mini->cmd, mini);
 		}

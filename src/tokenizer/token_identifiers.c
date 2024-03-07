@@ -6,11 +6,18 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:46 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/29 15:11:47 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 17:58:24 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int	alpha_num(char c)
+{
+	if (c >= 33 && c <= 47)
+		return (1);
+	return (0);
+}
 
 int	is_quote(char c)
 {
@@ -48,7 +55,7 @@ int	is_word(const char *input)
 	i = 0;
 	if (!input)
 		return (0);
-	while (input[i] != '\0' && (ft_isalnum(input[i]) || input[i] == '-'
+	while (input[i] != '\0' && (ft_isalnum(input[i]) || alpha_num(input[i])
 			|| is_quote(input[i])))
 	{
 		while (!my_isspace(input[i]) && input[i] != '\0')
@@ -80,10 +87,10 @@ int	is_flag(const char *input)
 
 int	is_builtin(char *input)
 {
-	if (ft_strncmp(input, "echo", 4) == 0)
-		return (ECHO);
-	else if (ft_strncmp(input, "cd", 2) == 0)
+	if (ft_strncmp(input, "cd", 2) == 0)
 		return (CD);
+	else if (ft_strncmp(input, "echo", 4) == 0)
+		return (ECHO);
 	else if (ft_strncmp(input, "pwd", 3) == 0)
 		return (PWD);
 	else if (ft_strncmp(input, "export", 6) == 0)

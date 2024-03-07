@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/07 12:33:48 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/07 15:05:14 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ typedef struct s_hash_table
 
 typedef struct s_minishell
 {
+	int						return_status;
 	char					**path;
 	char					*execute_path;
 	char					**words;
@@ -126,7 +127,7 @@ typedef struct s_minishell
 }							t_minishell;
 
 t_minishell					*get_control(void);
-
+void ft_exit(t_cmd *cmd, char *status);
 int	file_exist(char *file_name);
 int	file_is_readable(char *file_name);
 int	file_is_writable(char *file_name);

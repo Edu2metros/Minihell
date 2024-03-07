@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 20:24:26 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/07 13:25:35 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 14:39:26 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	unset(t_minishell *mini, t_cmd *cmd)
 
 	i = 1;
 	if (ft_array_len(cmd->args) == 1)
-		printf("unset: not enough arguments (colocar isso daqui no fd)\n");
+		get_control()->return_status = 0;
 	else
 	{
 		while (cmd->args[i])
