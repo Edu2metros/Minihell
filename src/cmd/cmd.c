@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/04 13:55:06 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/06 20:58:29 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	is_redirect(t_minishell *mini)
-{
-	int	type;
-
-	type = mini->token->type;
+int	is_redirect(t_token *token)
+{	
+	int type;
+	type = token->type;
 	if (type == OUTPUT || type == INPUT || type == APPEND || type == HEREDOC)
 		return (type);
 	return (0);
