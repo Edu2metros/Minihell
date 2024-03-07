@@ -3,64 +3,95 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/06 20:13:57 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/06 21:34:04 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_redirect_out	*lstlast_out(t_redirect_out *lst)
+t_redirect_out *lstlast_out(t_redirect_out *lst)
 {
 	while (lst != NULL && lst->next != NULL)
 		lst = lst->next;
 	return (lst);
 }
 
-t_redirect_in	*lstlast_in(t_redirect_in *lst)
+t_redirect_in *lstlast_in(t_redirect_in *lst)
 {
 	while (lst != NULL && lst->next != NULL)
 		lst = lst->next;
 	return (lst);
 }
 
-t_token	*first(t_token **lst)
+t_token *first(t_token **lst)
 {
 	while (lst != NULL && (*lst)->previous != NULL)
 		lst = &(*lst)->previous;
 	return (*lst);
 }
 
-
-void	clear_token_node(t_token **token_list, t_token *target_tkn)
+void clear_token_redirect(t_token **token)
 {
-	t_token	*current_tkn;
+	t_token *current;
+	t_token *last_node = NULL;  // Initialize last_node
+	t_token *aux;
 
-	current_tkn = *token_list;
-	while (current_tkn)
+	current = *token;
+
+	while (current)
 	{
-		if (current_tkn == target_tkn)
+		if (is_redirect(current) && current->next != NULL && (current->next->type == WORD || current->next->type == QUOTE))
 		{
-			if (current_tkn->previous)
-				current_tkn->previous->next = current_tkn->next;
-			else
-				*token_list = current_tkn->next;
-			if (current_tkn->next)
-				current_tkn->next->previous = current_tkn->previous;
-			free(current_tkn->content);
-			free(current_tkn);
-			break ;
+			aux = current->next;
+			last_node->next = aux->next;
+			
+			// Free memory for current and aux
+			free(current->content);
+			free(current);
+			free(aux->content);
+			free(aux);
+
+			current = last_node->next;
 		}
-		current_tkn = current_tkn->next;
+		else
+		{
+			last_node = current;
+			current = current->next;
+		}
 	}
 }
 
-void	handle_redirects(t_minishell *mini)
+
+// void clear_token_node(t_token **token_list, t_token *target_tkn)
+// {
+// 	t_token *current_tkn;
+
+// 	current_tkn = *token_list;
+// 	while (current_tkn)
+// 	{
+// 		if (current_tkn == target_tkn)
+// 		{
+// 			if (current_tkn->previous)
+// 				current_tkn->previous->next = current_tkn->next;
+// 			else
+// 				*token_list = current_tkn->next;
+// 			if (current_tkn->next)
+// 				current_tkn->next->previous = current_tkn->previous;
+// 			free(current_tkn->content);
+// 			free(current_tkn);
+// 			break;
+// 		}
+// 		current_tkn = current_tkn->next;
+// 	}
+// }
+
+void handle_redirects(t_minishell *mini)
 {
-	t_token	*token;
-	t_token	*aux;
+	t_token *token;
+	t_token *aux;
 
 	token = mini->token;
 	// if (token && token->type == PIPE)
@@ -68,8 +99,7 @@ void	handle_redirects(t_minishell *mini)
 	while (token && token->type != PIPE)
 	{
 		aux = token->next;
-		if (token->type == OUTPUT || token->type == INPUT
-			|| token->type == APPEND || token->type == HEREDOC && (aux != NULL))
+		if (token->type == OUTPUT || token->type == INPUT || token->type == APPEND || token->type == HEREDOC && (aux != NULL))
 		{
 			if (token->type == HEREDOC)
 			{
@@ -80,15 +110,16 @@ void	handle_redirects(t_minishell *mini)
 				redirect_in_list(&token, &mini->redirect_list_in);
 			else if (token->type == OUTPUT || token->type == APPEND)
 				redirect_out_list(&token, &mini->redirect_list_out);
-			clear_token_node(&mini->token, token->next);
-			clear_token_node(&mini->token, token->next); //don't delete this, too much important, don't work without this line
+			clear_token_redirect(&mini->token);
+			// clear_token_node(&mini->token, token->next);
+			// clear_token_node(&mini->token, token->next); //don't delete this, too much important, don't work without this line
 			print_tokens(mini);
 		}
 		token = aux;
 	}
 }
 
-void	close_fd(t_minishell *mini)
+void close_fd(t_minishell *mini)
 {
 	t_redirect_out *aux_out;
 	t_redirect_in *aux_in;
