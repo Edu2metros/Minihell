@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:58:01 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/07 18:25:47 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 19:10:04 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ void	execution(t_cmd *cmd, t_minishell *mini)
 	char	*tmp;
 	int		i;
 	pid_t	pid;
-
+	t_redirect_out *aux;
+	t_redirect_in *aux2;
+	
 	path = ft_split(getenv("PATH"), ':');
 	i = 0;
 	pid = fork();
@@ -28,10 +30,16 @@ void	execution(t_cmd *cmd, t_minishell *mini)
 		tmp = ft_strjoin(tmp, cmd->name);
 		if (access(tmp, F_OK) == 0)
 		{
-			// if (mini->redirect_list_out->fd_out)
-			// 	printf("%i\n", dup2(mini->redirect_list_out->fd_out, 1));
-			// if (mini->redirect_list_in->fd_in)
-			// 	printf("%i\n", dup2(mini->redirect_list_in->fd_in, 1));
+			if (mini->redirect_list_out->fd_out)
+			{
+				aux = lstlast_out(mini->redirect_list_out);
+				printf("%i\n", dup2(aux->fd_out, STDOUT_FILENO));
+			}
+			if (mini->redirect_list_in->fd_in)
+			{
+				// aux2 = lstlast_in(mini->redirect_list_in);
+				printf("%i\n", dup2(mini->redirect_list_in->fd_in, STDIN_FILENO));
+			}
 			execve(tmp, cmd->args, NULL);
 			break ;
 		}

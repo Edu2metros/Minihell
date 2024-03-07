@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+         #
+#    By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/03/06 20:08:34 by eddos-sa         ###   ########.fr        #
+#    Updated: 2024/03/07 18:08:32 by jaqribei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,9 +83,6 @@ libft:
 
 valgrind: all
 	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --suppressions=supression.sup ./$(NAME)
-
-gdb: all
-	@gdb --tui ./$(NAME)
 
 gdb: all
 	@gdb --tui ./$(NAME)

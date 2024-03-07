@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/07 16:25:10 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 19:09:15 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void handle_redirects(t_minishell *mini)
 	while (token && token->type != PIPE)
 	{
 		aux = token->next;
-		if (token->type == OUTPUT || token->type == INPUT || token->type == APPEND || token->type == HEREDOC && (aux != NULL))
+		if (is_redirect(token) && (aux != NULL))
 		{
 			// if (token->type == HEREDOC)
 			// {
@@ -86,11 +86,11 @@ void handle_redirects(t_minishell *mini)
 				redirect_in_list(&token, &mini->redirect_list_in);
 			else if (token->type == OUTPUT || token->type == APPEND)
 				redirect_out_list(&token, &mini->redirect_list_out);
-			clear_token_redirect(&mini->token);
 			print_tokens(mini);
 		}
 		token = aux;
 	}
+			clear_token_redirect(&mini->token);
 }
 
 void close_fd(t_minishell *mini)
