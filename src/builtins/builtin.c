@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:58:01 by eddos-sa          #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2024/03/07 13:36:53 by eddos-sa         ###   ########.fr       */
+=======
+/*   Updated: 2024/03/07 13:38:20 by jaqribei         ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +34,8 @@ void	execution(t_cmd *cmd, t_minishell *mini)
 		{
 			if (mini->redirect_list_out->fd_out)
 				printf("%i\n", dup2(mini->redirect_list_out->fd_out, 1));
+			// if (mini->redirect_list_in->fd_in)
+			// 	printf("%i\n", dup2(mini->redirect_list_in->fd_in, 1));
 			execve(tmp, cmd->args, NULL);
 			break ;
 		}

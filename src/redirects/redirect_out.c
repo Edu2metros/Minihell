@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_out.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:35:41 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/06 20:11:56 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 13:35:44 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,29 @@ t_redirect_out	*new_redirect_out(char *content, int type)
 	return (redirect);
 }
 
+int	check_out_files(char *str)
+{
+	if (file_exist(str))
+	{
+		if (!file_is_writable(str))
+		{
+			printf("minishell: %s: Permission denied\n", str);
+			exit (EXIT_FAILURE);
+		}
+	}
+	if(file_is_executable(str))
+	{
+		printf("minishell: %s: Is a directory\n", str);
+		exit (EXIT_FAILURE);
+	}
+	return (1);
+}
+
 void	redirect_out_list(t_token **token, t_redirect_out **redirect)
 {
 	t_redirect_out	*new_red;
-
+	
+	check_out_files((*token)->next->content);
 	if ((*token))
 	{
 		new_red = new_redirect_out((*token)->next->content, (*token)->type);
@@ -44,25 +63,4 @@ void	redirect_out_list(t_token **token, t_redirect_out **redirect)
 		*token = (*token)->next;
 	}
 	*token = first(token);
-
-	// if ((*token)->type == OUTPUT || (*token)->type == APPEND)
-	// {
-	// 	if (check_files((*token)->next->content) == EXIST)
-	// 	{
-	// 		if (check_files((*token)->next->content) != WRITEABLE)
-	// 		{
-	// 			printf("minishell: %s: Permission denied\n",
-	// 				(*token)->next->content);
-	// 			clear_token_node(token, *token);
-	// 			return ;
-	// 		}
-	// 		if (check_files((*token)->next->content) == EXECUTABLE)
-	// 		{
-	// 			printf("minishell: %s: Is a directory\n",
-	// 				(*token)->next->content);
-	// 			clear_token_node(token, *token);
-	// 			return ;
-	// 		}
-	// 	}		
-	// }
 }

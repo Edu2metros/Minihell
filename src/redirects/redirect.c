@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/06 21:34:04 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/07 13:31:33 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ t_token *first(t_token **lst)
 
 void clear_token_redirect(t_token **token)
 {
-	t_token *current;
-	t_token *last_node = NULL;  // Initialize last_node
-	t_token *aux;
+	t_token	*current;
+	t_token	*last_node = NULL;  // Initialize last_node
+	t_token	*aux;
 
 	current = *token;
 
@@ -64,30 +64,6 @@ void clear_token_redirect(t_token **token)
 	}
 }
 
-
-// void clear_token_node(t_token **token_list, t_token *target_tkn)
-// {
-// 	t_token *current_tkn;
-
-// 	current_tkn = *token_list;
-// 	while (current_tkn)
-// 	{
-// 		if (current_tkn == target_tkn)
-// 		{
-// 			if (current_tkn->previous)
-// 				current_tkn->previous->next = current_tkn->next;
-// 			else
-// 				*token_list = current_tkn->next;
-// 			if (current_tkn->next)
-// 				current_tkn->next->previous = current_tkn->previous;
-// 			free(current_tkn->content);
-// 			free(current_tkn);
-// 			break;
-// 		}
-// 		current_tkn = current_tkn->next;
-// 	}
-// }
-
 void handle_redirects(t_minishell *mini)
 {
 	t_token *token;
@@ -101,18 +77,16 @@ void handle_redirects(t_minishell *mini)
 		aux = token->next;
 		if (token->type == OUTPUT || token->type == INPUT || token->type == APPEND || token->type == HEREDOC && (aux != NULL))
 		{
-			if (token->type == HEREDOC)
-			{
-				redirect_in_list(&token, &mini->redirect_list_in);
-				hand_heredoc(mini);
-			}
+			// if (token->type == HEREDOC)
+			// {
+			// 	redirect_in_list(&token, &mini->redirect_list_in);
+			// 	hand_heredoc(mini);
+			// }
 			if (token->type == INPUT)
 				redirect_in_list(&token, &mini->redirect_list_in);
 			else if (token->type == OUTPUT || token->type == APPEND)
 				redirect_out_list(&token, &mini->redirect_list_out);
 			clear_token_redirect(&mini->token);
-			// clear_token_node(&mini->token, token->next);
-			// clear_token_node(&mini->token, token->next); //don't delete this, too much important, don't work without this line
 			print_tokens(mini);
 		}
 		token = aux;

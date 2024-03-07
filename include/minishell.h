@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/07 11:48:46 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 12:33:48 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ typedef struct s_hash_table
 	int						count;
 }							t_hash_table;
 
-// t_minishell					*get_control(void);
 
 typedef struct s_minishell
 {
@@ -135,6 +134,7 @@ int	file_is_executable(char *file_name);
 t_token	*first(t_token **lst);
 int	ft_array_len(char **array);
 void	unset(t_minishell *mini, t_cmd *cmd);
+int	check_out_files(char *str);
 
 // Token functions
 int							process_token_arg(char *input, t_minishell *mini,

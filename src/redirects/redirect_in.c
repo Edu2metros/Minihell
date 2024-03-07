@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:33:51 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/06 20:11:05 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 12:45:45 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,26 @@ t_redirect_in	*new_redirect_in(char *content, int type)
 	return (redirect);
 }
 
+int	check_in_files(char *str)
+{
+	if (!file_exist(str))
+	{
+		printf("minishell: %s: No such file or directory\n", str);
+		exit (EXIT_FAILURE);
+	}
+	else if (!file_is_readable(str))
+	{
+		printf("minishell: %s: Permission denied\n", str);
+		exit (EXIT_FAILURE);
+	}
+	return (1);
+}
+
 void	redirect_in_list(t_token **token, t_redirect_in **redirect)
 {
 	t_redirect_in	*new_red_in;
 
-	if ((*token)->type == INPUT)
-	{
-		if (file_exist((*token)->next->content))
-		{	
-			printf("minishell: %s: No such file or directory\n",
-				(*token)->next->content);
-			EXIT_FAILURE;
-		}
-		else if (!file_is_readable((*token)->next->content))
-		{
-			printf("minishell: %s: Permission denied\n",
-				(*token)->next->content);
-			EXIT_FAILURE;
-		}
-	}
+	check_in_files((*token)->next->content);
 	new_red_in = new_redirect_in((*token)->next->content, (*token)->type);
 	if (new_red_in != NULL)
 	{
