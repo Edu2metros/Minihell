@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:33:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/07 18:02:16 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 19:34:18 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	ft_how_many_char(char *str, char c)
 // lidar com relative path ou absolute path
 // lidar com ..
 // lidar com .
+// lidar com cd sozinho
 
 void	cd_absolute_path(char *absolute_path)
 {

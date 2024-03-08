@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/07 15:05:14 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 20:28:21 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,13 @@ typedef struct s_hash_table
 	int						count;
 }							t_hash_table;
 
+typedef struct s_pipe
+{
+	int						pipe_count;
+	int						fd[2];
+	int						backup_read;
+	struct s_pipe			*next;
+}							t_pipe;
 
 typedef struct s_minishell
 {
@@ -118,7 +125,8 @@ typedef struct s_minishell
 	char					**path;
 	char					*execute_path;
 	char					**words;
-	struct s_validation		*validations;
+	int						fd;
+	t_pipe					*pipe;
 	t_cmd					*cmd;
 	t_token					*token;
 	t_redirect_in			*redirect_list_in;
@@ -127,15 +135,16 @@ typedef struct s_minishell
 }							t_minishell;
 
 t_minishell					*get_control(void);
-void ft_exit(t_cmd *cmd, char *status);
-int	file_exist(char *file_name);
-int	file_is_readable(char *file_name);
-int	file_is_writable(char *file_name);
-int	file_is_executable(char *file_name);
-t_token	*first(t_token **lst);
-int	ft_array_len(char **array);
-void	unset(t_minishell *mini, t_cmd *cmd);
-int	check_out_files(char *str);
+void						ft_exit(t_cmd *cmd, char *status);
+int							file_exist(char *file_name);
+int							file_is_readable(char *file_name);
+int							file_is_writable(char *file_name);
+int							file_is_executable(char *file_name);
+t_token						*first(t_token **lst);
+int							ft_array_len(char **array);
+void						unset(t_minishell *mini, t_cmd *cmd);
+int							check_out_files(char *str);
+void						execution(t_cmd *cmd, t_minishell *mini);
 
 // Token functions
 int							process_token_arg(char *input, t_minishell *mini,
@@ -156,7 +165,7 @@ void						add_token(char *str, int type, int space,
 
 // Redirect functions
 // Redirect functions
-void	close_fd(t_minishell *mini);
+void						close_fd(t_minishell *mini);
 
 t_redirect_in				*new_redirect_in(char *content, int type);
 t_redirect_in				*add_redirect_in(t_redirect_in **redirect,
@@ -196,7 +205,8 @@ void						ft_pwd(void);
 void						hand_cd(t_cmd *cmd);
 void						ft_echo(t_cmd *cmd);
 void						env(t_cmd *cmd, t_hash_table **table);
-void						test_built(t_token *token, t_minishell *mini);
+void						builtin_execution(t_token *token,
+								t_minishell *mini);
 void						export(t_cmd *cmd, t_hash_table *hash);
 
 // Error functions

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:33:51 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/07 12:45:45 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/07 19:39:05 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	redirect_in_list(t_token **token, t_redirect_in **redirect)
 	t_redirect_in	*new_red_in;
 
 	check_in_files((*token)->next->content);
+	
 	new_red_in = new_redirect_in((*token)->next->content, (*token)->type);
 	if (new_red_in != NULL)
 	{
