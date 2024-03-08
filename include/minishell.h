@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/07 20:28:21 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/07 21:24:55 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int							ft_array_len(char **array);
 void						unset(t_minishell *mini, t_cmd *cmd);
 int							check_out_files(char *str);
 void						execution(t_cmd *cmd, t_minishell *mini);
+void						exec_pipe(t_minishell *mini);
 
 // Token functions
 int							process_token_arg(char *input, t_minishell *mini,
