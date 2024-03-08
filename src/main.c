@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/08 13:41:00 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/08 19:45:27 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(void)
 	t_minishell	*mini;
 	char		*input;
 
-	ft_bzero(get_control(), sizeof(t_minishell));
+ 	ft_bzero(get_control(), sizeof(t_minishell));
 	mini = get_control();
 	mini->pipe = ft_calloc(1, sizeof(t_pipe));
 	mini->pipe->pipe_count = 0;
@@ -47,14 +47,9 @@ int	main(void)
 		if (validator(input))
 		{
 			tokenizer(input, mini);
-			// printf("%i\n", mini->pipe->pipe_count);
 			// handle_redirects(mini);
 			create_cmd_list(mini);
-			print_cmd_args(mini->cmd);
-			hand_heredoc(mini);
-			// if (mini->pipe->pipe_count > 0)
-				// exec_pipe(mini);
-			execution(mini->cmd, mini);
+			// minishell(mini);
 			close_fd(mini);
 		}
 	}

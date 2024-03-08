@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/08 13:28:10 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/08 19:48:52 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,9 +174,29 @@ void	create_cmd_list(t_minishell *mini)
 		mini->cmd = add_new_node(mini->cmd, (mini->token)->content,
 			(mini->token)->type);
 		token = populate_cmd_args(token, mini->cmd);
+		if(is_redirect(token))
+			handle_redirects(mini);
 		if(token != NULL)
 			token = token->next;
 	}
-	free_tokens(&token);
-	// print_cmd_args(mini->cmd);
 }
+
+
+	// free_tokens(&token);
+	// print_cmd_args(mini->cmd);
+
+/* 		if (token == PIPE)
+		{
+			last_cmd = get_last_cmd();
+			last_cmd->output_to_pipe = true;
+		}
+		
+			se o token atual é um comando, e o ultimo comando da lista de commandos
+			vai escrever em um pipe, introduzimos um novo comando na lista de comandos
+			e definimos que esse novo comando vai ler de um pipe.
+		
+		else if (token == COMMAND && get_last_cmd()->output_to_pipe == true)
+		{
+			append_command(type, ...);
+			get_last_cmd()->input_from_pipe = true;
+		} */

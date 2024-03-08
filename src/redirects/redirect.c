@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/08 13:29:15 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/08 19:50:53 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void clear_token_redirect(t_token **token)
 	}
 }
 
-void handle_redirects(t_minishell *mini)
+void handle_redirects(t_cmd *cmd, t_minishell *mini)
 {
 	t_token *token;
 	t_token *aux;

@@ -6,10 +6,30 @@
 // pipe
 // tratar FDs abertos
 
-void handle_pipe(char **first_arg, char **second_arg)
+void handle_pipes(t_minishell *mini)
 {
+	int i;
+	i = 0;
 	// if(mini->redirect_list_out || mini->redirect_list_in)
-	
+	int fd[2];
+	pid_t pid;
+	pipe(fd);
+	pid = fork();
+	if(pid == 0)
+	{
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+		execution(mini->cmd, mini);
+	}
+	else
+	{
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+		execution(mini->cmd, mini);
+		waitpid(pid, NULL, 0);
+	}
 }
 
 void	minishell(t_minishell *mini)
@@ -20,11 +40,10 @@ void	minishell(t_minishell *mini)
 		execution(mini->cmd, mini);
 	else
 	{
-		while(mini->token)
-		{
-			handle_pipe(mini->cmd->args, mini->cmd->next->args);
-						
-		}
+		// while(mini->token)
+		// {
+			handle_pipes(mini);			
+		// }
 		
 	}
 }
