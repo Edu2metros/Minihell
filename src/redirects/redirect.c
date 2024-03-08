@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/07 19:09:15 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/08 13:29:15 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void handle_redirects(t_minishell *mini)
 		}
 		token = aux;
 	}
-			clear_token_redirect(&mini->token);
+			// clear_token_redirect(&mini->token);
 }
 
 void close_fd(t_minishell *mini)

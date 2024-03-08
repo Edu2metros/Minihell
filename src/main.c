@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/07 21:44:37 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/08 13:41:00 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,13 @@ int	main(void)
 		if (validator(input))
 		{
 			tokenizer(input, mini);
-			printf("%i\n", mini->pipe->pipe_count);
+			// printf("%i\n", mini->pipe->pipe_count);
 			// handle_redirects(mini);
 			create_cmd_list(mini);
-			// hand_heredoc(mini);
-			if (mini->pipe->pipe_count > 0)
-				exec_pipe(mini);
+			print_cmd_args(mini->cmd);
+			hand_heredoc(mini);
+			// if (mini->pipe->pipe_count > 0)
+				// exec_pipe(mini);
 			execution(mini->cmd, mini);
 			close_fd(mini);
 		}

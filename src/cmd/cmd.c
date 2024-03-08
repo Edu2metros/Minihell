@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/07 20:54:21 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/08 13:28:10 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,8 @@ t_token	*populate_cmd_args(t_token *token, t_cmd *cmd)
 	}
 	while (token && token->type != PIPE)
 	{
+		if (token->type == is_redirect(token))
+			handle_redirects(get_control());
 		next_quote(token);
 		cmd->args[cmd->count] = ft_strdup(token->content);
 		cmd->count++;
@@ -176,5 +178,5 @@ void	create_cmd_list(t_minishell *mini)
 			token = token->next;
 	}
 	free_tokens(&token);
-	print_cmd_args(mini->cmd);
+	// print_cmd_args(mini->cmd);
 }
