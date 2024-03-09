@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:12:49 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/04 13:49:54 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/09 17:08:02 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_cmd_args(t_cmd *cmd)
 		i = 0;
 		while(aux->args[i])
 		{
-			printf("Node: %d, Arg: %d String: %s \n", j, i, aux->args[i]);
+			printf("Node: %d, Name: %s Arg: %d String: %s \n", j, aux->name, i, aux->args[i]);
 			i++;
 		}
 		j++;

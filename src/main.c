@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/09 14:32:35 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/09 17:08:42 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	main(void)
 	mini->pipe = ft_calloc(1, sizeof(t_pipe));
 	mini->pipe->pipe_count = 0;
 	mini->table = hash_population(mini, &mini->table);
+	// mini->fd_in = dup(STDIN_FILENO);
+	// mini->fd_out = dup(STDOUT_FILENO);
 	while (1)
 	{
 		input = readline(PROMPT);
@@ -49,7 +51,7 @@ int	main(void)
 			tokenizer(input, mini);
 			// handle_redirects(mini);
 			create_cmd_list(mini);
-			pipes(mini);
+			pipes(mini, lst_first(mini->cmd));
 			// minishell(mini);
 			// close_fd(mini);
 		}

@@ -3,12 +3,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void	pipe_execution(t_minishell *mini, int fd_in)
+void pipe_execution(t_minishell *mini, int fd_read)
 {
-	char	**path;
-	char	*tmp;
-	pid_t	pid;
-	int		i;
+	char **path;
+	char *tmp;
+	pid_t pid;
+	int i;
 
 	i = 0;
 	pipe(mini->pipe->fd);
@@ -16,10 +16,12 @@ void	pipe_execution(t_minishell *mini, int fd_in)
 	path = ft_split(hash_search(mini->table, "PATH"), ':');
 	if (pid == 0)
 	{
-		dup2(fd_in, STDIN_FILENO);
+		dup2(fd_read, STDIN_FILENO);
 		if (mini->pipe->pipe_count > 0)
+		{
 			dup2(mini->pipe->fd[1], STDOUT_FILENO);
-			close(fd_in);
+			close(fd_read);
+		}
 		while (path[i] != NULL)
 		{
 			tmp = ft_strjoin(path[i], "/");
@@ -32,15 +34,22 @@ void	pipe_execution(t_minishell *mini, int fd_in)
 	}
 }
 
-void	pipes(t_minishell *mini)
+void pipes(t_minishell *mini, t_cmd *cmd)
 {
-	int fd_in;
+	int fd_read;
+
 	int i;
-	fd_in = dup(STDIN_FILENO);
-	while (mini->pipe->pipe_count >= 0)
+	fd_read = dup(STDIN_FILENO);
+	while (mini->pipe->pipe_count >= 0 && cmd)
 	{
-		if (mini->cmd->type == WORD)
-			pipe_execution(mini, fd_in);
-		mini->pipe->pipe_count--;
+		printf("pipe_count %d\n", mini->pipe->pipe_count);
+		if (cmd->type == WORD)
+		{
+			printf("entrou %s\n", cmd->name);
+			pipe_execution(mini, fd_read);
+			mini->pipe->pipe_count--;
+		}
+		cmd = cmd->next;
 	}
 }
+
