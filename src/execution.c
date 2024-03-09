@@ -40,10 +40,11 @@ void	minishell(t_minishell *mini)
 		execution(mini->cmd, mini);
 	else
 	{
-		// while(mini->token)
-		// {
-			handle_pipes(mini);			
-		// }
+		while(mini->pipe->pipe_count)
+		{
+			handle_pipes(mini);
+			mini->pipe->pipe_count--;
+		}
 		
 	}
 }

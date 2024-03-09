@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/08 18:40:47 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/09 14:32:58 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,13 @@ typedef struct s_cmd
 {
 	int						type;
 	int						count;
-	int						fd;
+	int						fd[2];
 	char					*name;
 	char					**args;
 	struct s_cmd			*previous;
 	struct s_cmd			*next;
+	struct s_redirect_out	*redirect_list_out;
+	struct s_redirect_in	*redirect_list_in;
 }							t_cmd;
 
 typedef struct s_hash_item
@@ -116,6 +118,8 @@ typedef struct s_pipe
 	int						pipe_count;
 	int						fd[2];
 	int						backup_read;
+	t_cmd					*cmd_output;
+	t_cmd					*cmd_input;
 	struct s_pipe			*next;
 }							t_pipe;
 
@@ -147,6 +151,7 @@ int							check_out_files(char *str);
 void						execution(t_cmd *cmd, t_minishell *mini);
 void						exec_pipe(t_minishell *mini);
 void						minishell(t_minishell *mini);
+void						pipes(t_minishell *mini);
 
 // Token functions
 int							process_token_arg(char *input, t_minishell *mini,
@@ -179,12 +184,12 @@ t_redirect_out				*lstlast_out(t_redirect_out *lst);
 t_redirect_out				*new_redirect_out(char *content, int type);
 int							check_files(char *file_name);
 void						hand_heredoc(t_minishell *mini);
-void						handle_redirects(t_minishell *mini);
+void						handle_redirects(t_cmd *cmd, t_minishell *mini);
 void						handle_in_files(t_redirect_in *redirect);
 void						handle_out_files(t_redirect_out *redirect);
 void						redirect_in_list(t_token **token,
 								t_redirect_in **redirect);
-void						redirect_out_list(t_token **token,
+int							redirect_out_list(t_token **token,
 								t_redirect_out **redirect);
 
 // Print functions
@@ -200,7 +205,8 @@ t_cmd						*add_new_node(t_cmd *cmd, char *content, int type);
 int							lstsize_pipe(t_token *token);
 int							is_redirect(t_token *token);
 void						create_cmd_list(t_minishell *mini);
-t_token						*populate_cmd_args(t_token *token, t_cmd *cmd);
+t_token						*populate_cmd_args(t_token *token, t_cmd *cmd,
+								t_minishell *mini);
 
 // Builtins functions
 void						ft_pwd(void);

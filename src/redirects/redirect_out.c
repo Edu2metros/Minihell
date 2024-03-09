@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_out.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:35:41 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/07 18:41:05 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/08 20:01:45 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	check_out_files(char *str)
 	return (1);
 }
 
-void	redirect_out_list(t_token **token, t_redirect_out **redirect)
+int	redirect_out_list(t_token **token, t_redirect_out **redirect)
 {
 	t_redirect_out	*new_red;
 	
@@ -60,6 +60,8 @@ void	redirect_out_list(t_token **token, t_redirect_out **redirect)
 				lstlast_out(*redirect)->next = new_red;
 			handle_out_files(new_red);
 		}
-		*token = (*token)->next;
+		*token = (*token)->next;		
+		return(1);
 	}
+	return(0);
 }

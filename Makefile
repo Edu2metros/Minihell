@@ -6,7 +6,7 @@
 #    By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/03/07 19:35:17 by eddos-sa         ###   ########.fr        #
+#    Updated: 2024/03/08 20:47:24 by eddos-sa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRC_DIR			:= src/
 
 NAME = minishell
 
-src += main.c utils.c errors.c free.c execution.c
+src += main.c utils.c errors.c free.c execution.c pipes.c
 
 src += $(addprefix tokenizer/, token_identifiers.c \
 								token_identifiers_utils.c \
