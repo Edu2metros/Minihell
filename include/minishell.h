@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/11 14:04:24 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/11 16:06:59 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,7 @@ int							check_out_files(char *str);
 void						execution(t_cmd *cmd, t_minishell *mini);
 void						exec_pipe(t_minishell *mini);
 void						minishell(t_minishell *mini);
-void						pipes(t_minishell *mini);
-
+void						pipes(t_minishell *mini, t_cmd *cmd);
 // Token functions
 int							process_token_arg(char *input, t_minishell *mini,
 								int i);

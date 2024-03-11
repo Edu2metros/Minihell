@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/11 14:02:30 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/11 16:14:35 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,17 +179,17 @@ void	create_cmd_list(t_minishell *mini)
 		mini->cmd = add_new_node(mini->cmd, token->content,
 			token->type);
 		token = populate_cmd_args(token, mini->cmd, mini);
-		if (token && token->type == PIPE)
-		{
-			mini->cmd = add_new_node(mini->cmd,	token->content, token->type);
-			mini->cmd->args = ft_calloc(2, sizeof(char *));
-			mini->cmd->args[0] = ft_strdup("|");
-			mini->cmd->args[1] = NULL; 
-		}
+		// if (token && token->type == PIPE)
+		// {
+		// 	mini->cmd = add_new_node(mini->cmd,	token->content, token->type);
+		// 	mini->cmd->args = ft_calloc(2, sizeof(char *));
+		// 	mini->cmd->args[0] = ft_strdup("|");
+		// 	mini->cmd->args[1] = NULL; 
+		// }
 		if (token != NULL)
 			token = token->next;
 	}
-	// print_cmd_args(mini->cmd);
+	print_cmd_args(mini->cmd);
 }
 	
 
