@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/09 14:32:35 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/11 13:48:41 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ int	main(void)
 			// minishell(mini);
 			// close_fd(mini);
 		}
+		free(input);
+		free_tokens(&(mini->token));
+		free_all(mini);
 	}
 	clear_history();
-	free_all(mini);
 	free(input);
 	return (0);
 }
