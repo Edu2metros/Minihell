@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 13:09:27 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/02 18:48:24 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:48:17 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,14 @@ int					format(const char *str, va_list ap);
 int					ft_puthex(unsigned int nbr, char x);
 size_t				ft_putchar(char c);
 size_t				ft_putstr(char *str);
+
+int					ft_printf_fd(int fd, const char *str, ...);
+int					format_fd(const char *str, va_list ap, int fd);
+size_t				putchar_fd(char c, int fd);
+size_t				putstr_fd(char *str, int fd);
+size_t				putnbr_fd(int nbr, int fd);
+size_t				ft_putptr_fd(void *ptr, int fd);
+int	ft_puthex_fd(unsigned int nbr, char x, int fd);
+size_t				ft_unsint_fd(unsigned int nbr, int fd);
 
 #endif

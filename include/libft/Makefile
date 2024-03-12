@@ -52,7 +52,14 @@ SRC = \
 	quote.c\
 	ft_ismetachar.c\
 	ft_strjoin_char.c\
-	
+	ft_printf_fd.c\
+	putchar_fd.c\
+	puthex_fd.c\
+	putint_fd.c\
+	putptr_fd.c\
+	putstr_fd.c\
+	putunsigned_fd.c\
+
 BONUS_SRC = \
 	ft_lstnew_bonus.c\
 	ft_lstadd_front_bonus.c\
