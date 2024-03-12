@@ -6,21 +6,11 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/11 16:14:35 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/11 19:59:24 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-int	is_redirect(t_token *token)
-{
-	int	type;
-
-	type = token->type;
-	if (type == OUTPUT || type == INPUT || type == APPEND || type == HEREDOC)
-		return (type);
-	return (0);
-}
 
 t_cmd	*add_new_node(t_cmd *cmd, char *content, int type)
 {
@@ -48,22 +38,9 @@ t_cmd	*cmd_new_node(char *content, int type)
 	cmd->count = 0;
 	cmd->next = NULL;
 	cmd->previous = NULL;
+	cmd->redirect_list_in = NULL;
+	cmd->redirect_list_out = NULL;
 	return (cmd);
-}
-
-int	lstsize_pipe(t_token *token)
-{
-	int	i;
-
-	i = 0;
-	while (token)
-	{
-		if (token->type == PIPE)
-			return (i);
-		i++;
-		token = token->next;
-	}
-	return (i);
 }
 
 int	expand_variable(t_token *token, int i)
@@ -166,6 +143,64 @@ t_token	*populate_cmd_args(t_token *token, t_cmd *cmd, t_minishell *mini)
 	return (token);
 }
 
+void	shift_args(char **args, int start)
+{
+    int j = start;
+
+    while (args[j])
+    {
+        args[j] = args[j + 1];
+        j++;
+    }
+    free(args[j]);
+}
+
+void	remove_redirect(t_cmd *cmd)
+{
+    t_cmd	*aux;
+    int		i;
+
+    aux = lst_first(cmd);
+    while (aux)
+    {
+        i = 0;
+        while (aux->args[i])
+        {
+            if (ft_strcmp(aux->args[i], ">") == 0 || ft_strcmp(aux->args[i],
+                    ">>") == 0 || ft_strcmp(aux->args[i], "<") == 0)
+            {
+                free(aux->args[i]);
+                shift_args(aux->args, i);
+                if (aux->args[i])
+                {
+                    free(aux->args[i]);
+                    shift_args(aux->args, i);
+                }
+            }
+            else
+                i++;
+        }
+        aux = aux->next;
+    }
+}
+
+void handle_pipe_node(t_minishell *mini)
+{
+	mini->cmd = add_new_node(mini->cmd, "", PIPE);
+	mini->cmd->args = ft_calloc(2, sizeof(char *));
+	if (!mini->cmd->args)
+	{
+		// handle error
+		return;
+	}
+	mini->cmd->args[0] = ft_strdup("|");
+	if (!mini->cmd->args[0])
+	{
+		// handle error
+		return;
+	}
+	mini->cmd->args[1] = NULL;
+}
 
 void	create_cmd_list(t_minishell *mini)
 {
@@ -176,42 +211,13 @@ void	create_cmd_list(t_minishell *mini)
 	count = 0;
 	while (token)
 	{
-		mini->cmd = add_new_node(mini->cmd, token->content,
-			token->type);
+		mini->cmd = add_new_node(mini->cmd, token->content, token->type);
 		token = populate_cmd_args(token, mini->cmd, mini);
-		// if (token && token->type == PIPE)
-		// {
-		// 	mini->cmd = add_new_node(mini->cmd,	token->content, token->type);
-		// 	mini->cmd->args = ft_calloc(2, sizeof(char *));
-		// 	mini->cmd->args[0] = ft_strdup("|");
-		// 	mini->cmd->args[1] = NULL; 
-		// }
+		handle_redirects(mini->cmd, mini);
+		remove_redirect(mini->cmd);
+		handle_pipe_node(mini);
 		if (token != NULL)
 			token = token->next;
 	}
 	print_cmd_args(mini->cmd);
 }
-	
-
-
-
-// free_tokens(&token);
-// print_cmd_args(mini->cmd);
-
-/* 		if (token == PIPE)
-		{
-			last_cmd = get_last_cmd();
-			last_cmd->output_to_pipe = true;
-		}
-
-			se o token atual é um comando,
-				e o ultimo comando da lista de commandos
-			vai escrever em um pipe,
-				introduzimos um novo comando na lista de comandos
-			e definimos que esse novo comando vai ler de um pipe.
-
-		else if (token == COMMAND && get_last_cmd()->output_to_pipe == true)
-		{
-			append_command(type, ...);
-			get_last_cmd()->input_from_pipe = true;
-		} */

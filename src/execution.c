@@ -1,86 +1,60 @@
 #include "../include/minishell.h"
 
-// Arrumar execução
-// redirect in / heredoc
-// memória
-// pipe
-// tratar FDs abertos
-
-void handle_pipes(t_minishell *mini)
+void	exec_redirect(t_cmd *cmd)
 {
-	int i;
-	i = 0;
-	// if(mini->redirect_list_out || mini->redirect_list_in)
-	int fd[2];
-	pid_t pid;
-	pipe(fd);
-	pid = fork();
-	if(pid == 0)
+	if (cmd->redirect_list_in)
+		dup2(cmd->redirect_list_in->fd_in, 0);
+	if (cmd->redirect_list_out)
 	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		execution(mini->cmd, mini);
-	}
-	else
-	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-		execution(mini->cmd, mini);
-		waitpid(pid, NULL, 0);
+		cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
+		dup2(cmd->redirect_list_out->fd_out, 1);
 	}
 }
 
-void	minishell(t_minishell *mini)
-{
-	int i;
-	i = 0;
-	if (mini->pipe->pipe_count == 0)
-		execution(mini->cmd, mini);
-	else
-	{
-		while(mini->pipe->pipe_count)
-		{
-			handle_pipes(mini);
-			mini->pipe->pipe_count--;
-		}
-		
-	}
-}
-
-void	execution(t_cmd *cmd, t_minishell *mini)
+char	*get_path(t_minishell *mini, char *command)
 {
 	char	**path;
-	pid_t	pid;
 	char	*tmp;
 	int		i;
 
+	i = 0;
 	path = ft_split(hash_search(mini->table, "PATH"), ':');
-	// fazer uma validação se caso path == NULL;
+	if (path == NULL)
+	{
+		ft_putstr_fd("Command not found.", 2);
+		return (NULL);
+	}
+	while (path[i] != NULL)
+	{
+		tmp = ft_strjoin(path[i], "/");
+		tmp = ft_strjoin(tmp, command);
+		if (access(tmp, F_OK))
+			return (tmp);
+		i++;
+	}
+	return (NULL);
+}
+
+void	simple_execution(t_cmd *cmd, t_minishell *mini)
+{
+	pid_t	pid;
+	char	*path;
+	int		i;
+
 	i = 0;
 	pid = fork();
-	while (path[i] != NULL && pid == 0)
+	path = get_path(mini, cmd->name);
+	if (pid == 0)
 	{
 		if (is_builtin(cmd->name) != 0)
 		{
+			exec_redirect(cmd);
 			builtin_execution(mini->token, mini);
-			exit(EXIT_SUCCESS);	
+			exit(EXIT_SUCCESS);
 		}
-		tmp = ft_strjoin(path[i], "/");
-		tmp = ft_strjoin(tmp, cmd->name);
-		if (access(tmp, F_OK) == 0)
-		{
-			if (mini->redirect_list_out)
-			{
-				mini->redirect_list_out = lstlast_out(mini->redirect_list_out);
-				dup2(mini->redirect_list_out->fd_out, 1);
-			}
-			execve(tmp, cmd->args, NULL);
-			break ;
-		}
-		i++;
-		free(tmp);
+		exec_redirect(cmd);
+		execve(path, cmd->args, NULL);
+		free(path);
 	}
 	if (pid)
 		waitpid(pid, NULL, 0);

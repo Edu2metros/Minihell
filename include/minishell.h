@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/11 16:06:59 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/11 20:07:04 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,21 @@ void						unset(t_minishell *mini, t_cmd *cmd);
 int							check_out_files(char *str);
 void						execution(t_cmd *cmd, t_minishell *mini);
 void						exec_pipe(t_minishell *mini);
-void						minishell(t_minishell *mini);
 void						pipes(t_minishell *mini, t_cmd *cmd);
+void						free_all(t_minishell *minishell);
+void						simple_execution(t_cmd *cmd, t_minishell *mini);
+void						pipe_execution(t_minishell *mini, t_cmd *cmd);
+
+// Signals functions
+void						sigint_handler(int sig);
+void						sigquit_handler(int sig);
+void						sig_ignore(void);
+void						signals_parent(void);
+void						sig_here(int sig);
+void						signal_here(t_minishell *mini);
+void						sig_handler(int sig);
+void						hand_signals(t_minishell *mini);
+
 // Token functions
 int							process_token_arg(char *input, t_minishell *mini,
 								int i);

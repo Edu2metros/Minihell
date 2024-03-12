@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:07:39 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/02/29 15:38:22 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/11 19:26:03 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,12 @@ void	free_cmd(t_cmd **cmd)
 		current = next;
 	}
 	*cmd = NULL;
+}
+
+void	free_all(t_minishell *minishell)
+{
+	free_tokens(&(minishell->token));
+	free_redirect_in(&(minishell->redirect_list_in));
+	free_redirect_out(&(minishell->redirect_list_out));
+	free_cmd(&(minishell->cmd));
 }

@@ -28,7 +28,7 @@ void	ft_putstring_fd(int fd)
 		write(2, &c, 1);
 }
 
-void	pipes(t_minishell *mini, t_cmd *cmd)
+void	pipe_execution(t_minishell *mini, t_cmd *cmd)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -53,7 +53,7 @@ void	pipes(t_minishell *mini, t_cmd *cmd)
 	waitpid(pid, NULL, 0);
 	// ft_putstring_fd(fd[1]);
 	// dup2(fd[0], backup_read);
-	dup2(fd[0], 0);
+	dup2(fd[0], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
 	// close(backup_read);
@@ -63,7 +63,7 @@ void	pipes(t_minishell *mini, t_cmd *cmd)
 }
 // execution_pipe(cmd);
 
-/* void	pipes(t_minishell *mini)
+/*  void	pipes(t_minishell *mini)
 {
 	int		new_pipe[2];
 	pid_t	pid;
@@ -78,7 +78,7 @@ void	pipes(t_minishell *mini, t_cmd *cmd)
 		dup2(new_pipe[1], STDOUT_FILENO);
 		close(new_pipe[0]);
 		close(new_pipe[1]);
-		execution_pipe(aux, new_pipe);
+		execution_pipe(aux);
 		exit(0);
 	}
 	else
@@ -89,7 +89,7 @@ void	pipes(t_minishell *mini, t_cmd *cmd)
 			dup2(new_pipe[0], STDIN_FILENO);
 			close(new_pipe[0]);
 			close(new_pipe[1]);
-			execution_pipe(aux->next->next, new_pipe);
+			execution_pipe(aux->next->next);
 			exit(0);
 		}
 	}
