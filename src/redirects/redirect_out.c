@@ -6,15 +6,15 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:35:41 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/12 12:25:58 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:33:33 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_redirect_out	*new_redirect_out(char *content, int type)
+t_redirect_out *new_redirect_out(char *content, int type)
 {
-	t_redirect_out	*redirect;
+	t_redirect_out *redirect;
 
 	redirect = malloc(sizeof(t_redirect_out));
 	if (!redirect)
@@ -26,44 +26,59 @@ t_redirect_out	*new_redirect_out(char *content, int type)
 	return (redirect);
 }
 
-int	check_out_files(char *str)
+int check_out_files(char *str)
 {
 	if (file_exist(str))
 	{
 		if (!file_is_writable(str))
 		{
 			printf("minishell: %s: Permission denied\n", str);
-			exit (EXIT_FAILURE);
+			return 0;
 		}
 	}
-	if(file_is_executable(str))
+	if (file_is_executable(str))
 	{
 		printf("minishell: %s: Is a directory\n", str);
-		exit (EXIT_FAILURE);
+		return 0;
 	}
 	return (1);
 }
 
-int	redirect_out_list(t_token **token, t_redirect_out **redirect)
+void redirect_out_list(t_token **token, t_redirect_out **redirect)
 {
-	t_redirect_out	*new_red;
+	t_redirect_out *new_red;
 	t_redirect_out *last;
-	
+
 	last = lstlast_out(*redirect);
-	check_out_files((*token)->next->content);
-	if ((*token))
+	if (!check_out_files((*token)->next->content))
 	{
-		new_red = new_redirect_out((*token)->next->content, (*token)->type);
-		if (new_red != NULL)
-		{
-			if (*redirect == NULL)
-				*redirect = new_red;
-			else
-				last->next = new_red;
-			handle_out_files(new_red);
-		}
-		*token = (*token)->next;		
-		return(1);
+		clear_list_out(redirect);
+		return;
 	}
-	return(0);
+	new_red = new_redirect_out((*token)->next->content, (*token)->type);
+	if (new_red != NULL)
+	{
+		if (*redirect == NULL)
+			*redirect = new_red;
+		else
+			last->next = new_red;
+		handle_out_files(new_red);
+	}
+	*token = (*token)->next;
+}
+
+void clear_list_out(t_redirect_out **redirect)
+{
+	t_redirect_out *tmp;
+
+	if (!redirect)
+		return;
+	while (*redirect)
+	{
+		tmp = (*redirect)->next;
+		close((*redirect)->fd_out);
+		free((*redirect)->content);
+		free(*redirect);
+		*redirect = tmp;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:33:51 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/12 13:34:34 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:34:14 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,37 @@ int check_in_files(char *str)
 	if (!file_exist(str))
 	{
 		printf("minishell: %s: No such file or directory\n", str);
-		exit(EXIT_FAILURE);
+		return 0;
 	}
 	else if (!file_is_readable(str))
 	{
 		printf("minishell: %s: Permission denied\n", str);
-		exit(EXIT_FAILURE);
+		return 0;
 	}
 	return (1);
 }
 
-void	set_heredoc(t_token **token, t_redirect_in **redirect)
+void set_heredoc(t_token **token, t_redirect_in **redirect)
 {
 	t_redirect_in *new_red_in;
 	t_redirect_in *last;
 
 	last = lstlast_in(*redirect);
-	
+	if (!check_in_files((*token)->next->content))
+	{
+		clear_list_in(redirect);
+		return;
+	}
+	new_red_in = new_redirect_in("heredoc", (*token)->type);
+	if (new_red_in != NULL)
+	{
+		if (*redirect == NULL)
+			*redirect = new_red_in;
+		else
+			last->next = new_red_in;
+		handle_in_files(new_red_in);
+	}
+	*token = (*token)->next;
 }
 
 void redirect_in_list(t_token **token, t_redirect_in **redirect)
@@ -56,8 +70,11 @@ void redirect_in_list(t_token **token, t_redirect_in **redirect)
 	t_redirect_in *last;
 
 	last = lstlast_in(*redirect);
-	check_in_files((*token)->next->content);
-
+	if (!check_in_files((*token)->next->content))
+	{
+		clear_list_in(redirect);
+		return;
+	}
 	new_red_in = new_redirect_in((*token)->next->content, (*token)->type);
 	if (new_red_in != NULL)
 	{
@@ -68,4 +85,30 @@ void redirect_in_list(t_token **token, t_redirect_in **redirect)
 		handle_in_files(new_red_in);
 	}
 	*token = (*token)->next;
+}
+
+void clear_list_in(t_redirect_in **redirect)
+{
+	t_redirect_in *tmp;
+
+	if (!redirect)
+		return ;
+	while (*redirect)
+	{
+		tmp = (*redirect)->next;
+		if ((*redirect)->heredoc == 0)
+		{
+			close((*redirect)->fd_in);
+			free((*redirect)->content);
+			free(*redirect);
+		}
+		else if ((*redirect)->heredoc == 1)
+		{
+			close((*redirect)->fd_in);
+			unlink((*redirect)->content);
+			free((*redirect)->content);
+			free(*redirect);
+		}
+		*redirect = tmp;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/12 11:40:21 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:32:10 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,8 @@ void handle_redirects(t_cmd *cmd, t_minishell *mini)
 		aux = token->next;
 		if (token->type == is_redirect(token) && (aux != NULL))
 		{
-			// if (token->type == HEREDOC)
-			// {
-			// 	redirect_in_list(&token, &mini->redirect_list_in);
-			// 	hand_heredoc(mini);
-			// }
+			if (token->type == HEREDOC)
+				set_heredoc(&token, &cmd->redirect_list_in);
 			if (token->type == INPUT)
 				redirect_in_list(&token, &cmd->redirect_list_in);
 			else if (token->type == OUTPUT || token->type == APPEND)
