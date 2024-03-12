@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+         #
+#    By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/03/11 20:09:05 by eddos-sa         ###   ########.fr        #
+#    Updated: 2024/03/12 12:57:46 by jaqribei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRC_DIR			:= src/
 
 NAME = minishell
 
-src += main.c utils.c errors.c free.c execution.c pipes.c hand_signals.c
+src += main.c utils.c errors.c free.c execution.c pipes.c
 
 src += $(addprefix tokenizer/, token_identifiers.c \
 								token_identifiers_utils.c \
@@ -62,6 +62,9 @@ src += $(addprefix hashtable/, hash_clear.c \
 								hash_item.c \
 								hash_print.c \
 								hashtable.c)
+
+src += $(addprefix signals/, hand_signals.c \
+								hand_signals_utils.c)
 
 SRC_OBJ = $(addprefix $(OBJ_DIR)/, $(src:%.c=%.o))
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/09 15:39:36 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/12 11:40:21 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,53 +33,30 @@ t_token	*first(t_token **lst)
 	return (*lst);
 }
 
-void	clear_token_redirect(t_token **token)
+void handle_redirects(t_cmd *cmd, t_minishell *mini)
 {
-	t_token	*current;
-	t_token	*aux;
-
-	t_token *last_node = NULL; // Initialize last_node
-	current = *token;
-	while (current)
-	{
-		if (is_redirect(current) && current->next != NULL
-			&& (current->next->type == WORD || current->next->type == QUOTE))
-		{
-			aux = current->next;
-			last_node->next = aux->next;
-			// Free memory for current and aux
-			free(current->content);
-			free(current);
-			free(aux->content);
-			free(aux);
-			current = last_node->next;
-		}
-		else
-		{
-			last_node = current;
-			current = current->next;
-		}
-	}
-}
-
-void	handle_redirects(t_cmd *cmd, t_minishell *mini)
-{
-	t_token	*token;
-	t_token	*aux;
+	t_token *token;
+	t_token *aux;
 
 	token = mini->token;
-	if (token->type == INPUT)
-		redirect_in_list(&token, &mini->redirect_list_in);
-	else if (token->type == OUTPUT || token->type == APPEND)
+	while (token && token->type != PIPE)
 	{
-		// if(redirect_out_list(&token, &mini->redirect_list_out))
-		// {
-			// cmd->fd = mini->redirect_list_out->fd_out;
-			
-		// }
+		aux = token->next;
+		if (token->type == is_redirect(token) && (aux != NULL))
+		{
+			// if (token->type == HEREDOC)
+			// {
+			// 	redirect_in_list(&token, &mini->redirect_list_in);
+			// 	hand_heredoc(mini);
+			// }
+			if (token->type == INPUT)
+				redirect_in_list(&token, &cmd->redirect_list_in);
+			else if (token->type == OUTPUT || token->type == APPEND)
+				redirect_out_list(&token, &cmd->redirect_list_out);
+			token = aux;
+		}
+		token = aux;
 	}
-	token = aux;
-	// clear_token_redirect(&mini->token);
 }
 
 void	close_fd(t_minishell *mini)

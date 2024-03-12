@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/11 20:07:35 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/12 13:11:10 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,14 @@ static void	minishell(t_minishell *mini, t_hash_table *table)
 
 	while (1)
 	{
-		
 		hand_signals(mini);
 		input = readline(PROMPT);
+		handle_control_d(input, table);
 		if (!ft_strncmp(input, "quit", 5))
 		{
 			ft_putstr_fd("exit\n", 1);
 			exit(0);
 		}
-		// handle_control_d(input, table);
 		add_history(input);
 		if (validator(input))
 		{

@@ -28,7 +28,7 @@ char	*get_path(t_minishell *mini, char *command)
 	{
 		tmp = ft_strjoin(path[i], "/");
 		tmp = ft_strjoin(tmp, command);
-		if (access(tmp, F_OK))
+		if (access(tmp, F_OK) == 0)
 			return (tmp);
 		i++;
 	}

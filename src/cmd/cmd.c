@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/11 19:59:24 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/12 13:05:05 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,6 @@ t_token	*populate_cmd_args(t_token *token, t_cmd *cmd, t_minishell *mini)
 	}
 	while (token && token->type != PIPE)
 	{
-		if (is_redirect(token))
-		{
-			handle_redirects(cmd, mini);
-		}
 		next_quote(token);
 		cmd->args[cmd->count] = ft_strdup(token->content);
 		cmd->count++;
@@ -145,61 +141,43 @@ t_token	*populate_cmd_args(t_token *token, t_cmd *cmd, t_minishell *mini)
 
 void	shift_args(char **args, int start)
 {
-    int j = start;
+	int j = start;
 
-    while (args[j])
-    {
-        args[j] = args[j + 1];
-        j++;
-    }
-    free(args[j]);
+	while (args[j])
+	{
+		args[j] = args[j + 1];
+		j++;
+	}
+	free(args[j]);
 }
 
 void	remove_redirect(t_cmd *cmd)
 {
-    t_cmd	*aux;
-    int		i;
+	t_cmd	*aux;
+	int		i;
 
-    aux = lst_first(cmd);
-    while (aux)
-    {
-        i = 0;
-        while (aux->args[i])
-        {
-            if (ft_strcmp(aux->args[i], ">") == 0 || ft_strcmp(aux->args[i],
-                    ">>") == 0 || ft_strcmp(aux->args[i], "<") == 0)
-            {
-                free(aux->args[i]);
-                shift_args(aux->args, i);
-                if (aux->args[i])
-                {
-                    free(aux->args[i]);
-                    shift_args(aux->args, i);
-                }
-            }
-            else
-                i++;
-        }
-        aux = aux->next;
-    }
-}
-
-void handle_pipe_node(t_minishell *mini)
-{
-	mini->cmd = add_new_node(mini->cmd, "", PIPE);
-	mini->cmd->args = ft_calloc(2, sizeof(char *));
-	if (!mini->cmd->args)
+	aux = lst_first(cmd);
+	while (aux)
 	{
-		// handle error
-		return;
+		i = 0;
+		while (aux->args[i])
+		{
+			if (ft_strcmp(aux->args[i], ">") == 0 || ft_strcmp(aux->args[i],
+					">>") == 0 || ft_strcmp(aux->args[i], "<") == 0)
+			{
+				free(aux->args[i]);
+				shift_args(aux->args, i);
+				if (aux->args[i])
+				{
+					free(aux->args[i]);
+					shift_args(aux->args, i);
+				}
+			}
+			else
+				i++;
+		}
+		aux = aux->next;
 	}
-	mini->cmd->args[0] = ft_strdup("|");
-	if (!mini->cmd->args[0])
-	{
-		// handle error
-		return;
-	}
-	mini->cmd->args[1] = NULL;
 }
 
 void	create_cmd_list(t_minishell *mini)
@@ -215,7 +193,6 @@ void	create_cmd_list(t_minishell *mini)
 		token = populate_cmd_args(token, mini->cmd, mini);
 		handle_redirects(mini->cmd, mini);
 		remove_redirect(mini->cmd);
-		handle_pipe_node(mini);
 		if (token != NULL)
 			token = token->next;
 	}
