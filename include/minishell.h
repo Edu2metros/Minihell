@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/12 13:09:17 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/12 16:31:09 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ typedef struct s_cmd
 {
 	int						type;
 	int						count;
-	int						fd[2];
+	int						fd_in;
+	int						fd_out;
 	char					*name;
 	char					**args;
 	struct s_cmd			*previous;
@@ -140,7 +141,6 @@ typedef struct s_minishell
 }							t_minishell;
 
 t_minishell					*get_control(void);
-void						ft_exit(t_cmd *cmd, char *status);
 int							file_exist(char *file_name);
 int							file_is_readable(char *file_name);
 int							file_is_writable(char *file_name);
@@ -149,12 +149,14 @@ t_token						*first(t_token **lst);
 int							ft_array_len(char **array);
 void						unset(t_minishell *mini, t_cmd *cmd);
 int							check_out_files(char *str);
-void						execution(t_cmd *cmd, t_minishell *mini);
+void						exec(t_minishell *mini, t_cmd *cmd);
+void						exec_command(t_cmd *cmd, t_minishell *mini);
 void						exec_pipe(t_minishell *mini);
 void						pipes(t_minishell *mini, t_cmd *cmd);
 void						free_all(t_minishell *minishell);
 void						simple_execution(t_cmd *cmd, t_minishell *mini);
 void						pipe_execution(t_minishell *mini, t_cmd *cmd);
+char						*get_path(t_minishell *mini, char *command);
 
 // Signals functions
 void						sigint_handler(int sig);
@@ -185,7 +187,7 @@ void						add_token(char *str, int type, int space,
 								t_minishell *mini);
 
 // Redirect functions
-// Redirect functions
+
 void						close_fd(t_minishell *mini);
 
 t_redirect_in				*new_redirect_in(char *content, int type);
@@ -230,6 +232,7 @@ void						env(t_cmd *cmd, t_hash_table **table);
 void						builtin_execution(t_token *token,
 								t_minishell *mini);
 void						export(t_cmd *cmd, t_hash_table *hash);
+void						ft_exit(t_cmd *cmd, char *status);
 
 // Error functions
 void						handle_error(int nbr);
@@ -243,6 +246,7 @@ void						free_redirect_out(t_redirect_out **redirect);
 
 // Utils functions
 int							is_quote(char c);
+void						ft_putstring_fd(int fd);
 int							is_builtin(char *input);
 int							handle_pipe(char *prompt);
 int							is_word(const char *input);

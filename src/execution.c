@@ -35,7 +35,7 @@ char	*get_path(t_minishell *mini, char *command)
 	return (NULL);
 }
 
-void	simple_execution(t_cmd *cmd, t_minishell *mini)
+void	exec_command(t_cmd *cmd, t_minishell *mini)
 {
 	pid_t	pid;
 	char	*path;
@@ -54,8 +54,8 @@ void	simple_execution(t_cmd *cmd, t_minishell *mini)
 		}
 		exec_redirect(cmd);
 		execve(path, cmd->args, NULL);
-		free(path);
 	}
 	if (pid)
 		waitpid(pid, NULL, 0);
+	free(path);
 }

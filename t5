@@ -1,0 +1,20 @@
+total 268
+drwxr-xr-x  7 eddos-sa candidate   4096 Mar 12 16:33 .
+drwxr-xr-x 11 eddos-sa candidate   4096 Mar  6 11:48 ..
+drwxr-xr-x  8 eddos-sa candidate   4096 Mar 12 16:31 .git
+-rw-r--r--  1 eddos-sa candidate     56 Mar  7 13:47 .gitignore
+-rwxr-xr-x  1 eddos-sa candidate 103688 Mar 12 16:29 .nfs000000000d38a7bd00000071
+drwxr-xr-x  2 eddos-sa candidate   4096 Mar  6 20:07 .vscode
+-rw-r--r--  1 eddos-sa candidate   3260 Mar 12 16:30 Makefile
+-rw-r--r--  1 eddos-sa candidate     15 Feb 26 12:17 README.md
+-rw-r--r--  1 eddos-sa candidate      0 Mar 12 16:32 f1
+-rw-r--r--  1 eddos-sa candidate      0 Mar 12 16:32 f2
+-rw-r--r--  1 eddos-sa candidate      0 Mar 12 16:32 f3
+-rw-r--r--  1 eddos-sa candidate     72 Mar 12 16:32 f4
+drwxr-xr-x  3 eddos-sa candidate   4096 Mar 12 16:31 include
+-rwxr-xr-x  1 eddos-sa candidate 103968 Mar 12 16:31 minishell
+drwxr-xr-x  9 eddos-sa candidate   4096 Mar 12 16:31 obj
+drwxr-xr-x  9 eddos-sa candidate   4096 Mar 12 16:30 src
+-rw-r--r--  1 eddos-sa candidate    535 Feb 29 17:22 supression.sup
+-rw-r--r--  1 eddos-sa candidate     75 Mar 12 16:32 t1
+-rw-r--r--  1 eddos-sa candidate      0 Mar 12 16:34 t5

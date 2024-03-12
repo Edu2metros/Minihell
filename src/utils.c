@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:47:19 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/07 12:12:39 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/12 16:26:25 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,12 @@ bool	validator(char *prompt)
 	if (!handle_pipe(prompt))
 		return (false);
 	return (true);
+}
+
+void	ft_putstring_fd(int fd)
+{
+	int	c;
+
+	while (read(fd, &c, 1) != -1)
+		write(2, &c, 1);
 }
