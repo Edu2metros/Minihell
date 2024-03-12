@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/12 13:11:10 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/12 16:14:32 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,6 @@ t_minishell	*get_control(void)
 	static t_minishell	control;
 
 	return (&control);
-}
-
-void	exec(t_minishell *mini)
-{
-	if (mini->pipe->pipe_count == 0)
-		simple_execution(lst_first(mini->cmd), mini);
-	else
-		pipe_execution(mini, lst_first(mini->cmd));
 }
 
 static void	minishell(t_minishell *mini, t_hash_table *table)

@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:33:51 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/12 12:22:15 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/12 13:34:34 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,15 @@ int check_in_files(char *str)
 		exit(EXIT_FAILURE);
 	}
 	return (1);
+}
+
+void	set_heredoc(t_token **token, t_redirect_in **redirect)
+{
+	t_redirect_in *new_red_in;
+	t_redirect_in *last;
+
+	last = lstlast_in(*redirect);
+	
 }
 
 void redirect_in_list(t_token **token, t_redirect_in **redirect)

@@ -48,7 +48,7 @@ void	simple_execution(t_cmd *cmd, t_minishell *mini)
 	{
 		if (is_builtin(cmd->name) != 0)
 		{
-			exec_redirect(cmd);
+			// exec_redirect(cmd);
 			builtin_execution(mini->token, mini);
 			exit(EXIT_SUCCESS);
 		}
