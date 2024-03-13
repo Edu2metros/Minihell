@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/12 20:36:26 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:11:37 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void handle_redirects(t_cmd *cmd, t_minishell *mini)
 	t_token *aux;
 
 	token = mini->token;
-	while (token && token->type != PIPE)
+	while (token)
 	{
 		aux = token->next;
 		if (token->type == is_redirect(token) && (aux != NULL))

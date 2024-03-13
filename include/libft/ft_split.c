@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:13:44 by eddos-sa          #+#    #+#             */
-/*   Updated: 2023/08/10 13:11:52 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:32:14 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	**ft_split(char const *string, char chr)
 	size_t	i;
 	char	**result;
 
+	if (!string)
+		return (NULL);
 	words = count_words(string, chr);
 	result = (char **)malloc((words + 1) * sizeof(char *));
 	if (!result)

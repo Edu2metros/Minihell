@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/12 20:39:45 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:23:19 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,5 +207,4 @@ void	create_cmd_list(t_minishell *mini)
 		if (token != NULL)
 			token = token->next;
 	}
-	print_cmd_args(mini->cmd);
 }

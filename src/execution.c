@@ -3,7 +3,10 @@
 void	exec_redirect(t_cmd *cmd)
 {
 	if (cmd->redirect_list_in)
+	{
+		cmd->redirect_list_in = lstlast_in(cmd->redirect_list_in);
 		dup2(cmd->redirect_list_in->fd_in, 0);
+	}
 	if (cmd->redirect_list_out)
 	{
 		cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
@@ -43,20 +46,8 @@ void	exec_pipe_command(t_cmd *cmd, t_minishell *mini)
 
 	i = 0;
 	path = get_path(mini, cmd->name);
-	if (is_builtin(cmd->name) != 0)
-	{
-		// exec_redirect(cmd);
-		builtin_execution(cmd, mini);
-		exit(EXIT_SUCCESS);
-	}
-	pid = fork();
-	if (pid == 0)
-	{
-		exec_redirect(cmd);
-		execve(path, cmd->args, NULL);
-	}
-	if (pid)
-		waitpid(pid, NULL, 0);
+	// exec_redirect(cmd);
+	execve(path, cmd->args, NULL);
 	free(path);
 }
 

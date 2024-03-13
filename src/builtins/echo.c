@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 23:57:02 by  jaqribei         #+#    #+#             */
-/*   Updated: 2024/03/07 12:19:55 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:38:34 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	ft_echo(t_cmd *cmd)
 	int	i;
 
 	i = 1;
-	cmd = lst_first(cmd);
 	n_flag = 0;
 	if (!cmd->args[i])
 		ft_putstr_fd("\n", 1);
