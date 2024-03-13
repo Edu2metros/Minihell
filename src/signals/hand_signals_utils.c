@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hand_signals_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:56:11 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/12 13:10:05 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/12 22:32:48 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,13 @@ void	handle_control_d(char *input, t_hash_table *table) //  Handles the control-
 		// close(get_control()->cmd->redirect_list_out->fd_out);
 		exit(0);
 	}
+}
+
+void    ctrl_c_child(int sig)
+{
+    if (sig == SIGINT)
+    {
+        get_control()->return_status = 130;
+        ft_putchar_fd('\n', STDOUT_FILENO);
+    }
 }

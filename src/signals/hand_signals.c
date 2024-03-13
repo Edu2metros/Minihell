@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hand_signals.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 19:07:16 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/12 12:56:09 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/12 22:32:35 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,15 @@ void	sigint_handler(int sig) //ctrl + c
 	}
 }
 
-void	sigquit_handler(int sig) // ctrl + '\'
+void    sigquit_handler(int sig)  
 {
-	if(sig == SIGQUIT)
-		ft_putstr_fd("Quit", 2);
+    if (sig == SIGQUIT)
+    {
+        ft_putstr_fd("Quit (core dumped)", STDOUT_FILENO);
+        get_control()->return_status = 131;
+        ft_putchar_fd('\n', STDOUT_FILENO);
+        rl_replace_line("", 0);
+	}
 }
 
 void	sig_ignore(void) // this function is to ignore the signals

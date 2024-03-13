@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:40:40 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/07 12:40:21 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/12 22:17:25 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ char	*hash_search(t_hash_table *table, char *key)
 	while (item != NULL)
 	{
 		if(item->key && !ft_strncmp(item->key, key, ft_strlen(key) + 1))
+		{
+			printf("%s\n", item->value);
 			return (ft_strdup(item->value));
+		}
 		item = item->next;
 	}
 	return (NULL);

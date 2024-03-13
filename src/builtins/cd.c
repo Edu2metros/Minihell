@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:33:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/07 19:34:18 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/12 21:05:13 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ void	relative_path(char *relative)
 {
 	char	*current;
 
-	current = ft_strdup(hash_search(get_control()->table, "PWD"));
+	current = hash_search(get_control()->table, "PWD");
 	current = ft_strjoin(current, "/");
 	current = ft_strjoin(current, relative);
 	if (chdir(current) == -1)
-		ft_putendl_fd("cd: No such file or directory", 2);
+		ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n", relative);
 	else
 	{
 		hash_insert(&get_control()->table, "OLDPWD",

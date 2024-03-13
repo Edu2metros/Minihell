@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/12 17:35:54 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/12 22:33:05 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ enum						e_token
 	EXPORT,
 	UNSET,
 	ENV,
-	EXIT
+	EXIT,
+	TRUE
 };
 
 typedef struct s_export
@@ -131,6 +132,7 @@ typedef struct s_minishell
 	char					**path;
 	char					*execute_path;
 	char					**words;
+	int						heredoc;
 	// int						fd;
 	t_pipe					*pipe;
 	t_cmd					*cmd;
@@ -141,7 +143,7 @@ typedef struct s_minishell
 }							t_minishell;
 
 t_minishell					*get_control(void);
-void						ft_exit(t_cmd *cmd, char *status);
+void						ft_exit(t_cmd *cmd);
 int							file_exist(char *file_name);
 int							file_is_readable(char *file_name);
 int							file_is_writable(char *file_name);
@@ -151,11 +153,16 @@ int							ft_array_len(char **array);
 void						unset(t_minishell *mini, t_cmd *cmd);
 int							check_out_files(char *str);
 void						execution(t_cmd *cmd, t_minishell *mini);
-void						exec_pipe(t_minishell *mini);
 void						pipes(t_minishell *mini, t_cmd *cmd);
 void						free_all(t_minishell *minishell);
 void						simple_execution(t_cmd *cmd, t_minishell *mini);
 void						pipe_execution(t_minishell *mini, t_cmd *cmd);
+void						exec_pipe(t_minishell *mini, t_cmd *cmd);
+void						exec_command(t_cmd *cmd, t_minishell *mini);
+void						exec_pipe_command(t_cmd *cmd, t_minishell *mini);
+void						heredoc_pid(char *delimiter, int fd);
+void						get_heredoc(void);
+void						ctrl_c_child(int sig);
 
 // Signals functions
 void						sigint_handler(int sig);
@@ -198,18 +205,18 @@ t_redirect_out				*add_redirect_out(t_redirect_out *redirect,
 t_redirect_out				*lstlast_out(t_redirect_out *lst);
 t_redirect_out				*new_redirect_out(char *content, int type);
 int							check_files(char *file_name);
-void						hand_heredoc(t_minishell *mini);
+void						hand_heredoc(char *delimiter, int fd);
 void						handle_redirects(t_cmd *cmd, t_minishell *mini);
 void						handle_in_files(t_redirect_in *redirect);
 void						handle_out_files(t_redirect_out *redirect);
 void						redirect_in_list(t_token **token,
 								t_redirect_in **redirect);
-void							redirect_out_list(t_token **token,
+void						redirect_out_list(t_token **token,
 								t_redirect_out **redirect);
 void						clear_list_in(t_redirect_in **redirect);
 void						clear_list_out(t_redirect_out **redirect);
-void						set_heredoc(t_token **token, t_redirect_in **redirect);
-
+void						set_heredoc(t_token **token,
+								t_redirect_in **redirect);
 
 // Print functions
 void						print_cmd_args(t_cmd *cmd);
@@ -232,8 +239,7 @@ void						ft_pwd(void);
 void						hand_cd(t_cmd *cmd);
 void						ft_echo(t_cmd *cmd);
 void						env(t_cmd *cmd, t_hash_table **table);
-void						builtin_execution(t_token *token,
-								t_minishell *mini);
+void						builtin_execution(t_cmd *cmd, t_minishell *mini);
 void						export(t_cmd *cmd, t_hash_table *hash);
 
 // Error functions

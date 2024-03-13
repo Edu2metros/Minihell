@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/12 16:31:15 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/12 20:48:20 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,22 @@ t_minishell	*get_control(void)
 	return (&control);
 }
 
+void	pipe_or_not(t_minishell *mini, t_cmd *cmd)
+{
+	if (cmd->next == NULL)
+		exec_command(cmd, mini);
+	else
+		exec_pipe(mini, cmd);
+}
+
 static void	minishell(t_minishell *mini, t_hash_table *table)
 {
 	char	*input;
 
-	while (1)
+	while (TRUE)
 	{
 		hand_signals(mini);
+		get_control()->heredoc = 0;
 		input = readline(PROMPT);
 		handle_control_d(input, table);
 		if (!ft_strncmp(input, "quit", 5))
@@ -38,8 +47,11 @@ static void	minishell(t_minishell *mini, t_hash_table *table)
 		{
 			tokenizer(input, mini);
 			create_cmd_list(mini);
-			// hand_heredoc(mini);
-			exec(mini, lst_first(mini->cmd));
+			get_heredoc();
+			if (get_control()->heredoc)
+				return ;
+			pipe_or_not(mini, lst_first(mini->cmd));
+			// exec(mini, lst_first(mini->cmd));
 			close_fd(mini);
 		}
 		free_all(mini);

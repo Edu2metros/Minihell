@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/12 16:31:05 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/12 20:39:45 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,17 @@ void	remove_redirect(t_cmd *cmd)
 				if (aux->args[i])
 				{
 					free(aux->args[i]);
+					shift_args(aux->args, i);
+				}
+			}
+			else if (ft_strcmp(aux->args[i], "<<") == 0)
+			{
+				free(aux->args[i]);
+				shift_args(aux->args, i);
+				if (aux->args[i])
+				{
+					free(aux->args[i]);
+					unlink("heredoc");
 					shift_args(aux->args, i);
 				}
 			}

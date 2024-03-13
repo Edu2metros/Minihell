@@ -35,6 +35,31 @@ char	*get_path(t_minishell *mini, char *command)
 	return (NULL);
 }
 
+void	exec_pipe_command(t_cmd *cmd, t_minishell *mini)
+{
+	pid_t	pid;
+	char	*path;
+	int		i;
+
+	i = 0;
+	path = get_path(mini, cmd->name);
+	if (is_builtin(cmd->name) != 0)
+	{
+		// exec_redirect(cmd);
+		builtin_execution(cmd, mini);
+		exit(EXIT_SUCCESS);
+	}
+	pid = fork();
+	if (pid == 0)
+	{
+		exec_redirect(cmd);
+		execve(path, cmd->args, NULL);
+	}
+	if (pid)
+		waitpid(pid, NULL, 0);
+	free(path);
+}
+
 void	exec_command(t_cmd *cmd, t_minishell *mini)
 {
 	pid_t	pid;
@@ -42,16 +67,18 @@ void	exec_command(t_cmd *cmd, t_minishell *mini)
 	int		i;
 
 	i = 0;
-	pid = fork();
 	path = get_path(mini, cmd->name);
+	if (is_builtin(cmd->name) != 0)
+	{
+		// exec_redirect(cmd);
+		builtin_execution(cmd, mini);
+		return ;
+	}
+	pid = fork();
+	signal(SIGINT, ctrl_c_child);
+	signal(SIGQUIT, sigquit_handler);
 	if (pid == 0)
 	{
-		if (is_builtin(cmd->name) != 0)
-		{
-			// exec_redirect(cmd);
-			builtin_execution(mini->token, mini);
-			exit(EXIT_SUCCESS);
-		}
 		exec_redirect(cmd);
 		execve(path, cmd->args, NULL);
 	}
