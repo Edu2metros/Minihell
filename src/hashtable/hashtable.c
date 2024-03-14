@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:07:53 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/05 13:23:57 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/14 16:31:47 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ t_hash_table	*create_hash_table(int size)
 	int				i;
 	
 	i = 0;
-	table = (t_hash_table *) malloc(sizeof(t_hash_table));
-	table->size = size;
+	table = (t_hash_table *)ft_calloc(1, sizeof(t_hash_table));
+	table->size = size + 1;
 	table->count = 0;
-	table->item = (t_hash_item **) calloc(sizeof(t_hash_item), size);
+	table->item = (t_hash_item **)ft_calloc(sizeof(t_hash_item) + 1, size);
 	while (i < table->size)
 	{
 		table->item[i] = NULL;

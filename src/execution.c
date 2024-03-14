@@ -14,28 +14,50 @@ void	exec_redirect(t_cmd *cmd)
 	}
 }
 
+void free_array(char **array)
+{
+	int i;
+
+	i = 0;
+	while (array[i] != NULL)
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+
+}
+
 char	*get_path(t_minishell *mini, char *command)
 {
 	char	**path;
 	char	*tmp;
 	int		i;
+	char	*full_path;
 
 	i = 0;
 	path = ft_split(hash_search(mini->table, "PATH"), ':');
 	if (path == NULL)
 	{
-		ft_putstr_fd("Command not found.", 2);
-		return (NULL);
+		ft_printf_fd(STDERR_FILENO, "minishell: \
+			%s: No such file or directory \n", command);
+		exit(127);
 	}
 	while (path[i] != NULL)
 	{
 		tmp = ft_strjoin(path[i], "/");
-		tmp = ft_strjoin(tmp, command);
-		if (access(tmp, F_OK) == 0)
-			return (tmp);
+		full_path = ft_strjoin(tmp, command);
+		free(tmp);
+		if (access(full_path, F_OK) == 0)
+		{
+			free_array(path);
+			return (full_path);
+		}
+		free(full_path);
 		i++;
 	}
-	return (NULL);
+	ft_printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", command);
+	exit(127);
 }
 
 void	exec_pipe_command(t_cmd *cmd, t_minishell *mini)
@@ -58,7 +80,6 @@ void	exec_command(t_cmd *cmd, t_minishell *mini)
 	int		i;
 
 	i = 0;
-	path = get_path(mini, cmd->name);
 	if (is_builtin(cmd->name) != 0)
 	{
 		// exec_redirect(cmd);
@@ -70,10 +91,10 @@ void	exec_command(t_cmd *cmd, t_minishell *mini)
 	signal(SIGQUIT, sigquit_handler);
 	if (pid == 0)
 	{
+		path = get_path(mini, cmd->name);
 		exec_redirect(cmd);
 		execve(path, cmd->args, NULL);
 	}
 	if (pid)
 		waitpid(pid, NULL, 0);
-	free(path);
 }
