@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/12 20:48:20 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/14 15:45:54 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	pipe_or_not(t_minishell *mini, t_cmd *cmd)
 static void	minishell(t_minishell *mini, t_hash_table *table)
 {
 	char	*input;
-
+	
 	while (TRUE)
 	{
 		hand_signals(mini);
@@ -51,7 +51,6 @@ static void	minishell(t_minishell *mini, t_hash_table *table)
 			if (get_control()->heredoc)
 				return ;
 			pipe_or_not(mini, lst_first(mini->cmd));
-			// exec(mini, lst_first(mini->cmd));
 			close_fd(mini);
 		}
 		free_all(mini);
@@ -63,7 +62,6 @@ static void	minishell(t_minishell *mini, t_hash_table *table)
 int	main(void)
 {
 	t_minishell	*mini;
-
 	ft_bzero(get_control(), sizeof(t_minishell));
 	mini = get_control();
 	mini->pipe = ft_calloc(1, sizeof(t_pipe));

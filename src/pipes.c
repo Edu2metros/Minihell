@@ -14,13 +14,76 @@ void	fd_redirections(int fd_in, int fd_out)
 	}
 }
 
+void	handle_child_process(t_cmd *cmd, t_minishell *mini, int fd[], int fd_in)
+{
+	close(fd[0]);
+	if (cmd->next != NULL)
+		fd_redirections(STDIN_FILENO, fd[1]);
+	else
+		fd_redirections(fd_in, STDOUT_FILENO);
+	if (is_builtin(cmd->name))
+		builtin_execution(cmd, mini);
+	else
+		exec_pipe_command(cmd, mini);
+	exit(EXIT_SUCCESS);
+}
+
+void	handle_parent_process(t_cmd **cmd, int fd[], int *fd_in)
+{
+	close(fd[1]);
+	if (*fd_in != STDIN_FILENO)
+		close(*fd_in);
+	*fd_in = fd[0];
+	*cmd = (*cmd)->next;
+}
+
+int	lstsize_cmd(t_cmd *cmd)
+{
+	int	count;
+
+	count = 0;
+	while (cmd)
+	{
+		count++;
+		cmd = cmd->next;
+	}
+	return (count);
+}
+
+int	count_open_fds(void)
+{
+	int	count;
+	int	max_fd;
+	int	fd;
+
+	count = 0;
+	max_fd = sysconf(_SC_OPEN_MAX);
+	if (max_fd == -1)
+	{
+		perror("sysconf");
+		return (0);
+	}
+	fd = 0;
+	while (fd < max_fd)
+	{
+		if (fcntl(fd, F_GETFD) != -1)
+			count++;
+		fd++;
+	}
+	return(count);
+}
+
 void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 {
 	int		fd[2];
 	int		fd_in;
+	int		count;
 	pid_t	pid;
+	pid_t	terminated_pid;
+	int status;
 
 	fd_in = STDIN_FILENO;
+	count = lstsize_cmd(cmd);
 	while (cmd)
 	{
 		pipe(fd);
@@ -31,28 +94,30 @@ void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 			exit(EXIT_FAILURE);
 		}
 		else if (pid == 0)
-		{
-			close(fd[0]);
-			if (cmd->next != NULL)
-				fd_redirections(STDIN_FILENO, fd[1]);
-			else
-				fd_redirections(fd_in, STDOUT_FILENO);
-			if (is_builtin(cmd->name))
-				builtin_execution(cmd, mini);
-			else
-				exec_pipe_command(cmd, mini);
-			exit(EXIT_SUCCESS);
-		}
+			handle_child_process(cmd, mini, fd, fd_in);
 		else
-			close(fd[1]);
-		fd_in = fd[0];
-		cmd = cmd->next;
+			handle_parent_process(&cmd, fd, &fd_in);
 	}
-	while (wait(NULL) > 0)
-		;
-	// waitpid(-1, NULL, 0);
-	if (fd_in != STDIN_FILENO)
-		close(fd_in);
+	close(fd[0]);
+	close(fd[1]);
+	while (count > 0)
+	{
+		terminated_pid = waitpid(-1, &status, 0);
+		if (terminated_pid > 0)
+		{
+			// Processo filho com ID terminated_pid terminou
+			// Atualizar count apenas quando um processo filho terminar
+			printf("Processo filho %d terminou.\n", terminated_pid);
+			count--;
+		}
+		else if (terminated_pid == -1)
+		{
+			// Se ocorreu um erro durante a chamada para waitpid()
+			perror("waitpid");
+			break ;
+		}
+	}
+	printf("%i file descriptors are open\n", count_open_fds());
 }
 
 /* void	exec_pipe(t_minishell *mini, t_cmd *cmd)
