@@ -88,7 +88,7 @@ void	exec_command(t_cmd *cmd, t_minishell *mini)
 	}
 	pid = fork();
 	signal(SIGINT, ctrl_c_child);
-	signal(SIGQUIT, sigquit_handler);
+	signal(SIGQUIT, handle_sigquit_signal);
 	if (pid == 0)
 	{
 		path = get_path(mini, cmd->name);

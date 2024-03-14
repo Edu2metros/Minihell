@@ -3,58 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   hand_signals.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 19:07:16 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/12 22:32:35 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/14 18:12:04 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	sigint_handler(int sig) //ctrl + c
+void	handle_sigint(int sig)
 {
-	if(sig == SIGINT)
+	if (sig == SIGINT)
 	{
 		get_control()->return_status = 130;
-		ft_putstr_fd("\n", 2);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 }
 
-void    sigquit_handler(int sig)  
+void	handle_sigquit_signal(int sig) // Ctrl + '\'
 {
-    if (sig == SIGQUIT)
-    {
-        ft_putstr_fd("Quit (core dumped)", STDOUT_FILENO);
-        get_control()->return_status = 131;
-        ft_putchar_fd('\n', STDOUT_FILENO);
-        rl_replace_line("", 0);
+	if (sig == SIGQUIT)
+	{
+		ft_putstr_fd("Quit (core dumped)", STDOUT_FILENO);
+		get_control()->return_status = 131;
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_replace_line("", 0);
 	}
 }
 
-void	sig_ignore(void) // this function is to ignore the signals
+void	handle_sigint_heredoc(int sig)
 {
-	// get_control()->signals = 0;
+	if (sig == SIGINT)
+	{
+		get_control()->return_status = 0;
+		free_all(get_control());
+		exit(130);
+	}
+}
+
+void	handle_sigint_child(int sig)
+{
+	if (sig == SIGINT)
+	{
+		get_control()->return_status = 130;
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	}
+}
+
+void	sig_ignore(void)
+{
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	signals_parent(void)  //Sets up signal handlers for SIGINT and SIGQUIT, calling 
+void hand_signals()
 {
-	// get_control()->signals = 0;
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
-}
-
-void	sig_here(int sig) // Handles the SIGINT signal for a specific scenario, closing file descriptors, freeing memory, and exiting with a specific status code.
-{
-	ft_putstr("\n");
-	if(sig == SIGINT)
-	{
-		close_fd(get_control()); //verify later
-		free(get_control());
-		free_table(&get_control()->table);
-		exit(130);
-	}
+	signal(SIGQUIT, handle_sigquit_signal);
+	signal(SIGINT, handle_sigint);
 }

@@ -3,35 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/12 21:29:47 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/14 18:10:09 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void clear_heredoc_pid()
+void clear_heredoc_child_process(t_minishell *mini)
 {
-    if (get_control()->token != NULL)
-        free_tokens(&get_control()->token);
-    if (get_control()->table != NULL)
-        free_table(&get_control()->table);
-    rl_clear_history();
-    close(STDIN_FILENO);
-    close(STDOUT_FILENO);
-    exit(get_control()->return_status);
+	if (mini->token != NULL)
+		free_tokens(&mini->token);
+	if (get_control()->cmd != NULL)
+		free_cmd(&get_control()->cmd);
+	rl_clear_history();
+	close_fd(get_control());
+	exit(0);
 }
 
 void get_heredoc(void)
 {
-	t_token *token;
-	char *delimiter;
-	char *delimiter_expand;
-	int fd;
+	int		fd;
+	char	*delimiter;
+	t_token	*token;
 
-	sig_ignore();
 	token = get_control()->token;
 	while (token)
 	{
@@ -39,47 +36,45 @@ void get_heredoc(void)
 		{
 			fd = open("heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			delimiter = token->next->content;
-			// if (token->next->type == WORD)
-			// 	delimiter_expand = token->next->content;
-			// else if (token->next->type == QUOTE)
-			// 	delimiter = token->next->content;
 			if (!get_control()->heredoc)
-				heredoc_pid(delimiter, fd);
+				heredoc_child_process(delimiter, fd);
 		}
 		token = token->next;
 	}
 }
 
-void heredoc_pid(char *delimiter, int fd)
+void heredoc_child_process(char *delimiter, int fd)
 {
 	pid_t pid;
-	t_hash_table *table;
-	int status;
-	int status_addr;
 
-	table = get_control()->table;
 	pid = fork();
 	if (pid == 0)
 	{
-		sigint_handler(SIGINT);
-		sigquit_handler(SIGQUIT);
+		signal(SIGINT, handle_sigint_heredoc);
+		signal(SIGQUIT, SIG_IGN);
 		hand_heredoc(delimiter, fd);
 	}
 	else
+		wait_heredoc(pid);
+}
+
+void wait_heredoc(pid_t pid)
+{
+	int status;
+	int status_addr;
+
+	waitpid(pid, &status_addr, 0);
+	if (WIFEXITED(status_addr))
 	{
-		waitpid(pid, &status_addr, 0);
-		if (WIFEXITED(status_addr))
+		status = WEXITSTATUS(status_addr);
+		if (status == 130)
 		{
-			status = WEXITSTATUS(status_addr);
-			if (status == 130)
-			{
-				if (get_control()->return_status != 130)
-					get_control()->heredoc = 1;
-				get_control()->return_status = status;
-			}
-			else
-				get_control()->return_status = EXIT_SUCCESS;
+			if (get_control()->return_status != 130)
+				get_control()->heredoc = 1;
+			get_control()->return_status = status;
 		}
+		else
+			get_control()->return_status = EXIT_SUCCESS;
 	}
 }
 
@@ -94,50 +89,16 @@ void hand_heredoc(char *delimiter, int fd)
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: warning: here-document delimited by end-of-file (wanted `%s\')", delimiter);
 			free(input);
-			exit(EXIT_FAILURE);
+			break;
 		}
 		else if ((ft_strcmp(input, delimiter) == 0))
 		{
 			free(input);
-			exit(EXIT_SUCCESS);
+			break;
 		}
-		// if (ft_strcmp(input, "$") && delimiter == get_control()->token->next->type == QUOTE)
-		// 	hand_heredoc_expand();
 		ft_putendl_fd(input, fd);
 		free(input);
 	}
 	close(fd);
-	clear_heredoc_pid();
+	clear_heredoc_child_process(get_control());
 }
-
-// void hand_heredoc_expand(t_minishell *mini)
-// {
-// 	t_token *token;
-// 	char *delimiter;
-// 	char *input;
-// 	int fd;
-
-// 	token = mini->token;
-// 	while (token)
-// 	{
-// 		if (token->type == HEREDOC && (token->next->type == WORD))
-// 		{
-// 			delimiter = token->next->content;
-// 			// mini->cmd->fd = open("Heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-// 			while (1)
-// 			{
-// 				input = readline(HEREDOC_PROMPT);
-// 				if (!input || (ft_strcmp(input, delimiter) == 0))
-// 				{
-// 					free(input);
-// 					// close(mini->cmd->fd);
-// 					unlink("Heredoc");
-// 					break;
-// 				}
-// 				// ft_putendl_fd(input, mini->cmd->fd);
-// 				free(input);
-// 			}
-// 		}
-// 		token = token->next;
-// 	}
-// }
