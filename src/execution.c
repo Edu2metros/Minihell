@@ -87,7 +87,7 @@ void	exec_command(t_cmd *cmd, t_minishell *mini)
 		return ;
 	}
 	pid = fork();
-	signal(SIGINT, ctrl_c_child);
+	signal(SIGINT, handle_sigint_child);
 	signal(SIGQUIT, handle_sigquit_signal);
 	if (pid == 0)
 	{

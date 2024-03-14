@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/14 18:19:38 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/14 18:23:42 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ void						clear_heredoc_child_process(t_minishell *mini);
 void						heredoc_child_process(char *delimiter, int fd);
 void						wait_heredoc(pid_t pid);
 void						handle_sigquit_signal(int sig);
+void	handle_sigint_child(int sig);
 
 // Token functions
 int							process_token_arg(char *input, t_minishell *mini,
