@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/15 18:09:29 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/15 20:53:07 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ typedef struct s_minishell
 t_minishell					*get_control(void);
 void						exec_redirect(t_cmd *cmd);
 void						ft_putstring_fd(int fd);
-void    ft_exit(t_cmd *node, t_hash_table **table);
+void						ft_exit(t_cmd *node, t_hash_table **table);
 int							file_exist(char *file_name);
 int							file_is_readable(char *file_name);
 int							file_is_writable(char *file_name);
@@ -291,7 +291,7 @@ void						hand_hash_collision(t_hash_table **table,
 void						hash_insert(t_hash_table **table, char *key,
 								char *value);
 char						*hash_search(t_hash_table *table, char *key);
-void						print_table(t_hash_table **tfd_outable);
+void						print_table(t_hash_table **table, int fd_out);
 int							ft_strcmp_len(char *s1, char *s2);
 
 #endif

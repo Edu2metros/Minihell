@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:14:43 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/15 18:09:21 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/15 19:21:18 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int    validate_numeric_string(char *str, int *code_status)
 
 void    free_exit(t_minishell *mini, t_hash_table **table, int status)
 {
-    // free_table(table);
+    free_table(table);
     free_all(mini);
 	printf("exit\n");
     exit(status);

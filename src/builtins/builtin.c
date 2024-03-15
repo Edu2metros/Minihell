@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:58:01 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/12 18:44:25 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/15 19:00:29 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ void	builtin_execution(t_cmd *cmd, t_minishell *mini)
 		else if (is_builtin(cmd->name) == UNSET)
 			unset(mini, cmd);
 		else if (is_builtin(cmd->name) == EXIT)
-			ft_exit(cmd);
+			ft_exit(cmd, &mini->table);
 	}
 }
