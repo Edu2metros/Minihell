@@ -18,7 +18,10 @@ void	handle_child_process(t_cmd *cmd, t_minishell *mini, int fd[], int fd_in)
 {
 	close(fd[0]);
 	if (cmd->next != NULL)
+	{
 		fd_redirections(STDIN_FILENO, fd[1]);
+		fd_redirections(fd_in, STDOUT_FILENO);
+	}
 	else
 		fd_redirections(fd_in, STDOUT_FILENO);
 	if (is_builtin(cmd->name))
@@ -96,9 +99,8 @@ void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 			handle_child_process(cmd, mini, fd, fd_in);
 		else
 			handle_parent_process(&cmd, fd, &fd_in);
-	close(fd[0]);
-	close(fd[1]);
 	}
+	close(fd[0]);
 	while (count > 0)
 	{
 		terminated_pid = waitpid(-1, NULL, WNOHANG);
