@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:33:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/12 21:05:13 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/15 18:56:11 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,14 @@ int	ft_how_many_char(char *str, char c)
 
 // lidar com relative path ou absolute path
 // lidar com ..
+// lidar com ../../../ ...
 // lidar com .
 // lidar com cd sozinho
 
 void	cd_absolute_path(char *absolute_path)
 {
 	if (chdir(absolute_path) == -1)
-		ft_putendl_fd("cd: No such file or directory", 2);
+		ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n", absolute_path);
 	else
 	{
 		hash_insert(&get_control()->table, "OLDPWD",
@@ -44,24 +45,28 @@ void	cd_absolute_path(char *absolute_path)
 		hash_insert(&get_control()->table, "PWD", absolute_path);
 	}
 }
+// Pegar o pwd atual e usar um substr para pegar o pwd antigo
 
 void	ft_old_pwd(char *old)
 {
 	int		bar;
 	int		i;
 	char	*substr;
+	char *tmp;
 
-	bar = ft_how_many_char(old, '/');
-	i = 0;
-	while (old[i] != '\0' && bar > 1)
+	bar = ft_how_many_char(old, '/') + 1;
+	tmp = hash_search(get_control()->table, "PWD");
+	i = ft_strlen(tmp);
+	while(bar > 0)
 	{
-		if (old[i] == '/')
+		if (tmp[i] == '/')
 			bar--;
-		i++;
+		i--;
 	}
-	substr = ft_substr(old, 0, i - 1);
+	substr = ft_substr(tmp, 0, i + 1);
+	printf("%s\n", substr);
 	if (chdir(substr) == -1)
-		ft_putendl_fd("cd: No such file or directory", 2);
+		ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n", old);
 	else
 	{
 		hash_insert(&get_control()->table, "OLDPWD",

@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/14 15:30:07 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/15 16:49:40 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ t_cmd	*cmd_new_node(char *content, int type)
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	cmd->name = ft_strdup(content);
+	if (!ft_isredirect(content))
+		cmd->name = ft_strdup(content);
+	else
+		cmd->name = NULL;
 	cmd->type = type;
 	cmd->args = NULL;
 	cmd->count = 0;
@@ -141,8 +144,9 @@ t_token	*populate_cmd_args(t_token *token, t_cmd *cmd, t_minishell *mini)
 
 void	shift_args(char **args, int start)
 {
-	int j = start;
+	int	j;
 
+	j = start;
 	while (args[j])
 	{
 		args[j] = args[j + 1];
@@ -172,6 +176,8 @@ void	remove_redirect(t_cmd *cmd)
 					free(aux->args[i]);
 					shift_args(aux->args, i);
 				}
+				if (aux->args[i] && !ft_isredirect(aux->args[i]))
+					aux->name = ft_strdup(aux->args[i]);
 			}
 			else if (ft_strcmp(aux->args[i], "<<") == 0)
 			{
@@ -183,6 +189,8 @@ void	remove_redirect(t_cmd *cmd)
 					unlink("heredoc");
 					shift_args(aux->args, i);
 				}
+				if (aux->args[i] && !ft_isredirect(aux->args[i]))
+					aux->name = ft_strdup(aux->args[i]);
 			}
 			else
 				i++;
@@ -193,8 +201,8 @@ void	remove_redirect(t_cmd *cmd)
 
 void	create_cmd_list(t_minishell *mini)
 {
-	t_token	*token;
-	int		count;
+	t_token *token;
+	int count;
 
 	token = mini->token;
 	count = 0;

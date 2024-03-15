@@ -6,16 +6,11 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 23:57:02 by  jaqribei         #+#    #+#             */
-/*   Updated: 2024/03/13 15:38:34 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/15 17:17:45 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-/* 
-Problema com espaço
-e acho que só?
-*/
 
 void	ft_echo(t_cmd *cmd)
 {

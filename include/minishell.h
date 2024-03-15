@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/14 18:23:42 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/15 18:09:29 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ typedef struct s_minishell
 	char					*execute_path;
 	char					**words;
 	int						heredoc;
-	// int						fd;
 	t_pipe					*pipe;
 	t_cmd					*cmd;
 	t_token					*token;
@@ -145,7 +144,7 @@ typedef struct s_minishell
 t_minishell					*get_control(void);
 void						exec_redirect(t_cmd *cmd);
 void						ft_putstring_fd(int fd);
-void						ft_exit(t_cmd *cmd);
+void    ft_exit(t_cmd *node, t_hash_table **table);
 int							file_exist(char *file_name);
 int							file_is_readable(char *file_name);
 int							file_is_writable(char *file_name);
@@ -165,7 +164,8 @@ void						exec_pipe_command(t_cmd *cmd, t_minishell *mini);
 void						heredoc_pid(char *delimiter, int fd);
 void						get_heredoc(void);
 void						ctrl_c_child(int sig);
-void	count_open_fds(void);
+void						count_open_fds(void);
+int							ft_isredirect(char *string);
 
 // Signals functions
 void						sigint_handler(int sig);
@@ -183,7 +183,7 @@ void						clear_heredoc_child_process(t_minishell *mini);
 void						heredoc_child_process(char *delimiter, int fd);
 void						wait_heredoc(pid_t pid);
 void						handle_sigquit_signal(int sig);
-void	handle_sigint_child(int sig);
+void						handle_sigint_child(int sig);
 
 // Token functions
 int							process_token_arg(char *input, t_minishell *mini,
@@ -272,7 +272,7 @@ int							ft_isalpha_mini(char input);
 int							ft_redirect(char *prompt, int i);
 int							handle_red(char *prompt, char c);
 int							is_operator(char chr1, char chr2);
-bool						validator(char *prompt);
+int							validator(char *prompt);
 
 // hash_table functions
 

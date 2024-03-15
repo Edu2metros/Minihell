@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:07:39 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/11 19:26:03 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/15 16:29:21 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ void	free_cmd(t_cmd **cmd)
 	{
 		i = 0;
 		next = current->next;
-		free(current->name);
+		if (current->name != NULL && *current->name != '\0')
+			free(current->name);
 		while (current->args[i] != NULL)
 		{
 			free(current->args[i]);

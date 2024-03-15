@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:29 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/12 20:18:08 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/15 17:11:16 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,16 @@ void	tokenizer(char *input, t_minishell *mini)
 	{
 		if (is_quote(input[i]))
 			i = process_token_quote(input, mini, i, start);
-		else if (is_builtin(input + i))
-			i = process_token_word(input, mini, i, start);
-		else if (is_word(input + i))
-			i = process_token_word(input, mini, i, start);
 		else if (is_flag(input + i))
 			i = process_token_word(input, mini, i, start);
 		else if (is_operator(input[i], input[i + 1]))
 			i = process_token_operator(input, mini, i, start);
 		else if (input[i] == '$')
 			i = process_token_dollar(input, mini, i + 1, start);
+		else if (is_builtin(input + i))
+			i = process_token_word(input, mini, i, start);
+		else if (is_word(input + i))
+			i = process_token_word(input, mini, i, start);
 		else
 			i++;
 		start = i;

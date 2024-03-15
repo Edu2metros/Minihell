@@ -36,6 +36,8 @@ char	*get_path(t_minishell *mini, char *command)
 	char	*full_path;
 
 	i = 0;
+	if(command == NULL)
+		exit(127);
 	path = ft_split(hash_search(mini->table, "PATH"), ':');
 	if (path == NULL)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/14 18:11:35 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/15 18:09:14 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,18 @@ t_minishell	*get_control(void)
 	return (&control);
 }
 
+int	ft_isredirect(char *string)
+{
+	if (ft_strncmp(string, ">", 2) == 0 || ft_strncmp(string, ">>", 3) == 0
+		|| ft_strncmp(string, "<", 2) == 0 || ft_strncmp(string, "<<", 3) == 0)
+		return (1);
+	return (0);
+}
+
 void	pipe_or_not(t_minishell *mini, t_cmd *cmd)
 {
+	if (cmd->next == NULL && cmd->name == NULL)
+		return ;
 	if (cmd->next == NULL)
 		exec_command(cmd, mini);
 	else
@@ -30,7 +40,7 @@ void	pipe_or_not(t_minishell *mini, t_cmd *cmd)
 static void	minishell(t_minishell *mini, t_hash_table *table)
 {
 	char	*input;
-	
+
 	while (TRUE)
 	{
 		signal(SIGINT, handle_sigint);
@@ -38,22 +48,16 @@ static void	minishell(t_minishell *mini, t_hash_table *table)
 		get_control()->heredoc = 0;
 		input = readline(PROMPT);
 		handle_control_d(input, table);
-		if (!ft_strncmp(input, "quit", 5))
-		{
-			ft_putstr_fd("exit\n", 1);
-			exit(0);
-		}
 		add_history(input);
-		if (validator(input))
-		{
-			tokenizer(input, mini);
-			create_cmd_list(mini);
-			get_heredoc();
-			if (get_control()->heredoc)
-				return ;
-			pipe_or_not(mini, lst_first(mini->cmd));
-			close_fd(mini);
-		}
+		if (!validator(input))
+			continue ;
+		tokenizer(input, mini);
+		create_cmd_list(mini);
+		get_heredoc();
+		if (get_control()->heredoc)
+			return ;
+		pipe_or_not(mini, lst_first(mini->cmd));
+		close_fd(mini);
 		free_all(mini);
 	}
 	clear_history();
@@ -63,6 +67,7 @@ static void	minishell(t_minishell *mini, t_hash_table *table)
 int	main(void)
 {
 	t_minishell	*mini;
+
 	ft_bzero(get_control(), sizeof(t_minishell));
 	mini = get_control();
 	mini->pipe = ft_calloc(1, sizeof(t_pipe));

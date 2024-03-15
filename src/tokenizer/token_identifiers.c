@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:46 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/07 17:58:24 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/15 18:04:30 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	is_flag(const char *input)
 
 int	is_builtin(char *input)
 {
+	if(input == NULL)
+		return (0);
 	if (ft_strncmp(input, "cd", 2) == 0)
 		return (CD);
 	else if (ft_strncmp(input, "echo", 4) == 0)

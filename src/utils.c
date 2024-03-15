@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:47:19 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/12 16:26:25 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/15 17:50:50 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	handle_pipe(char *prompt)
 
 	if (*prompt == '|' || prompt[ft_strlen(prompt) - 1] == '|')
 	{
-		handle_error(1);
+		ft_printf_fd(STDERR_FILENO, "minishell: syntax error near unexpected token `|'\n");
 		return (0);
 	}
 	i = 0;
@@ -49,7 +49,7 @@ int	handle_pipe(char *prompt)
 		{
 			if (!ft_redirect(prompt, i + 1))
 			{
-				handle_error(1);
+				ft_printf_fd(STDERR_FILENO, "minishell: syntax error near unexpected token `|'\n");
 				return (0);
 			}
 		}
@@ -73,7 +73,7 @@ int	handle_red(char *prompt, char c)
 				offset++;
 			if (!ft_redirect(prompt, i + offset))
 			{
-				handle_error(1);
+				ft_printf_fd(STDERR_FILENO, "minishell: syntax error near unexpected token `%c'\n", c);
 				return (0);
 			}
 		}
@@ -82,18 +82,17 @@ int	handle_red(char *prompt, char c)
 	return (1);
 }
 
-bool	validator(char *prompt)
+int	validator(char *prompt)
 {
 	if (prompt == NULL || *prompt == '\0')
-		return (false);
-	
+		return (0);
 	if (!handle_red(prompt, '<'))
-		return (false);
+		return (0);
 	if (!handle_red(prompt, '>'))
-		return (false);
+		return (0);
 	if (!handle_pipe(prompt))
-		return (false);
-	return (true);
+		return (0);
+	return (1);
 }
 
 void	ft_putstring_fd(int fd)
