@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:07:53 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/16 12:48:30 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 17:06:51 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,18 +108,20 @@ void	hash_insert_equals(char **str)
 	}
 }
 
-void	populate_env(t_hash_table *table, int len)
+void populate_env(t_hash_table *table, int len)
 {
-	int	i;
+    int i;
 
-	i = 0;
-	table->env = (char **)ft_calloc(sizeof(char *) + 1, len + 1);
-	while (i < len)
-	{
-		table->env[i] = ft_strdup(__environ[i]);
-		i++;
-	}
+    i = 0;
+    table->env = (char **)ft_calloc(sizeof(char *), len + 1);
+    while (i < len)
+    {
+        table->env[i] = ft_strdup(__environ[i]);
+        i++;
+    }
+    table->env[i] = NULL;
 }
+
 
 t_hash_table	*hash_population(t_minishell *mini, t_hash_table **table)
 {

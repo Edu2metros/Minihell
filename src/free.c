@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:07:39 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/16 14:10:48 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 17:13:01 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	lstclear_cmd(t_cmd **lst)
 	while (current != NULL)
 	{
 		i = 0;
-		free(current->name);
+		if(current->name != NULL)
+			free(current->name);
 		if (current->args != NULL)
 		{
 			while (current->args[i] != NULL)
@@ -119,7 +120,7 @@ void	free_cmd(t_cmd **cmd)
 void	free_all(t_minishell *minishell)
 {
 	free_tokens(&(minishell->token));
+	free_cmd(&(minishell->cmd));
 	free_redirect_in(&(minishell->redirect_list_in));
 	free_redirect_out(&(minishell->redirect_list_out));
-	free_cmd(&(minishell->cmd));
 }

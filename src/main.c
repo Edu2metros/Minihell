@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/16 14:11:01 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 17:22:19 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,9 @@ void free_hashs(t_hash_table *hash)
 
 void free_out_while(t_minishell *mini)
 {
-	// free_hashs(mini->table);
-	// hashtable
-	// args env
-	// free_while()
+	free_split(mini->table->env);
+	free_all(mini);
+	clear_history();
 }
 
 static void	minishell(t_minishell *mini, t_hash_table *table)
@@ -95,7 +94,6 @@ static void	minishell(t_minishell *mini, t_hash_table *table)
 		close_fd(mini);
 		free_all(mini);
 	}
-	clear_history();
 	free_out_while(mini);
 }
 
