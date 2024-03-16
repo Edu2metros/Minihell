@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:07:53 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/14 16:31:47 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/15 22:51:03 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,6 @@ t_hash_table	*hash_population(t_minishell *mini, t_hash_table **table)
 		i++;
 		free_split(str);
 	}
+	hash_insert(table, "?", "0");
 	return (*table);
 }

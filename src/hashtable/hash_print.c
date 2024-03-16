@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hash_print.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 21:02:12 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/15 20:50:59 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/15 22:50:29 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ void    print_table(t_hash_table **table, int fd_out)
             while (current != NULL)
             {
                 aux = current->next;
+								if (ft_strcmp(current->key, "?") == 0)
+				{
+					current = aux;
+					continue ;
+				}
                 if (current->key != NULL && (current->value != NULL && ft_strcmp(current->value, "") != 0))
                     ft_printf_fd(fd_out, "%s=%s\n", current->key, current->value);
                 if(ft_strncmp(current->key, "a", 1) == 0)
