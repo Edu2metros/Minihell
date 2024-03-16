@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/16 18:11:32 by jaqribei          #+#    #+#             */
+/*   Updated: 2024/03/16 18:11:33 by jaqribei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 void	exec_redirect(t_cmd *cmd)
@@ -94,7 +106,6 @@ void	exec_command(t_cmd *cmd, t_minishell *mini)
 	i = 0;
 	if (is_builtin(cmd->name) != 0)
 	{
-		// exec_redirect(cmd);
 		builtin_execution(cmd, mini);
 		return ;
 	}

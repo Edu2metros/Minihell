@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/16 14:11:30 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 18:13:58 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,8 @@ int							ft_isredirect(char *string);
 void						shift_args(char **args, int start);
 void						free_split(char **splited);
 void						free_out_while(t_minishell *mini);
+void	pipe_or_not(t_minishell *mini, t_cmd *cmd);
+
 
 // Signals functions
 void						sigint_handler(int sig);

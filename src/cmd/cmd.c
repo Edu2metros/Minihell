@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/16 17:08:52 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 18:19:59 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,9 @@ void	create_cmd_list(t_minishell *mini)
 	{
 		mini->cmd = add_new_node(mini->cmd, token->content, token->type);
 		token = populate_cmd_args(token, mini->cmd, mini);
+		get_heredoc();
+		if (get_control()->heredoc)
+			return ;
 		handle_redirects(mini->cmd, mini);
 		remove_redirect(mini->cmd);
 		if (token != NULL)
