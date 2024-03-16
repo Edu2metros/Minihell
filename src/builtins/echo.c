@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 23:57:02 by  jaqribei         #+#    #+#             */
-/*   Updated: 2024/03/16 11:35:49 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 17:34:57 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void    ft_echo(t_cmd *cmd)
     i = 1;
     n_flag = 0;
     fd_out = 1;
+	cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
     if (cmd->redirect_list_out)
         fd_out = cmd->redirect_list_out->fd_out;
     if (!cmd->args[i])
