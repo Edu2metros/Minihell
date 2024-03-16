@@ -41,12 +41,12 @@ char	*get_path(t_minishell *mini, char *command)
 	if(command[0] == '.')
 	{
 		if(access(command, F_OK) == 0)
-			execve(command, mini->cmd->args, NULL);
+			execve(command, mini->cmd->args, mini->table->env);
 	}
 	if(command[0] == '/')
 	{
 		if(access(command, F_OK) == 0)
-			execve(command, mini->cmd->args, NULL);
+			execve(command, mini->cmd->args, mini->table->env);
 	}
 	path = ft_split(hash_search(mini->table, "PATH"), ':');
 	if (path == NULL)
@@ -81,7 +81,7 @@ void	exec_pipe_command(t_cmd *cmd, t_minishell *mini)
 	i = 0;
 	path = get_path(mini, cmd->name);
 	// exec_redirect(cmd);
-	execve(path, cmd->args, NULL);
+	execve(path, cmd->args, mini->table->env);
 	free(path);
 }
 
@@ -105,7 +105,7 @@ void	exec_command(t_cmd *cmd, t_minishell *mini)
 	{
 		path = get_path(mini, cmd->name);
 		exec_redirect(cmd);
-		execve(path, cmd->args, NULL);
+		execve(path, cmd->args, mini->table->env);
 	}
 	if (pid)
 		waitpid(pid, NULL, 0);
