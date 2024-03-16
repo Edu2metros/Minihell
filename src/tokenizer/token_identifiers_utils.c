@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:54 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/16 14:12:51 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 19:36:14 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,16 +169,22 @@ char	*expand_variable_word(char *input, t_minishell *mini)
 
 int	process_token_word(char *input, t_minishell *mini, int i, int start)
 {
-	char	*substr;
+    char	*substr;
+    int		in_quotes;
 
-	while (input[i] != ' ' && input[i] != '\0' && !meta_char(input[i]))
-		i++;
-	substr = ft_substr(input, start, i - start);
-	substr = expand_variable_word(substr, mini);
-	remove_quote(substr);
-	add_token(substr, is_word(substr), 0, mini);
-	free(substr);
-	return (i);
+	in_quotes = 0;
+    while (input[i] != '\0' && (in_quotes || (!meta_char(input[i]) && input[i] != ' '))) 
+	{
+        if (input[i] == '"' || input[i] == '\'')
+            in_quotes = !in_quotes;
+        i++;
+    }
+    substr = ft_substr(input, start, i - start);
+    substr = expand_variable_word(substr, mini);
+    remove_quote(substr);
+    add_token(substr, is_word(substr), 0, mini);
+    free(substr);
+    return (i);
 }
 
 int	process_token_flag(char *input, t_minishell *mini, int i, int start)

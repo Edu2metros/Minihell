@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:46 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/15 22:16:07 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 20:17:10 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	is_word(const char *input)
 	if (!input)
 		return (0);
 	while (input[i] != '\0' && (ft_isalnum(input[i]) || alpha_num(input[i])
-			|| is_quote(input[i])))
+			|| is_quote(input[i]) || input[i] == '='))
 	{
 		while (!my_isspace(input[i]) && input[i] != '\0')
 			i++;

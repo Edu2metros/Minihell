@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 12:01:10 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/07 14:13:44 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 20:20:02 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ void	print_n_free(t_export *export)
 	temp_export = export;
 	while (temp_export != NULL)
 	{
-		printf("declare -x %s=\"%s\"\n", temp_export->key, temp_export->value);
+		if (!ft_strncmp(temp_export->value, "", 1))
+			printf("declare -x %s\n", temp_export->key);
+		else
+			printf("declare -x %s=\"%s\"\n", temp_export->key,
+				temp_export->value);
 		temp_export = temp_export->next;
 	}
 	temp_export = export;
@@ -128,6 +132,20 @@ void	hash_update_value(t_hash_table *hash, char *key)
 	}
 }
 
+int	ft_is_stralnum(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	export(t_cmd *cmd, t_hash_table *hash)
 {
 	char	*equal_pos;
@@ -138,6 +156,12 @@ void	export(t_cmd *cmd, t_hash_table *hash)
 	i = 1;
 	if (ft_array_len(cmd->args) == 1)
 		print_export(hash);
+	else if (ft_strcmp(cmd->args[i], "=") == 0 || ft_is_stralnum(cmd->args[i]))
+	{
+		ft_printf_fd(STDERR_FILENO,
+			"minishell: export: `%s': not a valid identifier\n", cmd->args[i]);
+		return ;
+	}
 	else
 	{
 		while (cmd->args[i])
@@ -146,6 +170,12 @@ void	export(t_cmd *cmd, t_hash_table *hash)
 				hash_update_value(hash, cmd->args[i]);
 			else
 			{
+				if(ft_strcmp(cmd->args[i], "=") == 0 || ft_is_stralnum(cmd->args[i]) == 0)
+				{
+					ft_printf_fd(STDERR_FILENO,
+						"minishell: export: `%s': not a valid identifier\n", cmd->args[i]);
+					continue;
+				}
 				equal_pos = ft_strchr(cmd->args[i], '=');
 				if (equal_pos == NULL)
 				{

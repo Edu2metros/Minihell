@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 01:21:20 by  jaqribei         #+#    #+#             */
-/*   Updated: 2024/03/16 17:34:50 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 17:37:56 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ void	env(t_cmd *cmd, t_hash_table **table)
 		print_table(table, fd_out);
 	if(cmd->redirect_list_out)
 		close(fd_out);
+	get_control()->return_status = EXIT_SUCCESS;
 }
 
