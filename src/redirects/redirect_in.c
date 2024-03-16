@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:33:51 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/12 20:37:09 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 14:07:42 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ int check_in_files(char *str)
 {
 	if (!file_exist(str))
 	{
-		printf("minishell: %s: No such file or directory\n", str);
-		return 0;
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or directory\n", str);
+		return (0);
 	}
 	else if (!file_is_readable(str))
 	{
-		printf("minishell: %s: Permission denied\n", str);
-		return 0;
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: Permission denied\n", str);
+		return (0);
 	}
 	return (1);
 }
@@ -47,11 +47,6 @@ void set_heredoc(t_token **token, t_redirect_in **redirect)
 	t_redirect_in *last;
 
 	last = lstlast_in(*redirect);
-	if (!check_in_files((*token)->next->content))
-	{
-		clear_list_in(redirect);
-		return;
-	}
 	new_red_in = new_redirect_in("heredoc", (*token)->type);
 	if (new_red_in != NULL)
 	{

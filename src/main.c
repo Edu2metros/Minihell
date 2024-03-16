@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/15 18:09:14 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 14:11:01 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,41 @@ void	pipe_or_not(t_minishell *mini, t_cmd *cmd)
 		exec_pipe(mini, cmd);
 }
 
+// hashtable:
+//item
+//env
+
+//hash item:
+//key
+//value
+//next
+
+void free_hashs(t_hash_table *hash)
+{
+	int i;
+	i = 0;
+	while(i < hash->size) // free na tabela hash item
+	{
+		if (hash->item[i] != NULL)
+		{
+			free(hash->item[i]->key);
+			if(hash->item[i]->value != NULL)
+				free(hash->item[i]->value);
+			free(hash->item[i]);
+		}
+		i++;
+	}
+	free_split(hash->env);
+}
+
+void free_out_while(t_minishell *mini)
+{
+	// free_hashs(mini->table);
+	// hashtable
+	// args env
+	// free_while()
+}
+
 static void	minishell(t_minishell *mini, t_hash_table *table)
 {
 	char	*input;
@@ -61,17 +96,14 @@ static void	minishell(t_minishell *mini, t_hash_table *table)
 		free_all(mini);
 	}
 	clear_history();
-	free(input);
+	free_out_while(mini);
 }
 
 int	main(void)
 {
 	t_minishell	*mini;
-
 	ft_bzero(get_control(), sizeof(t_minishell));
 	mini = get_control();
-	mini->pipe = ft_calloc(1, sizeof(t_pipe));
-	mini->pipe->pipe_count = 0;
 	mini->table = hash_population(mini, &mini->table);
 	minishell(mini, mini->table);
 }

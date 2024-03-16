@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/15 22:03:19 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 14:11:30 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # define PROMPT "\e[1;34m😤 Minishell\e[0m\e[1;33m -> \e[0m"
 # define HEREDOC_PROMPT "\e[1;34m💡 HereDoc\e[0m\e[1;33m -> \e[0m"
-
 
 # define TABLE_SIZE 500
 
@@ -115,6 +114,7 @@ typedef struct s_hash_table
 	struct s_hash_item		**item;
 	int						size;
 	int						count;
+	char					**env;
 }							t_hash_table;
 
 typedef struct s_pipe
@@ -168,6 +168,9 @@ void						get_heredoc(void);
 void						ctrl_c_child(int sig);
 void						count_open_fds(void);
 int							ft_isredirect(char *string);
+void						shift_args(char **args, int start);
+void						free_split(char **splited);
+void						free_out_while(t_minishell *mini);
 
 // Signals functions
 void						sigint_handler(int sig);

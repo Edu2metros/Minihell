@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:35:41 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/12 20:37:22 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 14:08:06 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int check_out_files(char *str)
 	{
 		if (!file_is_writable(str))
 		{
-			printf("minishell: %s: Permission denied\n", str);
+			ft_printf_fd(STDERR_FILENO, "minishell: %s: Permission denied\n", str);
 			return 0;
 		}
 	}

@@ -6,11 +6,28 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 20:24:26 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/07 14:39:26 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 12:55:54 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void delete_variable_env(t_hash_table *table, char *key)
+{
+	int i;
+	i = 0;
+
+	while(table->env[i])
+	{
+		if (ft_strcmp(table->env[i], key) == 0)
+		{
+			free(table->env[i]);
+			shift_args(table->env, i);
+			break ;
+		}
+		i++;
+	}
+}
 
 void	hash_delete(t_hash_table *table, char *key)
 {
@@ -23,6 +40,7 @@ void	hash_delete(t_hash_table *table, char *key)
 		{
 			if (ft_strcmp(table->item[i]->key, key) == 0)
 			{
+				delete_variable_env(table, key);
 				free(table->item[i]->key);
 				free(table->item[i]->value);
 				free(table->item[i]);

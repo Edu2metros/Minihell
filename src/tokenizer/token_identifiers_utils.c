@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:54 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/07 20:56:00 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 14:12:51 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,8 +199,6 @@ int	process_token_operator(char *input, t_minishell *mini, int i, int start)
 	int		type;
 
 	type = is_operator(input[i], input[i + 1]);
-	if(type == PIPE)
-		mini->pipe->pipe_count++;
 	while (is_operator(input[i], input[i + 1]) && !ft_isalpha(input[i]))
 		i++;
 	substr = ft_substr(input, start, i - start);

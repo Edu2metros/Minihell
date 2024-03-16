@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/15 16:49:40 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/16 12:52:22 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ t_token	*populate_cmd_args(t_token *token, t_cmd *cmd, t_minishell *mini)
 	cmd->args = ft_calloc(lstsize_pipe(token) + 1, sizeof(char *));
 	if (!cmd->args)
 	{
-		printf("Allocation Error\n");
+		ft_printf_fd(STDERR_FILENO, "minishell: Allocation error\n");
 		exit(EXIT_FAILURE);
 	}
 	while (token && token->type != PIPE)

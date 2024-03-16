@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:07:53 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/15 22:51:03 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/16 12:48:30 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	free_split(char **splited)
 	free(splited);
 }
 
-unsigned long hash_function(char *key)
+unsigned long	hash_function(char *key)
 {
 	unsigned long	i;
 	int				j;
-	
+
 	i = 0;
 	j = 0;
 	while (key[j])
@@ -51,7 +51,7 @@ t_hash_table	*create_hash_table(int size)
 {
 	t_hash_table	*table;
 	int				i;
-	
+
 	i = 0;
 	table = (t_hash_table *)ft_calloc(1, sizeof(t_hash_table));
 	table->size = size + 1;
@@ -75,7 +75,7 @@ int	count_equals_chr(char *str, char c)
 		return (equals);
 	while (str[i])
 	{
-		if(str[i] == c)
+		if (str[i] == c)
 			equals++;
 		i++;
 	}
@@ -108,6 +108,19 @@ void	hash_insert_equals(char **str)
 	}
 }
 
+void	populate_env(t_hash_table *table, int len)
+{
+	int	i;
+
+	i = 0;
+	table->env = (char **)ft_calloc(sizeof(char *) + 1, len + 1);
+	while (i < len)
+	{
+		table->env[i] = ft_strdup(__environ[i]);
+		i++;
+	}
+}
+
 t_hash_table	*hash_population(t_minishell *mini, t_hash_table **table)
 {
 	char	**str;
@@ -117,14 +130,15 @@ t_hash_table	*hash_population(t_minishell *mini, t_hash_table **table)
 	i = 0;
 	len = 0;
 	(*table) = create_hash_table(TABLE_SIZE);
-	while(__environ[len])
+	while (__environ[len])
 		len++;
-	while(__environ[i])
+	populate_env(*table, len);
+	while (__environ[i])
 	{
 		str = ft_split(__environ[i], '=');
 		if (count_equals_chr(__environ[i], '=') > 1)
 			hash_insert_equals(str);
-		if(str[0] != NULL && str[1] != NULL)
+		if (str[0] != NULL && str[1] != NULL)
 			hash_insert(table, str[0], str[1]);
 		else if (str[0] != NULL)
 			hash_insert(table, str[0], "");
