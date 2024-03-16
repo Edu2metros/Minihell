@@ -43,6 +43,11 @@ char	*get_path(t_minishell *mini, char *command)
 		if(access(command, F_OK) == 0)
 			execve(command, mini->cmd->args, NULL);
 	}
+	if(command[0] == '/')
+	{
+		if(access(command, F_OK) == 0)
+			execve(command, mini->cmd->args, NULL);
+	}
 	path = ft_split(hash_search(mini->table, "PATH"), ':');
 	if (path == NULL)
 	{

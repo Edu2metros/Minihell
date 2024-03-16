@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:46 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/15 18:04:30 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/15 22:16:07 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,19 +89,19 @@ int	is_builtin(char *input)
 {
 	if(input == NULL)
 		return (0);
-	if (ft_strncmp(input, "cd", 2) == 0)
+	if (ft_strcmp(input, "cd") == 0)
 		return (CD);
-	else if (ft_strncmp(input, "echo", 4) == 0)
+	else if (ft_strcmp(input, "echo") == 0)
 		return (ECHO);
-	else if (ft_strncmp(input, "pwd", 3) == 0)
+	else if (ft_strcmp(input, "pwd") == 0)
 		return (PWD);
-	else if (ft_strncmp(input, "export", 6) == 0)
+	else if (ft_strcmp(input, "export") == 0)
 		return (EXPORT);
-	else if (ft_strncmp(input, "unset", 5) == 0)
+	else if (ft_strcmp(input, "unset") == 0)
 		return (UNSET);
-	else if (ft_strncmp(input, "env", 3) == 0)
+	else if (ft_strcmp(input, "env") == 0)
 		return (ENV);
-	else if (ft_strncmp(input, "exit", 4) == 0)
+	else if (ft_strcmp(input, "exit") == 0)
 		return (EXIT);
 	else
 		return (0);
