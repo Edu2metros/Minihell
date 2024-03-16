@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:07:39 by eddos-sa          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/03/16 18:58:34 by eddos-sa         ###   ########.fr       */
+=======
+/*   Updated: 2024/03/16 18:11:01 by jaqribei         ###   ########.fr       */
+>>>>>>> 09936e87005442f04853962545fd3648df6b2282
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +127,22 @@ void	free_all(t_minishell *minishell)
 	lstclear_cmd(&(minishell->cmd));
 	free_redirect_in(&(minishell->redirect_list_in));
 	free_redirect_out(&(minishell->redirect_list_out));
+}
+
+void free_hashs(t_hash_table *hash)
+{
+	int i;
+	i = 0;
+	while(i < hash->size) // free na tabela hash item
+	{
+		if (hash->item[i] != NULL)
+		{
+			free(hash->item[i]->key);
+			if(hash->item[i]->value != NULL)
+				free(hash->item[i]->value);
+			free(hash->item[i]);
+		}
+		i++;
+	}
+	free_split(hash->env);
 }
