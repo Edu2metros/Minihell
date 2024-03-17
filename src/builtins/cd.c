@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:33:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 15:33:49 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/17 18:40:08 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ft_old_pwd(char *old)
 	char	*substr;
 	char	*tmp;
 
-	bar = ft_how_many_char(old, '/') + 1;
+	bar = ft_how_many_char(old, '/');
 	tmp = hash_search(get_control()->table, "PWD");
 	i = ft_strlen(tmp);
 	if (tmp[i - 1] == '/')
@@ -125,9 +125,8 @@ void	hand_cd(t_cmd *cmd)
 {
 	char	*current_directory;
 	int		i;
-
+	print_tokens(get_control());
 	current_directory = hash_search(get_control()->table, "PWD");
-	// tratar se o current_directory for NULL
 	i = 1;
 	if (cmd->args[i] == NULL)
 		cd_absolute_path(hash_search(get_control()->table, "HOME"));
@@ -143,7 +142,8 @@ void	hand_cd(t_cmd *cmd)
 		ft_old_pwd(cmd->args[i]);
 	else if (ft_strlen(cmd->args[i]) == 1 && cmd->args[i][0] == '.')
 		get_control()->return_status = 0;
-	relative_path(cmd->args[i]);
+	else
+		relative_path(cmd->args[i]);
 	if (get_control()->cmd->on_fork == 1)
 		exit(get_control()->return_status);
 }

@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:46 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 14:28:57 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 18:45:24 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	is_operator(char chr1, char chr2)
 		return (INPUT);
 	else if (chr1 == '|')
 		return (PIPE);
-	else if(!ft_isalnum(chr1) && !my_isspace(chr1) && chr1 != '=' && chr1 != '$' && chr1 != '\'' && chr1 != '"')
+	else if (!ft_isalnum(chr1) && !my_isspace(chr1) && !is_excession(chr1))
 		return (OTHER);
 	return (0);
 }
@@ -89,7 +89,7 @@ int	is_flag(const char *input)
 
 int	is_builtin(char *input)
 {
-	if(input == NULL)
+	if (input == NULL)
 		return (0);
 	if (ft_strcmp(input, "cd") == 0)
 		return (CD);

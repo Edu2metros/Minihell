@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 16:16:51 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/01/17 17:20:15 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 18:45:30 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,11 @@ long double	ft_atof(char *str)
 		}
 	}
 	return (result * sign);
+}
+
+int	is_excession(char c)
+{
+	return (c == '.' || c == '/' || c == '=' || c == '$' || c == '\''
+		|| c == '"');
+	return (0);
 }
