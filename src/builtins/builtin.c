@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:58:01 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/15 19:00:29 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 14:28:09 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	builtin_execution(t_cmd *cmd, t_minishell *mini)
 	if (cmd->type == WORD)
 	{
 		if (is_builtin(cmd->name) == PWD)
-			ft_pwd();
+			ft_pwd(cmd);
 		else if (is_builtin(cmd->name) == ECHO)
 			ft_echo(cmd);
 		else if (is_builtin(cmd->name) == CD)

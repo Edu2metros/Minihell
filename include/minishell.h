@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 13:47:56 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 14:28:00 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,7 +255,7 @@ t_token						*populate_cmd_args(t_token *token, t_cmd *cmd,
 								t_minishell *mini);
 
 // Builtins functions
-void						ft_pwd(void);
+void						ft_pwd(t_cmd *cmd);
 void						hand_cd(t_cmd *cmd);
 void						ft_echo(t_cmd *cmd);
 void						env(t_cmd *cmd, t_hash_table **table);
