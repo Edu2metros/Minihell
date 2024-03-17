@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:33:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 12:28:11 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 15:33:49 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	cd_absolute_path(char *absolute_path)
 		ft_printf_fd(STDERR_FILENO, "minishell: cd: HOME not set\n");
 		get_control()->return_status = 1;
 		return ;
-	
 	}
 	if (access(absolute_path, F_OK) == 0 && (access(absolute_path, X_OK) == -1))
 	{
@@ -132,7 +131,7 @@ void	hand_cd(t_cmd *cmd)
 	i = 1;
 	if (cmd->args[i] == NULL)
 		cd_absolute_path(hash_search(get_control()->table, "HOME"));
-	else if(current_directory == NULL)
+	else if (current_directory == NULL)
 	{
 		ft_printf_fd(STDERR_FILENO, "minishell: cd: PWD not set\n");
 		get_control()->return_status = 1;

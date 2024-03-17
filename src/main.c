@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 13:13:09 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 15:27:18 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_isredirect(char *string)
 	return (0);
 }
 
-void free_out_while(t_minishell *mini)
+void	free_out_while(t_minishell *mini)
 {
 	free_split(mini->table->env);
 	free_all(mini);
@@ -60,6 +60,7 @@ static void	minishell(t_minishell *mini, t_hash_table *table)
 int	main(void)
 {
 	t_minishell	*mini;
+
 	ft_bzero(get_control(), sizeof(t_minishell));
 	mini = get_control();
 	mini->table = hash_population(mini, &mini->table);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:47:19 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/15 22:03:53 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 15:29:28 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int	handle_pipe(char *prompt)
 
 	if (*prompt == '|' || prompt[ft_strlen(prompt) - 1] == '|')
 	{
-		ft_printf_fd(STDERR_FILENO, "minishell: syntax error near unexpected token `|'\n");
+		ft_printf_fd(STDERR_FILENO, "minishell: syntax error near unexpected \
+			token `|'\n");
 		return (0);
 	}
 	i = 0;
@@ -49,7 +50,8 @@ int	handle_pipe(char *prompt)
 		{
 			if (!ft_redirect(prompt, i + 1))
 			{
-				ft_printf_fd(STDERR_FILENO, "minishell: syntax error near unexpected token `|'\n");
+				ft_printf_fd(STDERR_FILENO, "minishell: syntax error near \
+				unexpected token `|'\n");
 				return (0);
 			}
 		}
@@ -73,7 +75,8 @@ int	handle_red(char *prompt, char c)
 				offset++;
 			if (!ft_redirect(prompt, i + offset))
 			{
-				ft_printf_fd(STDERR_FILENO, "minishell: syntax error near unexpected token `%c'\n", c);
+				ft_printf_fd(STDERR_FILENO, "minishell: syntax error near \
+				unexpected token `%c'\n", c);
 				return (0);
 			}
 		}
@@ -82,7 +85,7 @@ int	handle_red(char *prompt, char c)
 	return (1);
 }
 
-int check_quotes(char *prompt)
+int	check_quotes(char *prompt)
 {
 	int	i;
 	int	quote;
@@ -102,7 +105,8 @@ int check_quotes(char *prompt)
 	}
 	if (quote != 0)
 	{
-		ft_printf_fd(STDERR_FILENO, "minishell: syntax error near unexpected token `newline'\n");
+		ft_printf_fd(STDERR_FILENO, "minishell: syntax error near unexpected \
+		token `newline'\n");
 		return (0);
 	}
 	return (1);
@@ -112,7 +116,7 @@ int	validator(char *prompt)
 {
 	if (prompt == NULL || *prompt == '\0')
 		return (0);
-	if(!check_quotes(prompt))
+	if (!check_quotes(prompt))
 		return (0);
 	if (!handle_red(prompt, '<'))
 		return (0);

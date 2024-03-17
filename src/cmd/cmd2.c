@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:02:27 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/11 19:53:44 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 15:21:28 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,61 @@ int	lstsize_pipe(t_token *token)
 		token = token->next;
 	}
 	return (i);
+}
+
+void	shift_args(char **args, int start)
+{
+	int	j;
+
+	j = start;
+	while (args[j])
+	{
+		args[j] = args[j + 1];
+		j++;
+	}
+	free(args[j]);
+}
+
+void	remove_redirect(t_cmd *cmd)
+{
+	t_cmd	*aux;
+	int		i;
+
+	aux = lst_first(cmd);
+	while (aux)
+	{
+		i = 0;
+		while (aux->args[i])
+		{
+			if (ft_strcmp(aux->args[i], ">") == 0 || ft_strcmp(aux->args[i],
+					">>") == 0 || ft_strcmp(aux->args[i], "<") == 0)
+			{
+				free(aux->args[i]);
+				shift_args(aux->args, i);
+				if (aux->args[i])
+				{
+					free(aux->args[i]);
+					shift_args(aux->args, i);
+				}
+				if (aux->args[i] && !ft_isredirect(aux->args[i]))
+					aux->name = ft_strdup(aux->args[i]);
+			}
+			else if (ft_strcmp(aux->args[i], "<<") == 0)
+			{
+				free(aux->args[i]);
+				shift_args(aux->args, i);
+				if (aux->args[i])
+				{
+					free(aux->args[i]);
+					unlink("heredoc");
+					shift_args(aux->args, i);
+				}
+				if (aux->args[i] && !ft_isredirect(aux->args[i]))
+					aux->name = ft_strdup(aux->args[i]);
+			}
+			else
+				i++;
+		}
+		aux = aux->next;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:07:39 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 11:34:40 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 15:49:31 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	lstclear_cmd(t_cmd **lst)
 	while (current != NULL)
 	{
 		i = 0;
-		if(current->name != NULL)
+		if (current->name != NULL)
 			free(current->name);
 		if (current->args != NULL)
 		{
@@ -125,20 +125,15 @@ void	free_all(t_minishell *minishell)
 	free_redirect_out(&(minishell->redirect_list_out));
 }
 
-void free_hashs(t_hash_table *hash)
+void	free_split(char **splited)
 {
-	int i;
+	int	i;
+
 	i = 0;
-	while(i < hash->size) // free na tabela hash item
+	while (splited[i])
 	{
-		if (hash->item[i] != NULL)
-		{
-			free(hash->item[i]->key);
-			if(hash->item[i]->value != NULL)
-				free(hash->item[i]->value);
-			free(hash->item[i]);
-		}
+		free(splited[i]);
 		i++;
 	}
-	free_split(hash->env);
+	free(splited);
 }

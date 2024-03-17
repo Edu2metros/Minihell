@@ -6,7 +6,7 @@
 #    By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/03/16 18:14:57 by jaqribei         ###   ########.fr        #
+#    Updated: 2024/03/17 15:42:33 by jaqribei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ src += $(addprefix builtins/, cd.c \
 								env.c \
 								exit.c \
 								export.c \
+								export_utils.c \
 								pwd.c \
 								unset.c \
 								builtin.c)
@@ -54,7 +55,8 @@ src += $(addprefix redirects/, heredoc.c \
 								redirect.c)
 								
 src += $(addprefix cmd/, cmd.c \
-						 cmd2.c)
+						 cmd2.c \
+						 hand_vars.c)
 
 src += $(addprefix print/, print.c)
 

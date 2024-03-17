@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hand_signals.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 19:07:16 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 11:35:22 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 15:57:46 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,4 @@ void	handle_sigint_child(int sig)
 		get_control()->return_status = 130;
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	}
-}
-
-void	sig_ignore(void)
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void hand_signals(t_minishell *mini)
-{
-	signal(SIGQUIT, handle_sigquit_signal);
-	signal(SIGINT, handle_sigint);
 }

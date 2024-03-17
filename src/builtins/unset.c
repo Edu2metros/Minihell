@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 20:24:26 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 13:17:04 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 15:35:58 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void delete_variable_env(t_hash_table *table, char *key)
+void	delete_variable_env(t_hash_table *table, char *key)
 {
-	int i;
-	i = 0;
+	int	i;
 
-	while(table->env[i])
+	i = 0;
+	while (table->env[i])
 	{
 		if (ft_strcmp(table->env[i], key) == 0)
 		{
@@ -31,14 +31,14 @@ void delete_variable_env(t_hash_table *table, char *key)
 
 void	hash_delete(t_hash_table *table, char *key)
 {
-	t_hash_item *item;
-	int index;
+	t_hash_item	*item;
+	int			index;
 
 	index = hash_function(key);
 	item = table->item[index];
-	while(item != NULL)
+	while (item != NULL)
 	{
-		if(item->key && !ft_strncmp(item->key, key, ft_strlen(key) + 1))
+		if (item->key && !ft_strncmp(item->key, key, ft_strlen(key) + 1))
 		{
 			printf("%s\n", item->key);
 			free(item->key);
@@ -69,6 +69,6 @@ void	unset(t_minishell *mini, t_cmd *cmd)
 			i++;
 		}
 	}
-	if(cmd->on_fork == 1)
+	if (cmd->on_fork == 1)
 		exit(get_control()->return_status);
 }

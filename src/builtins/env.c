@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 01:21:20 by  jaqribei         #+#    #+#             */
-/*   Updated: 2024/03/17 12:29:00 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 15:44:47 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	env(t_cmd *cmd, t_hash_table **table)
 {
 	int	fd_out;
-		
+
 	fd_out = 1;
 	cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
 	if (cmd->redirect_list_out)
@@ -28,10 +28,9 @@ void	env(t_cmd *cmd, t_hash_table **table)
 	}
 	else
 		print_table(table, fd_out);
-	if(cmd->redirect_list_out)
+	if (cmd->redirect_list_out)
 		close(fd_out);
 	get_control()->return_status = EXIT_SUCCESS;
-	if(get_control()->cmd->on_fork == 1)
+	if (get_control()->cmd->on_fork == 1)
 		exit(get_control()->return_status);
 }
-

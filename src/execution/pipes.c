@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipes.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 15:31:35 by jaqribei          #+#    #+#             */
+/*   Updated: 2024/03/17 15:32:53 by jaqribei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 int	lstsize_cmd(t_cmd *cmd)
@@ -88,6 +100,6 @@ void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 			handle_parent_process(&cmd, fd, &fd_in);
 	}
 	close(fd[0]);
-	while(waitpid(-1, NULL, 0) > 0 && count > 0)
+	while (waitpid(-1, NULL, 0) > 0 && count > 0)
 		count--;
 }

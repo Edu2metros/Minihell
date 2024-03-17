@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 20:58:15 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/01 15:13:32 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/17 15:55:33 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	free_table(t_hash_table **table)
 	t_hash_item	*item;
 	t_hash_item	*aux;
 	int			i;
-	
+
 	i = 0;
 	while (i < (*table)->size)
 	{
@@ -43,12 +43,11 @@ void	free_table(t_hash_table **table)
 
 void	erase_node(t_hash_table **table, t_hash_item *item, char *key)
 {
-	t_hash_item *aux;
-	t_hash_item *item_prev;
+	t_hash_item	*aux;
+	t_hash_item	*item_prev;
 
 	aux = NULL;
 	item_prev = item;
-	
 	while (item_prev && ft_strncmp(item_prev->key, key, (ft_strlen(key) + 1)))
 	{
 		aux = item_prev;
@@ -77,4 +76,23 @@ void	erase_table(t_hash_table **table, char *key)
 	}
 	else if (item->next != NULL)
 		erase_node(table, item, key);
+}
+
+void	free_hashs(t_hash_table *hash)
+{
+	int	i;
+
+	i = 0;
+	while (i < hash->size) // free na tabela hash item // repetida?
+	{
+		if (hash->item[i] != NULL)
+		{
+			free(hash->item[i]->key);
+			if (hash->item[i]->value != NULL)
+				free(hash->item[i]->value);
+			free(hash->item[i]);
+		}
+		i++;
+	}
+	free_split(hash->env);
 }

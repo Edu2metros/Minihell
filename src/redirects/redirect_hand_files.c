@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_hand_files.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:29:10 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/12 20:36:55 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 15:55:57 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	file_is_executable(char *file_name)
 void	handle_out_files(t_redirect_out *redirect)
 {
 	char	*file;
-	
+
 	file = redirect->content;
 	if (redirect->type == OUTPUT)
 	{

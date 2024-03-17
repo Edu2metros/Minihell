@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/15 16:19:09 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 15:58:47 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void clear_heredoc_child_process(t_minishell *mini)
+void	clear_heredoc_child_process(t_minishell *mini)
 {
 	if (mini->token != NULL)
 		free_tokens(&mini->token);
 	// if (get_control()->cmd != NULL)
-		// free_cmd(&get_control()->cmd);
+	// free_cmd(&get_control()->cmd);
 	rl_clear_history();
 	close_fd(get_control());
 	exit(0);
 }
 
-void get_heredoc(void)
+void	get_heredoc(void)
 {
 	int		fd;
 	char	*delimiter;
@@ -43,9 +43,9 @@ void get_heredoc(void)
 	}
 }
 
-void heredoc_child_process(char *delimiter, int fd)
+void	heredoc_child_process(char *delimiter, int fd)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid == 0)
@@ -58,10 +58,10 @@ void heredoc_child_process(char *delimiter, int fd)
 		wait_heredoc(pid);
 }
 
-void wait_heredoc(pid_t pid)
+void	wait_heredoc(pid_t pid)
 {
-	int status;
-	int status_addr;
+	int	status;
+	int	status_addr;
 
 	waitpid(pid, &status_addr, 0);
 	if (WIFEXITED(status_addr))
@@ -78,10 +78,10 @@ void wait_heredoc(pid_t pid)
 	}
 }
 
-void hand_heredoc(char *delimiter, int fd)
+void	hand_heredoc(char *delimiter, int fd)
 {
 
-	char *input;
+	char	*input;
 	while (1)
 	{
 		input = readline(HEREDOC_PROMPT);
@@ -96,6 +96,8 @@ void hand_heredoc(char *delimiter, int fd)
 			free(input);
 			break;
 		}
+		// if (ft_strcmp(input, "$"))
+		// 	input = expand_variable(get_control()->token);
 		ft_putendl_fd(input, fd);
 		free(input);
 	}

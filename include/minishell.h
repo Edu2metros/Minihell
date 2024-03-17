@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 14:28:00 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 15:50:53 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,13 @@ int							ft_isredirect(char *string);
 void						shift_args(char **args, int start);
 void						free_split(char **splited);
 void						free_out_while(t_minishell *mini);
-void	pipe_or_not(t_minishell *mini, t_cmd *cmd);
-
+void						pipe_or_not(t_minishell *mini, t_cmd *cmd);
+void						handle_quote(t_token *token);
+int							expand_variable(t_token *token, int i);
+void						next_quote(t_token *token);
+void						remove_redirect(t_cmd *cmd);
+t_token						*populate_cmd_args(t_token *token, t_cmd *cmd, t_minishell *mini);
+void	print_export(t_hash_table *hash, t_cmd *cmd);
 
 // Signals functions
 void						sigint_handler(int sig);
@@ -194,6 +199,7 @@ void						heredoc_child_process(char *delimiter, int fd);
 void						wait_heredoc(pid_t pid);
 void						handle_sigquit_signal(int sig);
 void						handle_sigint_child(int sig);
+
 
 // Token functions
 int							process_token_arg(char *input, t_minishell *mini,

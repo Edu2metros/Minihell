@@ -3,34 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:07:53 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 13:30:29 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 15:51:48 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	ft_strcmp_len(char *s1, char *s2)
-{
-	if (ft_strlen(s1) == ft_strlen(s2))
-		return (ft_strncmp(s1, s2, __UINT64_MAX__) == 0);
-	return (0);
-}
-
-void	free_split(char **splited)
-{
-	int	i;
-
-	i = 0;
-	while (splited[i])
-	{
-		free(splited[i]);
-		i++;
-	}
-	free(splited);
-}
 
 unsigned long	hash_function(char *key)
 {
@@ -64,6 +44,7 @@ t_hash_table	*create_hash_table(int size)
 	}
 	return (table);
 }
+
 int	count_equals_chr(char *str, char c)
 {
 	int	i;
@@ -108,20 +89,19 @@ void	hash_insert_equals(char **str)
 	}
 }
 
-void populate_env(t_hash_table *table, int len)
+void	populate_env(t_hash_table *table, int len)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    table->env = (char **)ft_calloc(sizeof(char *), len + 1);
-    while (i < len)
-    {
-        table->env[i] = ft_strdup(__environ[i]);
-        i++;
-    }
-    table->env[i] = NULL;
+	i = 0;
+	table->env = (char **)ft_calloc(sizeof(char *), len + 1);
+	while (i < len)
+	{
+		table->env[i] = ft_strdup(__environ[i]);
+		i++;
+	}
+	table->env[i] = NULL;
 }
-
 
 t_hash_table	*hash_population(t_minishell *mini, t_hash_table **table)
 {

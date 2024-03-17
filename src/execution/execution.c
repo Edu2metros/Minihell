@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 18:11:32 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 14:35:24 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 15:31:04 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,8 @@ char	*get_path(t_minishell *mini, char *command)
 	path = ft_split(hash_search(mini->table, "PATH"), ':');
 	if (path == NULL)
 	{
-		ft_printf_fd(STDERR_FILENO,
-						"minishell: \
-			%s: No such file or directory \n",
-						command);
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or directory \
+		n", command);
 		exit(127);
 	}
 	while (path[i] != NULL)
@@ -88,7 +86,6 @@ void	exec_pipe_command(t_cmd *cmd, t_minishell *mini)
 			execve(cmd->name, cmd->args, mini->table->env);
 	}
 	path = get_path(mini, cmd->name);
-	// exec_redirect(cmd);
 	execve(path, cmd->args, mini->table->env);
 	free(path);
 }
@@ -113,11 +110,13 @@ void	exec_command(t_cmd *cmd, t_minishell *mini)
 	{
 		if (cmd->name[0] == '.' || cmd->name[0] == '/')
 		{
-			if (access(cmd->name, F_OK | X_OK) == 0 && ft_strcmp(cmd->name, ".."))
+			if (access(cmd->name, F_OK | X_OK) == 0 && ft_strcmp(cmd->name, \
+			".."))
 				execve(cmd->name, cmd->args, mini->table->env);
 			else
 			{
-				ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or directory\n", cmd->name);
+				ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or \
+				directory\n", cmd->name);
 				exit(127);
 			}
 		}
