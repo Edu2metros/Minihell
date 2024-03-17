@@ -65,7 +65,6 @@ void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 	int		fd_in;
 	int		count;
 	pid_t	pid;
-	int		status;
 
 	if (cmd->redirect_list_in)
 	{
@@ -89,10 +88,6 @@ void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 			handle_parent_process(&cmd, fd, &fd_in);
 	}
 	close(fd[0]);
-	while (waitpid(-1, &status, 0) > 0 && count > 0)
-	{
-		if (WIFEXITED(status))
-			mini->return_status = WEXITSTATUS(status);
+	while(waitpid(-1, NULL, 0) > 0 && count > 0)
 		count--;
-	}
 }
