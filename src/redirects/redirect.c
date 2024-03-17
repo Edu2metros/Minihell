@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/13 16:11:37 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 16:27:30 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ t_token	*first(t_token **lst)
 	return (*lst);
 }
 
-void handle_redirects(t_cmd *cmd, t_minishell *mini)
+void handle_redirects(t_minishell *mini)
 {
 	t_token *token;
 	t_token *aux;
-
+	t_cmd *cmd;
+	cmd = lst_first(mini->cmd);
 	token = mini->token;
 	while (token)
 	{
@@ -52,6 +53,8 @@ void handle_redirects(t_cmd *cmd, t_minishell *mini)
 				redirect_out_list(&token, &cmd->redirect_list_out);
 			token = aux;
 		}
+		if(token->type == PIPE)
+			cmd = cmd->next;
 		token = aux;
 	}
 }

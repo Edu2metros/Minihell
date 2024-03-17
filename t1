@@ -1,9 +1,0 @@
-include
-Makefile
-minishell
-next
-obj
-README.md
-src
-supression.sup
-t1

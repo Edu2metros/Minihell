@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:29 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/16 20:16:15 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 14:47:18 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,4 @@ void	tokenizer(char *input, t_minishell *mini)
 			i++;
 		start = i;
 	}
-	print_tokens(mini);
 }

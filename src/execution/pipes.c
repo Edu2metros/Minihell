@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:31:35 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 15:32:53 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/17 16:42:19 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,14 @@ void	handle_child_process(t_cmd *cmd, t_minishell *mini, int fd[], int fd_in)
 	}
 	else if (cmd->next != NULL && cmd->redirect_list_out)
 	{
+		printf("entrou\n");
 		cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
 		fd_redirections(STDIN_FILENO, fd[1]);
+		fd_redirections(fd_in, cmd->redirect_list_out->fd_out);
+	}
+	else if(cmd->next == NULL && cmd->redirect_list_out)
+	{
+		cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
 		fd_redirections(fd_in, cmd->redirect_list_out->fd_out);
 	}
 	else

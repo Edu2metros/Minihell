@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:54 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/16 19:36:14 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 16:14:01 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,8 @@ char	*expand_variable_word(char *input, t_minishell *mini)
 			while (ft_isalnum(input[i]) || input[i] == '_')
 				i++;
 			substr = ft_substr(input, start, i - start);
-			if(getenv(substr))
-				result = ft_strjoin(result, getenv(substr));
+			if(hash_search(mini->table, substr) != NULL)
+				result = ft_strjoin(result, hash_search(mini->table, substr));
 			else
 			{
 				if(hash_search(mini->table, substr))

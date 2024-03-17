@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 15:50:53 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/17 16:28:15 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,8 +179,9 @@ void						handle_quote(t_token *token);
 int							expand_variable(t_token *token, int i);
 void						next_quote(t_token *token);
 void						remove_redirect(t_cmd *cmd);
-t_token						*populate_cmd_args(t_token *token, t_cmd *cmd, t_minishell *mini);
-void	print_export(t_hash_table *hash, t_cmd *cmd);
+t_token						*populate_cmd_args(t_token *token, t_cmd *cmd,
+								t_minishell *mini);
+void						print_export(t_hash_table *hash, t_cmd *cmd);
 
 // Signals functions
 void						sigint_handler(int sig);
@@ -199,7 +200,6 @@ void						heredoc_child_process(char *delimiter, int fd);
 void						wait_heredoc(pid_t pid);
 void						handle_sigquit_signal(int sig);
 void						handle_sigint_child(int sig);
-
 
 // Token functions
 int							process_token_arg(char *input, t_minishell *mini,
@@ -232,7 +232,7 @@ t_redirect_out				*lstlast_out(t_redirect_out *lst);
 t_redirect_out				*new_redirect_out(char *content, int type);
 int							check_files(char *file_name);
 void						hand_heredoc(char *delimiter, int fd);
-void						handle_redirects(t_cmd *cmd, t_minishell *mini);
+void						handle_redirects(t_minishell *mini);
 void						handle_in_files(t_redirect_in *redirect);
 void						handle_out_files(t_redirect_out *redirect);
 void						redirect_in_list(t_token **token,
