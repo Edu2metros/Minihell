@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:33:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/15 22:03:27 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 12:28:11 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,31 @@ int	ft_how_many_char(char *str, char c)
 void	cd_absolute_path(char *absolute_path)
 {
 	if (absolute_path == NULL)
+	{
+		ft_printf_fd(STDERR_FILENO, "minishell: cd: HOME not set\n");
+		get_control()->return_status = 1;
 		return ;
+	
+	}
 	if (access(absolute_path, F_OK) == 0 && (access(absolute_path, X_OK) == -1))
 	{
 		ft_printf_fd(STDERR_FILENO, "cd: %s: Permission denied\n",
 			absolute_path);
+		get_control()->return_status = 1;
 		return ;
 	}
 	if (chdir(absolute_path) == -1)
+	{
 		ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n",
 			absolute_path);
+		get_control()->return_status = 1;
+	}
 	else
 	{
 		hash_insert(&get_control()->table, "OLDPWD",
 			hash_search(get_control()->table, "PWD"));
 		hash_insert(&get_control()->table, "PWD", absolute_path);
+		get_control()->return_status = 0;
 	}
 }
 
@@ -69,12 +79,16 @@ void	ft_old_pwd(char *old)
 	}
 	substr = ft_substr(tmp, 0, i + 1);
 	if (chdir(substr) == -1)
+	{
 		ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n", old);
+		get_control()->return_status = 1;
+	}
 	else
 	{
 		hash_insert(&get_control()->table, "OLDPWD",
 			hash_search(get_control()->table, "PWD"));
 		hash_insert(&get_control()->table, "PWD", substr);
+		get_control()->return_status = 0;
 	}
 }
 
@@ -90,16 +104,21 @@ void	relative_path(char *relative)
 			|| access(current, R_OK) == -1))
 	{
 		ft_printf_fd(STDERR_FILENO, "cd: %s: Permission denied\n", relative);
+		get_control()->return_status = 1;
 		return ;
 	}
 	if (chdir(current) == -1)
+	{
 		ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n",
 			relative);
+		get_control()->return_status = 1;
+	}
 	else
 	{
 		hash_insert(&get_control()->table, "OLDPWD",
 			hash_search(get_control()->table, "PWD"));
 		hash_insert(&get_control()->table, "PWD", current);
+		get_control()->return_status = 0;
 	}
 }
 
@@ -109,24 +128,23 @@ void	hand_cd(t_cmd *cmd)
 	int		i;
 
 	current_directory = hash_search(get_control()->table, "PWD");
+	// tratar se o current_directory for NULL
 	i = 1;
 	if (cmd->args[i] == NULL)
-	{
 		cd_absolute_path(hash_search(get_control()->table, "HOME"));
-		return ;
-	}
-	if (cmd->args[i][0] == '/')
+	else if(current_directory == NULL)
 	{
+		ft_printf_fd(STDERR_FILENO, "minishell: cd: PWD not set\n");
+		get_control()->return_status = 1;
+	}
+	else if (cmd->args[i][0] == '/')
 		cd_absolute_path(cmd->args[i]);
-		return ;
-	}
-	if (ft_strlen(cmd->args[i]) == 2 && cmd->args[i][0] == '.'
+	else if (ft_strlen(cmd->args[i]) == 2 && cmd->args[i][0] == '.'
 		&& cmd->args[i][1])
-	{
 		ft_old_pwd(cmd->args[i]);
-		return ;
-	}
-	if (ft_strlen(cmd->args[i]) == 1 && cmd->args[i][0] == '.')
-		return ;
+	else if (ft_strlen(cmd->args[i]) == 1 && cmd->args[i][0] == '.')
+		get_control()->return_status = 0;
 	relative_path(cmd->args[i]);
+	if (get_control()->cmd->on_fork == 1)
+		exit(get_control()->return_status);
 }

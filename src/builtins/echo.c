@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 23:57:02 by  jaqribei         #+#    #+#             */
-/*   Updated: 2024/03/16 17:34:57 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 12:28:44 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,7 @@ void    ft_echo(t_cmd *cmd)
     if (n_flag == 0)
         ft_putstr_fd("\n", fd_out);
 	get_control()->return_status = 0;
+    if(cmd->on_fork == 1)
+        exit(get_control()->return_status);
 }
 

@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/03/16 18:59:32 by eddos-sa         ###   ########.fr       */
-=======
-/*   Updated: 2024/03/16 18:19:59 by jaqribei         ###   ########.fr       */
->>>>>>> 09936e87005442f04853962545fd3648df6b2282
+/*   Updated: 2024/03/17 12:16:52 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +36,7 @@ t_cmd	*cmd_new_node(char *content, int type)
 		cmd->name = ft_strdup(content);
 	else
 		cmd->name = NULL;
+	cmd->on_fork = 0;
 	cmd->type = type;
 	cmd->args = NULL;
 	cmd->count = 0;

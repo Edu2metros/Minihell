@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 20:24:26 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/16 12:55:54 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 13:17:04 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,26 @@ void delete_variable_env(t_hash_table *table, char *key)
 
 void	hash_delete(t_hash_table *table, char *key)
 {
-	int			i;
+	t_hash_item *item;
+	int index;
 
-	i = 0;
-	while (i < table->size)
+	index = hash_function(key);
+	item = table->item[index];
+	while(item != NULL)
 	{
-		if(table->item[i])
+		if(item->key && !ft_strncmp(item->key, key, ft_strlen(key) + 1))
 		{
-			if (ft_strcmp(table->item[i]->key, key) == 0)
-			{
-				delete_variable_env(table, key);
-				free(table->item[i]->key);
-				free(table->item[i]->value);
-				free(table->item[i]);
-				table->item[i] = NULL;
-				table->count--;
-				break ;
-			}
+			printf("%s\n", item->key);
+			free(item->key);
+			free(item->value);
+			free(item);
+			table->item[index] = NULL;
+			delete_variable_env(table, key);
+			break ;
 		}
-		i++;
+		item = item->next;
 	}
+	get_control()->return_status = 0;
 }
 
 void	unset(t_minishell *mini, t_cmd *cmd)
@@ -69,4 +69,6 @@ void	unset(t_minishell *mini, t_cmd *cmd)
 			i++;
 		}
 	}
+	if(cmd->on_fork == 1)
+		exit(get_control()->return_status);
 }

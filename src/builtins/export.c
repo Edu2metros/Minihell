@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 12:01:10 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/16 20:20:02 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 13:43:53 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	print_n_free(t_export *export)
 		free(temp_export);
 		temp_export = next_export;
 	}
+	get_control()->return_status = 0;
 }
 
 t_export	*create_new_export(t_hash_item *current_item)
@@ -146,6 +147,38 @@ int	ft_is_stralnum(char *str)
 	return (1);
 }
 
+int ft_isall_alpha(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isalpha(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int check_error(char *str, t_hash_table *hash)
+{
+	int i;
+
+	i = 0;
+	while(str[i])
+	{
+		if(!ft_isalpha(str[i]) && str[i] != '_')
+		{
+			ft_printf_fd(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", str);
+			get_control()->return_status = 1;
+			return (0);
+		}
+		i++;
+	}
+	return(1);
+}
+
 void	export(t_cmd *cmd, t_hash_table *hash)
 {
 	char	*equal_pos;
@@ -156,26 +189,14 @@ void	export(t_cmd *cmd, t_hash_table *hash)
 	i = 1;
 	if (ft_array_len(cmd->args) == 1)
 		print_export(hash);
-	else if (ft_strcmp(cmd->args[i], "=") == 0 || ft_is_stralnum(cmd->args[i]))
-	{
-		ft_printf_fd(STDERR_FILENO,
-			"minishell: export: `%s': not a valid identifier\n", cmd->args[i]);
-		return ;
-	}
 	else
 	{
 		while (cmd->args[i])
 		{
 			if (hash_search(hash, cmd->args[i]) != NULL)
 				hash_update_value(hash, cmd->args[i]);
-			else
+			else if(check_error(cmd->args[i], hash) == 1)
 			{
-				if(ft_strcmp(cmd->args[i], "=") == 0 || ft_is_stralnum(cmd->args[i]) == 0)
-				{
-					ft_printf_fd(STDERR_FILENO,
-						"minishell: export: `%s': not a valid identifier\n", cmd->args[i]);
-					continue;
-				}
 				equal_pos = ft_strchr(cmd->args[i], '=');
 				if (equal_pos == NULL)
 				{
@@ -193,8 +214,11 @@ void	export(t_cmd *cmd, t_hash_table *hash)
 				free(key);
 				if (value)
 					free(value);
+				get_control()->return_status = 0;
 			}
 			i++;
 		}
 	}
+	if(get_control()->cmd->on_fork == 1)
+		exit(get_control()->return_status);
 }

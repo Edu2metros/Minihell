@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 19:07:16 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/16 14:11:07 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 11:35:22 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	sig_ignore(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void hand_signals()
+void hand_signals(t_minishell *mini)
 {
 	signal(SIGQUIT, handle_sigquit_signal);
 	signal(SIGINT, handle_sigint);

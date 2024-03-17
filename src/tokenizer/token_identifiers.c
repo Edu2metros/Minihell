@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:46 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/16 20:17:10 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 13:47:58 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	is_operator(char chr1, char chr2)
 		return (INPUT);
 	else if (chr1 == '|')
 		return (PIPE);
+	else if(!ft_isalnum(chr1) && !my_isspace(chr1))
+		return (OTHER);
 	return (0);
 }
 

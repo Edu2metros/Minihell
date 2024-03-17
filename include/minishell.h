@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/16 18:13:58 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/17 13:47:56 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ enum						e_token
 	UNSET,
 	ENV,
 	EXIT,
-	TRUE
+	TRUE,
+	FALSE,
+	OTHER
 };
 
 typedef struct s_export
@@ -94,6 +96,7 @@ typedef struct s_cmd
 	int						type;
 	int						count;
 	int						fd[2];
+	int						on_fork;
 	char					*name;
 	char					**args;
 	struct s_cmd			*previous;

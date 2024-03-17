@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 18:11:32 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/16 18:11:33 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/17 14:04:01 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	exec_redirect(t_cmd *cmd)
 	}
 }
 
-void free_array(char **array)
+void	free_array(char **array)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (array[i] != NULL)
@@ -37,7 +37,6 @@ void free_array(char **array)
 		i++;
 	}
 	free(array);
-
 }
 
 char	*get_path(t_minishell *mini, char *command)
@@ -48,23 +47,15 @@ char	*get_path(t_minishell *mini, char *command)
 	char	*full_path;
 
 	i = 0;
-	if(command == NULL)
+	if (command == NULL)
 		exit(127);
-	if(command[0] == '.')
-	{
-		if(access(command, F_OK) == 0)
-			execve(command, mini->cmd->args, mini->table->env);
-	}
-	if(command[0] == '/')
-	{
-		if(access(command, F_OK) == 0)
-			execve(command, mini->cmd->args, mini->table->env);
-	}
 	path = ft_split(hash_search(mini->table, "PATH"), ':');
 	if (path == NULL)
 	{
-		ft_printf_fd(STDERR_FILENO, "minishell: \
-			%s: No such file or directory \n", command);
+		ft_printf_fd(STDERR_FILENO,
+						"minishell: \
+			%s: No such file or directory \n",
+						command);
 		exit(127);
 	}
 	while (path[i] != NULL)
@@ -91,6 +82,11 @@ void	exec_pipe_command(t_cmd *cmd, t_minishell *mini)
 	int		i;
 
 	i = 0;
+	if (cmd->name[0] == '.' || cmd->name[0] == '/')
+	{
+		if (access(cmd->name, F_OK | X_OK) == 0)
+			execve(cmd->name, cmd->args, mini->table->env);
+	}
 	path = get_path(mini, cmd->name);
 	// exec_redirect(cmd);
 	execve(path, cmd->args, mini->table->env);
@@ -102,6 +98,7 @@ void	exec_command(t_cmd *cmd, t_minishell *mini)
 	pid_t	pid;
 	char	*path;
 	int		i;
+	int		status;
 
 	i = 0;
 	if (is_builtin(cmd->name) != 0)
@@ -114,10 +111,25 @@ void	exec_command(t_cmd *cmd, t_minishell *mini)
 	signal(SIGQUIT, handle_sigquit_signal);
 	if (pid == 0)
 	{
+		if (cmd->name[0] == '.' || cmd->name[0] == '/')
+		{
+			if (access(cmd->name, F_OK | X_OK) == 0)
+				execve(cmd->name, cmd->args, mini->table->env);
+			else
+			{
+				ft_printf_fd(STDERR_FILENO, "minishell: \
+					%s: No such file or directory\n", cmd->name);
+				exit(127);
+			}
+		}
 		path = get_path(mini, cmd->name);
 		exec_redirect(cmd);
 		execve(path, cmd->args, mini->table->env);
 	}
 	if (pid)
-		waitpid(pid, NULL, 0);
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			mini->return_status = WEXITSTATUS(status);
+	}
 }

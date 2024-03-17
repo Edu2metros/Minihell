@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:07:53 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/16 17:06:51 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 13:30:29 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,5 @@ t_hash_table	*hash_population(t_minishell *mini, t_hash_table **table)
 		i++;
 		free_split(str);
 	}
-	hash_insert(table, "?", "0");
 	return (*table);
 }

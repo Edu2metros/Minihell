@@ -38,7 +38,10 @@ void	handle_child_process(t_cmd *cmd, t_minishell *mini, int fd[], int fd_in)
 	else
 		fd_redirections(fd_in, STDOUT_FILENO);
 	if (is_builtin(cmd->name))
+	{
+		cmd->on_fork = 1;
 		builtin_execution(cmd, mini);
+	}
 	else
 		exec_pipe_command(cmd, mini);
 	exit(EXIT_SUCCESS);
@@ -59,6 +62,7 @@ void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 	int		fd_in;
 	int		count;
 	pid_t	pid;
+	int		status;
 
 	fd_in = STDIN_FILENO;
 	count = lstsize_cmd(cmd);
@@ -77,6 +81,10 @@ void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 			handle_parent_process(&cmd, fd, &fd_in);
 	}
 	close(fd[0]);
-	while(waitpid(-1, NULL, 0) > 0 && count > 0)
+	while (waitpid(-1, &status, 0) > 0 && count > 0)
+	{
+		if (WIFEXITED(status))
+			mini->return_status = WEXITSTATUS(status);
 		count--;
+	}
 }
