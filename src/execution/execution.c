@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 18:11:32 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 14:04:01 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 14:35:24 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,11 @@ void	exec_command(t_cmd *cmd, t_minishell *mini)
 	{
 		if (cmd->name[0] == '.' || cmd->name[0] == '/')
 		{
-			if (access(cmd->name, F_OK | X_OK) == 0)
+			if (access(cmd->name, F_OK | X_OK) == 0 && ft_strcmp(cmd->name, ".."))
 				execve(cmd->name, cmd->args, mini->table->env);
 			else
 			{
-				ft_printf_fd(STDERR_FILENO, "minishell: \
-					%s: No such file or directory\n", cmd->name);
+				ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or directory\n", cmd->name);
 				exit(127);
 			}
 		}

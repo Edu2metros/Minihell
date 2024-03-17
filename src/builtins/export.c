@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 12:01:10 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 13:43:53 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/17 14:40:22 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,23 @@ void	print_n_free(t_export *export)
 {
 	t_export	*temp_export;
 	t_export	*next_export;
+	int			fd_out;
 
+	fd_out = 1;
 	temp_export = export;
+	get_control()->redirect_list_out = lstlast_out(get_control()->cmd->redirect_list_out);
+	if (get_control()->cmd->redirect_list_out)
+		fd_out = get_control()->cmd->redirect_list_out->fd_out;
 	while (temp_export != NULL)
 	{
 		if (!ft_strncmp(temp_export->value, "", 1))
-			printf("declare -x %s\n", temp_export->key);
+			ft_printf_fd(fd_out, "declare -x %s\n", temp_export->key);
+		// printf("declare -x %s\n", temp_export->key);
 		else
-			printf("declare -x %s=\"%s\"\n", temp_export->key,
+			ft_printf_fd(fd_out, "declare -x %s=\"%s\"\n", temp_export->key,
 				temp_export->value);
+		// printf("declare -x %s=\"%s\"\n", temp_export->key,
+		// temp_export->value);
 		temp_export = temp_export->next;
 	}
 	temp_export = export;
@@ -147,9 +155,9 @@ int	ft_is_stralnum(char *str)
 	return (1);
 }
 
-int ft_isall_alpha(char *str)
+int	ft_isall_alpha(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -161,22 +169,23 @@ int ft_isall_alpha(char *str)
 	return (1);
 }
 
-int check_error(char *str, t_hash_table *hash)
+int	check_error(char *str, t_hash_table *hash)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
-		if(!ft_isalpha(str[i]) && str[i] != '_')
+		if (!ft_isalpha(str[i]) && str[i] != '_')
 		{
-			ft_printf_fd(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", str);
+			ft_printf_fd(STDERR_FILENO,
+				"minishell: export: `%s': not a valid identifier\n", str);
 			get_control()->return_status = 1;
 			return (0);
 		}
 		i++;
 	}
-	return(1);
+	return (1);
 }
 
 void	export(t_cmd *cmd, t_hash_table *hash)
@@ -195,7 +204,7 @@ void	export(t_cmd *cmd, t_hash_table *hash)
 		{
 			if (hash_search(hash, cmd->args[i]) != NULL)
 				hash_update_value(hash, cmd->args[i]);
-			else if(check_error(cmd->args[i], hash) == 1)
+			else if (check_error(cmd->args[i], hash) == 1)
 			{
 				equal_pos = ft_strchr(cmd->args[i], '=');
 				if (equal_pos == NULL)
@@ -219,6 +228,6 @@ void	export(t_cmd *cmd, t_hash_table *hash)
 			i++;
 		}
 	}
-	if(get_control()->cmd->on_fork == 1)
+	if (get_control()->cmd->on_fork == 1)
 		exit(get_control()->return_status);
 }
