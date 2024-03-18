@@ -1,12 +1,11 @@
-f1
-heredoc
 include
 Makefile
 minishell
+minishell_tester
 obj
-oi
 README.md
 src
 supression.sup
 t1
 t2
+t3

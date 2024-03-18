@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 17:19:37 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 17:58:41 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	get_heredoc(t_cmd *cmd)
 		}
 		token = token->next;
 	}
-	cmd->redirect_list_in->fd_in = open("heredoc", O_RDONLY);
+	if (cmd->redirect_list_in)
+		cmd->redirect_list_in->fd_in = open("heredoc", O_RDONLY);
 }
 
 void	heredoc_child_process(char *delimiter, int fd)

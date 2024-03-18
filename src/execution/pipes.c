@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:31:35 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 14:21:31 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 18:42:31 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@ void	fd_redirections(int fd_in, int fd_out)
 void	handle_child_process(t_cmd *cmd, t_minishell *mini, int fd[], int fd_in)
 {
 	close(fd[0]);
+	if(cmd->redirect_list_in)
+	{
+		cmd->redirect_list_in = lstlast_in(cmd->redirect_list_in);
+		dup2(cmd->redirect_list_in->fd_in, STDIN_FILENO);
+		close(cmd->redirect_list_in->fd_in);
+	}
 	if (cmd->next != NULL && !cmd->redirect_list_out)
 	{
 		fd_redirections(STDIN_FILENO, fd[1]);
@@ -58,7 +64,7 @@ void	handle_child_process(t_cmd *cmd, t_minishell *mini, int fd[], int fd_in)
 		cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
 		fd_redirections(fd_in, cmd->redirect_list_out->fd_out);
 	}
-	else
+	else if(!cmd->redirect_list_in)
 		fd_redirections(fd_in, STDOUT_FILENO);
 	if (is_builtin(cmd->name))
 	{
@@ -87,11 +93,6 @@ void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 	int		status;
 	pid_t	pid;
 
-	if (cmd->redirect_list_in)
-	{
-		cmd->redirect_list_in = lstlast_in(cmd->redirect_list_in);
-		dup2(cmd->redirect_list_in->fd_in, STDIN_FILENO);
-	}
 	fd_in = STDIN_FILENO;
 	count = lstsize_cmd(cmd);
 	signal(SIGINT, handle_sigint_child);
