@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 18:11:32 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 16:51:20 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 18:47:31 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,40 +40,44 @@ void	free_array(char **array)
 	free(array);
 }
 
-char	*get_path(t_minishell *mini, char *command)
+char    *get_path(t_minishell *mini, char *command)
 {
-	char	**path;
-	char	*tmp;
-	int		i;
-	char	*full_path;
-
-	i = 0;
-	if (command == NULL)
-		exit(127);
-	path = ft_split(hash_search(mini->table, "PATH"), ':');
-	if (path == NULL)
-	{
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or directory \
-		n", command);
-		exit(127);
-	}
-	while (path[i] != NULL)
-	{
-		tmp = ft_strjoin(path[i], "/");
-		full_path = ft_strjoin(tmp, command);
-		free(tmp);
-		if (access(full_path, F_OK) == 0)
-		{
-			free_array(path);
-			return (full_path);
-		}
-		free(full_path);
-		i++;
-	}
-	ft_printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", command);
-	free_all(mini);
-	free_array(path);
-	exit(127);
+    char    **path;
+    char    *tmp;
+    int        i;
+    char    *full_path;
+    char    *path_value;
+    
+    i = 0;
+    if (command == NULL)
+        exit(127);
+    path_value = hash_search(mini->table, "PATH");
+    if (path_value == NULL)
+    {
+        ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or directory \
+        n", command);
+        exit(127);
+    }
+    // path = ft_split(hash_search(mini->table, "PATH"), ':');
+    path = ft_split(path_value, ':');
+    free(path_value);
+    while (path[i] != NULL)
+    {
+        tmp = ft_strjoin(path[i], "/");
+        full_path = ft_strjoin(tmp, command);
+        free(tmp);
+        if (access(full_path, F_OK) == 0)
+        {
+            free_array(path);
+            return (full_path);
+        }
+        free(full_path);
+        i++;
+    }
+    ft_printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", command);
+    free_all(mini);
+    free_array(path);
+    exit(127);
 }
 
 void	exec_pipe_command(t_cmd *cmd, t_minishell *mini)
