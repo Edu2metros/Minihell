@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 16:14:38 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 11:58:54 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void	minishell(t_minishell *mini, t_hash_table *table)
 
 	while (TRUE)
 	{
+		mini->cmd = NULL;
 		signal(SIGINT, handle_sigint);
 		signal(SIGQUIT, SIG_IGN);
 		get_control()->heredoc = 0;
