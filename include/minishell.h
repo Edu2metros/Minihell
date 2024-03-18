@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/18 12:25:08 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 14:57:41 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_cmd
 {
 	int						type;
 	int						count;
+	int						space;
 	int						fd[2];
 	int						on_fork;
 	char					*name;
@@ -254,8 +255,9 @@ void						print_cmd_list(t_minishell *mini);
 
 // CMD functions
 t_cmd						*lst_first(t_cmd *cmd);
-t_cmd						*cmd_new_node(char *content, int type);
-t_cmd						*add_new_node(t_cmd *cmd, char *content, int type);
+t_cmd	*cmd_new_node(char *content, int type, int space);
+t_cmd						*add_new_node(t_cmd *cmd, char *content, int type,
+								int space);
 int							lstsize_pipe(t_token *token);
 int							is_redirect(t_token *token);
 void						create_cmd_list(t_minishell *mini);

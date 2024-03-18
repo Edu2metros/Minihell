@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:31:35 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 13:15:21 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 14:21:31 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 	}
 	fd_in = STDIN_FILENO;
 	count = lstsize_cmd(cmd);
+	signal(SIGINT, handle_sigint_child);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, handle_sigquit_signal);
 	while (cmd)
 	{
 		pipe(fd);

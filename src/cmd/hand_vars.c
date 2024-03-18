@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hand_vars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:16:12 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 15:45:11 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:00:45 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ int	expand_variable(t_token *token, int i)
 	int		start;
 
 	start = i;
+	if(token->content[i] == '?')
+	{
+		token->aux = ft_strjoin(token->aux, ft_itoa(get_control()->return_status));
+		return (i + 1);
+	}
 	while (ft_isalnum(token->content[i]) || token->content[i] == '_')
 		i++;
 	substr = ft_substr(token->content, start, i - start);

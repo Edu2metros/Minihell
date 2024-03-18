@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 23:57:02 by  jaqribei         #+#    #+#             */
-/*   Updated: 2024/03/17 15:43:45 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/18 14:58:18 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_echo(t_cmd *cmd)
 	while (cmd->args[i] != NULL)
 	{
 		ft_putstr_fd(cmd->args[i], fd_out);
-		if (cmd->args[i + 1] != NULL)
+		if (cmd->args[i + 1] != NULL && cmd->space == 1)
 			ft_putstr_fd(" ", fd_out);
 		i++;
 	}

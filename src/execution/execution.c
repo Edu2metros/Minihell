@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 18:11:32 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 18:27:58 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 14:26:37 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ char	*get_path(t_minishell *mini, char *command)
 		i++;
 	}
 	ft_printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", command);
+	free_all(mini);
+	free_array(path);
 	exit(127);
 }
 
@@ -86,6 +88,8 @@ void	exec_pipe_command(t_cmd *cmd, t_minishell *mini)
 			execve(cmd->name, cmd->args, mini->table->env);
 	}
 	path = get_path(mini, cmd->name);
+	signal(SIGINT, handle_sigint_child);
+	signal(SIGQUIT, handle_sigquit_signal);
 	execve(path, cmd->args, mini->table->env);
 	free(path);
 }
