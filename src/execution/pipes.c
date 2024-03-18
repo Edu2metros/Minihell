@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:31:35 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 18:42:31 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 19:24:02 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,29 +42,28 @@ void	fd_redirections(int fd_in, int fd_out)
 void	handle_child_process(t_cmd *cmd, t_minishell *mini, int fd[], int fd_in)
 {
 	close(fd[0]);
-	if(cmd->redirect_list_in)
+	if (cmd->redirect_list_in)
 	{
 		cmd->redirect_list_in = lstlast_in(cmd->redirect_list_in);
 		dup2(cmd->redirect_list_in->fd_in, STDIN_FILENO);
 		close(cmd->redirect_list_in->fd_in);
 	}
-	if (cmd->next != NULL && !cmd->redirect_list_out)
+	if (cmd->next != NULL && cmd->redirect_list_out)
+	{
+		cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
+		fd_redirections(fd_in, cmd->redirect_list_out->fd_out);
+	}
+	else if (cmd->next != NULL)
 	{
 		fd_redirections(STDIN_FILENO, fd[1]);
 		fd_redirections(fd_in, STDOUT_FILENO);
 	}
-	else if (cmd->next != NULL && cmd->redirect_list_out)
-	{
-		cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
-		fd_redirections(STDIN_FILENO, fd[1]);
-		fd_redirections(fd_in, cmd->redirect_list_out->fd_out);
-	}
-	else if (cmd->next == NULL && cmd->redirect_list_out)
+	else if (cmd->redirect_list_out)
 	{
 		cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
 		fd_redirections(fd_in, cmd->redirect_list_out->fd_out);
 	}
-	else if(!cmd->redirect_list_in)
+	else if (!cmd->redirect_list_in && !cmd->redirect_list_out)
 		fd_redirections(fd_in, STDOUT_FILENO);
 	if (is_builtin(cmd->name))
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:07:39 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/18 15:18:39 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/18 19:30:18 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	free_cmd(t_cmd **cmd)
 }
 
 void	free_all(t_minishell *minishell)
-{	
+{
 	free_tokens(&(minishell->token));
 	lstclear_cmd(&(minishell->cmd));
 	free_redirect_in(&(minishell->redirect_list_in));

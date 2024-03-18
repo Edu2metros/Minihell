@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hash_clear.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 20:58:15 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 13:48:02 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/18 19:29:02 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	free_table(t_hash_table **table)
 	t_hash_item	*item;
 	t_hash_item	*aux;
 	int			i;
-
+	
 	i = 0;
 	while (i < (*table)->size)
 	{

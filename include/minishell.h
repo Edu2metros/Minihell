@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/18 16:31:01 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 18:53:11 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # define HEREDOC_PROMPT "\e[1;34m💡 HereDoc\e[0m\e[1;33m -> \e[0m"
 
 # define TABLE_SIZE 500
+# define INT_MAX 2147483647
+# define INT_MIN -2147483648
 
 # include "./libft/libft.h"
 # include <fcntl.h>

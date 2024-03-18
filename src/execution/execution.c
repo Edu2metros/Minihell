@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 18:11:32 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 18:47:31 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 19:28:51 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ void	free_array(char **array)
 	free(array);
 }
 
+void free_all_child(t_minishell *mini)
+{
+	free_all(mini);
+	clear_history();
+	free_table(&mini->table);
+}
+
 char    *get_path(t_minishell *mini, char *command)
 {
     char    **path;
@@ -58,7 +65,6 @@ char    *get_path(t_minishell *mini, char *command)
         n", command);
         exit(127);
     }
-    // path = ft_split(hash_search(mini->table, "PATH"), ':');
     path = ft_split(path_value, ':');
     free(path_value);
     while (path[i] != NULL)
@@ -75,8 +81,8 @@ char    *get_path(t_minishell *mini, char *command)
         i++;
     }
     ft_printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", command);
-    free_all(mini);
-    free_array(path);
+	free_array(path);
+	free_all_child(mini);
     exit(127);
 }
 
