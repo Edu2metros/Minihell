@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2024/03/18 15:13:15 by jaqribei         ###   ########.fr       */
-=======
-/*   Updated: 2024/03/18 15:04:07 by jaqribei         ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2024/03/18 15:22:24 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +51,9 @@ static void	minishell(t_minishell *mini, t_hash_table *table)
 			continue ;
 		tokenizer(input, mini);
 		create_cmd_list(mini);
-		pipe_or_not(mini, lst_first(mini->cmd));
-<<<<<<< Updated upstream
-=======
+		pipe_or_not(mini);
 		free_redirect_out(&mini->cmd->redirect_list_out);
 		free_redirect_in(&mini->cmd->redirect_list_in);
->>>>>>> Stashed changes
 		close_fd(mini);
 		free_all(mini);
 	}
