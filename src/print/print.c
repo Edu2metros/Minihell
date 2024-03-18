@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:12:49 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/11 14:03:10 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 10:55:57 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,14 @@ void	print_cmd_list(t_minishell *mini)
 	i = 0;
 	while (cmd)
 	{
-		while (i < cmd->count)
+		while (cmd->args[i])
 		{
-			printf("%s ", cmd->args[i]);
+			printf("[%s] ", cmd->args[i]);
 			i++;
 		}
 		printf("\n");
 		cmd = cmd->next;
 	}
+	// free(cmd->name);
+	// free(cmd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:02:27 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 15:21:28 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/18 11:20:01 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_cmd	*lst_first(t_cmd *cmd)
 
 	result = cmd;
 	while (result != NULL && result->previous != NULL)
-		result = result->previous;
+ 		result = result->previous;
 	return (result);
 }
 

@@ -6,23 +6,42 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 16:25:30 by eddos-sa         ###   ########.fr       */
-/*                                                                            */
+/*   Updated: 2024/03/18 11:32:08 by eddos-sa         ###   ########.fr       */
+/*                                                                           */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_cmd	*add_new_node(t_cmd *cmd, char *content, int type)
+t_cmd	*new_node(char *content, int type)
 {
-	t_cmd	*new;
+	t_cmd	*cmd;
 
+	cmd = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
 	if (!cmd)
-		return (cmd_new_node(content, type));
-	new = NULL;
-	new = cmd_new_node(content, type);
-	new->previous = cmd;
-	cmd->next = new;
-	return (new);
+		return (NULL);
+	cmd->name = ft_strdup(content);
+	cmd->args = NULL;
+	cmd->next = NULL;
+	cmd->type = type;
+	cmd->previous = NULL;
+	cmd->on_fork = 0;
+	cmd->count = 0;
+	cmd->redirect_list_in = NULL;
+	cmd->redirect_list_out = NULL;
+	return (cmd);
+}
+
+void	add_last(t_cmd **cmd, t_cmd *aux)
+{
+	if (*cmd == NULL)
+	{
+		*cmd = aux;
+		return ;
+	}
+	while ((*cmd)->next != NULL)
+		*cmd = (*cmd)->next;
+	(*cmd)->next = aux;
+	aux->previous = *cmd;
 }
 
 t_cmd	*cmd_new_node(char *content, int type)
@@ -67,6 +86,16 @@ t_token	*populate_cmd_args(t_token *token, t_cmd *cmd, t_minishell *mini)
 	return (token);
 }
 
+t_cmd *lstlast_cmd(void)
+{
+	t_cmd	*aux;
+
+	aux = get_control()->cmd;
+	while (aux->next)
+		aux = aux->next;
+	return (aux);
+}
+
 void	create_cmd_list(t_minishell *mini)
 {
 	t_token	*token;
@@ -76,14 +105,14 @@ void	create_cmd_list(t_minishell *mini)
 	count = 0;
 	while (token)
 	{
-		mini->cmd = add_new_node(mini->cmd, token->content, token->type);
-		token = populate_cmd_args(token, mini->cmd, mini);
+		add_last(&mini->cmd, new_node(token->content, token->type));
+		token = populate_cmd_args(token, lstlast_cmd(), mini);
 		get_heredoc();
 		if (get_control()->heredoc)
 			return ;
 		if (token != NULL)
 			token = token->next;
 	}
-	handle_redirects(mini);
-	remove_redirect(mini->cmd);
+	// handle_redirects(mini);
+	// remove_redirect(mini->cmd);
 }

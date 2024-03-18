@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 18:11:32 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 18:27:58 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 10:44:23 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,30 @@ char	*get_path(t_minishell *mini, char *command)
 	exit(127);
 }
 
+void free_cmd_child(t_cmd **cmd)
+{
+	t_cmd	*temp;
+	t_cmd	*next;
+
+	temp = *cmd;
+	while (temp != NULL)
+	{
+		next = temp->next;
+		free(temp->name);
+		// free(temp);
+		temp = next;
+	}
+	*cmd = NULL;
+}
+
+void free_all_child(t_minishell *minishell)
+{
+	free_tokens(&(minishell->token));
+	free_cmd_child(&(minishell->cmd));
+	free_redirect_in(&(minishell->redirect_list_in));
+	free_redirect_out(&(minishell->redirect_list_out));
+}
+
 void	exec_pipe_command(t_cmd *cmd, t_minishell *mini)
 {
 	pid_t	pid;
@@ -86,6 +110,7 @@ void	exec_pipe_command(t_cmd *cmd, t_minishell *mini)
 			execve(cmd->name, cmd->args, mini->table->env);
 	}
 	path = get_path(mini, cmd->name);
+	free_all_child(mini);
 	execve(path, cmd->args, mini->table->env);
 	free(path);
 }
