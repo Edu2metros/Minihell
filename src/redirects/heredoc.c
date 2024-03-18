@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 15:58:47 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/17 16:59:19 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	clear_heredoc_child_process(t_minishell *mini)
 {
 	if (mini->token != NULL)
 		free_tokens(&mini->token);
-	// if (get_control()->cmd != NULL)
-	// free_cmd(&get_control()->cmd);
+	if (get_control()->cmd != NULL)
+	free_cmd(&get_control()->cmd);
 	rl_clear_history();
 	close_fd(get_control());
 	exit(0);
@@ -87,7 +87,8 @@ void	hand_heredoc(char *delimiter, int fd)
 		input = readline(HEREDOC_PROMPT);
 		if (!input)
 		{
-			ft_printf_fd(STDERR_FILENO, "minishell: warning: here-document delimited by end-of-file (wanted `%s\')", delimiter);
+			ft_printf_fd(STDERR_FILENO, "minishell: warning: here-document \
+			delimited by end-of-file (wanted `%s\')", delimiter);
 			free(input);
 			break;
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 16:27:30 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:28:37 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,12 @@ void handle_redirects(t_minishell *mini)
 
 void	close_fd(t_minishell *mini)
 {
-	t_redirect_out *aux_out;
-	t_redirect_in *aux_in;
-
-	aux_out = mini->redirect_list_out;
-	aux_in = mini->redirect_list_in;
-	while (aux_out)
-	{
-		close(aux_out->fd_out);
-		aux_out = aux_out->next;
-	}
-	while (aux_in)
-	{
-		close(aux_in->fd_in);
-		aux_in = aux_in->next;
+	int	i;
+	
+	i = 3;
+	while(i < 4096)
+	{	
+		close(i);
+		i++;
 	}
 }

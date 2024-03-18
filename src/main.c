@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/18 11:58:54 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:27:52 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ static void	minishell(t_minishell *mini, t_hash_table *table)
 		tokenizer(input, mini);
 		create_cmd_list(mini);
 		pipe_or_not(mini, lst_first(mini->cmd));
+		count_open_fds();
 		close_fd(mini);
+		count_open_fds();
 		free_all(mini);
 	}
 }
