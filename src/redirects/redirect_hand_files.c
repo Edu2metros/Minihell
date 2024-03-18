@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_hand_files.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:29:10 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 15:55:57 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/18 17:08:50 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,14 @@ void	handle_in_files(t_redirect_in *redirect)
 	if (redirect->type == HEREDOC)
 	{
 		redirect->heredoc = 1;
-		redirect->fd_in = open("heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		redirect->fd_in = open("heredoc", O_RDONLY);
 	}
 	if (redirect->type == INPUT)
 	{
 		file = redirect->content;
 		redirect->heredoc = 0;
 		redirect->fd_in = open(file, O_RDONLY);
-		printf("fd_in: %d\n", redirect->fd_in);
+		if(redirect->fd_in == -1)
+			return ;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hand_signals.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 19:07:16 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 15:57:46 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/18 16:35:16 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	handle_sigint_heredoc(int sig)
 {
 	if (sig == SIGINT)
 	{
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		get_control()->return_status = 0;
 		free_all(get_control());
 		exit(130);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 18:11:32 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 15:19:06 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/18 16:51:20 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@ void	exec_redirect(t_cmd *cmd)
 	if (cmd->redirect_list_in)
 	{
 		cmd->redirect_list_in = lstlast_in(cmd->redirect_list_in);
-		dup2(cmd->redirect_list_in->fd_in, 0);
+		printf("fd_in: %d\n", cmd->redirect_list_in->fd_in);
+		dup2(cmd->redirect_list_in->fd_in, STDIN_FILENO);
 	}
 	if (cmd->redirect_list_out)
 	{
 		cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
-		dup2(cmd->redirect_list_out->fd_out, 1);
+		dup2(cmd->redirect_list_out->fd_out, STDOUT_FILENO);
 	}
 }
 

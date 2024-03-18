@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 15:12:47 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/18 17:19:37 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	clear_heredoc_child_process(t_minishell *mini)
 	exit(0);
 }
 
-void	get_heredoc(void)
+void	get_heredoc(t_cmd *cmd)
 {
 	int		fd;
 	char	*delimiter;
@@ -41,6 +41,7 @@ void	get_heredoc(void)
 		}
 		token = token->next;
 	}
+	cmd->redirect_list_in->fd_in = open("heredoc", O_RDONLY);
 }
 
 void	heredoc_child_process(char *delimiter, int fd)
@@ -62,7 +63,6 @@ void	wait_heredoc(pid_t pid)
 {
 	int	status;
 	int	status_addr;
-
 	waitpid(pid, &status_addr, 0);
 	if (WIFEXITED(status_addr))
 	{
@@ -88,7 +88,7 @@ void	hand_heredoc(char *delimiter, int fd)
 		if (!input)
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: warning: here-document \
-			delimited by end-of-file (wanted `%s\')", delimiter);
+			delimited by end-of-file (wanted `%s\')\n", delimiter);
 			free(input);
 			break;
 		}

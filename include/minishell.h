@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/18 14:57:41 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 16:31:01 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ void						exec_pipe(t_minishell *mini, t_cmd *cmd);
 void						exec_command(t_cmd *cmd, t_minishell *mini);
 void						exec_pipe_command(t_cmd *cmd, t_minishell *mini);
 void						heredoc_pid(char *delimiter, int fd);
-void						get_heredoc(void);
+void						get_heredoc(t_cmd *cmd);
 void						ctrl_c_child(int sig);
 void						count_open_fds(void);
 int							ft_isredirect(char *string);
@@ -255,7 +255,7 @@ void						print_cmd_list(t_minishell *mini);
 
 // CMD functions
 t_cmd						*lst_first(t_cmd *cmd);
-t_cmd	*cmd_new_node(char *content, int type, int space);
+t_cmd						*cmd_new_node(char *content, int type, int space);
 t_cmd						*add_new_node(t_cmd *cmd, char *content, int type,
 								int space);
 int							lstsize_pipe(t_token *token);
