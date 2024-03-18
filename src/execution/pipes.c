@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:31:35 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 16:42:19 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:15:21 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,11 @@ void	handle_child_process(t_cmd *cmd, t_minishell *mini, int fd[], int fd_in)
 	}
 	else if (cmd->next != NULL && cmd->redirect_list_out)
 	{
-		printf("entrou\n");
 		cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
 		fd_redirections(STDIN_FILENO, fd[1]);
 		fd_redirections(fd_in, cmd->redirect_list_out->fd_out);
 	}
-	else if(cmd->next == NULL && cmd->redirect_list_out)
+	else if (cmd->next == NULL && cmd->redirect_list_out)
 	{
 		cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
 		fd_redirections(fd_in, cmd->redirect_list_out->fd_out);
@@ -62,7 +61,10 @@ void	handle_child_process(t_cmd *cmd, t_minishell *mini, int fd[], int fd_in)
 	else
 		fd_redirections(fd_in, STDOUT_FILENO);
 	if (is_builtin(cmd->name))
+	{
+		cmd->on_fork = 1;
 		builtin_execution(cmd, mini);
+	}
 	else
 		exec_pipe_command(cmd, mini);
 	exit(EXIT_SUCCESS);
@@ -82,6 +84,7 @@ void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 	int		fd[2];
 	int		fd_in;
 	int		count;
+	int		status;
 	pid_t	pid;
 
 	if (cmd->redirect_list_in)
@@ -106,6 +109,10 @@ void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 			handle_parent_process(&cmd, fd, &fd_in);
 	}
 	close(fd[0]);
-	while (waitpid(-1, NULL, 0) > 0 && count > 0)
+	while (waitpid(-1, &status, 0) > 0 && count > 0)
+	{
+		if (WIFEXITED(status))
+			mini->return_status = WEXITSTATUS(status);
 		count--;
+	}
 }

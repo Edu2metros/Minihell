@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 15:58:47 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/18 12:24:51 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ void	hand_heredoc(char *delimiter, int fd)
 			free(input);
 			break;
 		}
-		// if (ft_strcmp(input, "$"))
-		// 	input = expand_variable(get_control()->token);
+		if (ft_strcmp(input, "$"))
+			input = expand_variable_word(input, get_control());
 		ft_putendl_fd(input, fd);
 		free(input);
 	}

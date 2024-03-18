@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 16:28:15 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 12:25:08 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ int							ft_isredirect(char *string);
 void						shift_args(char **args, int start);
 void						free_split(char **splited);
 void						free_out_while(t_minishell *mini);
-void						pipe_or_not(t_minishell *mini, t_cmd *cmd);
+void						pipe_or_not(t_minishell *mini);
 void						handle_quote(t_token *token);
 int							expand_variable(t_token *token, int i);
 void						next_quote(t_token *token);
@@ -182,6 +182,8 @@ void						remove_redirect(t_cmd *cmd);
 t_token						*populate_cmd_args(t_token *token, t_cmd *cmd,
 								t_minishell *mini);
 void						print_export(t_hash_table *hash, t_cmd *cmd);
+char						*expand_variable_word(char *input,
+								t_minishell *mini);
 
 // Signals functions
 void						sigint_handler(int sig);
