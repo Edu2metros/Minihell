@@ -57,21 +57,54 @@ int	ft_isall_alpha(char *str)
 	return (1);
 }
 
-int	check_error(char *str, t_hash_table *hash)
+int	is_valid_identifier(char *str)
 {
 	int	i;
 
-	i = 0;
+	if (!ft_isalpha(str[0]) && str[0] != '_' && str[0] != '=')
+		return (0);
+	i = 1;
 	while (str[i])
 	{
-		if (!ft_isalpha(str[i]) && str[i] != '_')
-		{
-			ft_printf_fd(STDERR_FILENO, "minishell: export: `%s': not a valid \
-			identifier\n", str);
-			get_control()->return_status = 1;
+		if (!ft_isalnum(str[i]) && str[i] != '_' && str[i] != '=')
 			return (0);
-		}
 		i++;
+	}
+	return (1);
+}
+
+int	check_error(char *str, t_hash_table *hash)
+{
+	int	i;
+	int	equal_count;
+
+	i = 0;
+	equal_count = 0;
+	if (!str || !str[0])
+	{
+		ft_printf_fd(STDERR_FILENO, "minishell: export: argumento vazio\n");
+		get_control()->return_status = 1;
+		return (0);
+	}
+	if (!is_valid_identifier(str))
+	{
+		ft_printf_fd(STDERR_FILENO,
+			"minishell: export: `%s': not a valid identifier\n", str);
+		get_control()->return_status = 1;
+		return (0);
+	}
+	while (str[i])
+	{
+		if (str[i] == '=')
+			equal_count++;
+		i++;
+	}
+	if (equal_count != 1)
+	{
+		ft_printf_fd(STDERR_FILENO,
+			"minishell: export: `%s': too many or no equal sign (=)\n", str);
+		get_control()->return_status = 1;
+		return (0);
 	}
 	return (1);
 }
@@ -92,7 +125,7 @@ void	export(t_cmd *cmd, t_hash_table *hash)
 		{
 			if (hash_search(hash, cmd->args[i]) != NULL)
 				hash_update_value(hash, cmd->args[i]);
-			else if (check_error(cmd->args[i], hash) == 1)
+			else if (check_error(cmd->args[i], hash))
 			{
 				equal_pos = ft_strchr(cmd->args[i], '=');
 				if (equal_pos == NULL)

@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:56:11 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 13:20:14 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:51:22 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	handle_control_d(char *input, t_hash_table *table)
 	{
 		free_table(&table);
 		free_all(get_control());
+		close_fd(get_control());
+		clear_history();
 		ft_putstr_fd("exit\n", 2);
 		exit(0);
 	}

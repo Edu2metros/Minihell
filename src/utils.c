@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:47:19 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 15:29:28 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/18 14:50:19 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,25 @@ int	check_quotes(char *prompt)
 	return (1);
 }
 
+int only_space(char *prompt)
+{
+	int	i;
+
+	i = 0;
+	while (prompt[i] != '\0')
+	{
+		if (!my_isspace(prompt[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	validator(char *prompt)
 {
 	if (prompt == NULL || *prompt == '\0')
+		return (0);
+	if(!only_space(prompt))
 		return (0);
 	if (!check_quotes(prompt))
 		return (0);

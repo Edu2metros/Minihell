@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 16:25:30 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:19:18 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_cmd	*add_new_node(t_cmd *cmd, char *content, int type)
+t_cmd	*add_new_node(t_cmd *cmd, char *content, int type, int space)
 {
 	t_cmd	*new;
 
 	if (!cmd)
-		return (cmd_new_node(content, type));
+		return (cmd_new_node(content, type, space));
 	new = NULL;
-	new = cmd_new_node(content, type);
+	new = cmd_new_node(content, type, space);
 	new->previous = cmd;
 	cmd->next = new;
 	return (new);
 }
 
-t_cmd	*cmd_new_node(char *content, int type)
+t_cmd	*cmd_new_node(char *content, int type, int space)
 {
 	t_cmd	*cmd;
 
@@ -36,6 +36,7 @@ t_cmd	*cmd_new_node(char *content, int type)
 		cmd->name = ft_strdup(content);
 	else
 		cmd->name = NULL;
+	cmd->space = space;
 	cmd->on_fork = 0;
 	cmd->type = type;
 	cmd->args = NULL;
@@ -76,7 +77,7 @@ void	create_cmd_list(t_minishell *mini)
 	count = 0;
 	while (token)
 	{
-		mini->cmd = add_new_node(mini->cmd, token->content, token->type);
+		mini->cmd = add_new_node(mini->cmd, token->content, token->type, token->space);
 		token = populate_cmd_args(token, mini->cmd, mini);
 		get_heredoc();
 		if (get_control()->heredoc)

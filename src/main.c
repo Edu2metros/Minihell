@@ -6,7 +6,11 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/18 13:27:52 by jaqribei         ###   ########.fr       */
+<<<<<<< Updated upstream
+/*   Updated: 2024/03/18 15:13:15 by jaqribei         ###   ########.fr       */
+=======
+/*   Updated: 2024/03/18 15:04:07 by jaqribei         ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +33,7 @@ int	ft_isredirect(char *string)
 
 void	free_out_while(t_minishell *mini)
 {
-	free_split(mini->table->env);
+	// free_split(mini->table->env);
 	free_all(mini);
 	clear_history();
 }
@@ -52,9 +56,12 @@ static void	minishell(t_minishell *mini, t_hash_table *table)
 		tokenizer(input, mini);
 		create_cmd_list(mini);
 		pipe_or_not(mini, lst_first(mini->cmd));
-		count_open_fds();
+<<<<<<< Updated upstream
+=======
+		free_redirect_out(&mini->cmd->redirect_list_out);
+		free_redirect_in(&mini->cmd->redirect_list_in);
+>>>>>>> Stashed changes
 		close_fd(mini);
-		count_open_fds();
 		free_all(mini);
 	}
 }
@@ -67,4 +74,6 @@ int	main(void)
 	mini = get_control();
 	mini->table = hash_population(mini, &mini->table);
 	minishell(mini, mini->table);
+	free_table(&mini->table);
+	return (0);
 }

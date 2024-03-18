@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 16:28:15 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 14:57:41 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_cmd
 {
 	int						type;
 	int						count;
+	int						space;
 	int						fd[2];
 	int						on_fork;
 	char					*name;
@@ -174,7 +175,7 @@ int							ft_isredirect(char *string);
 void						shift_args(char **args, int start);
 void						free_split(char **splited);
 void						free_out_while(t_minishell *mini);
-void						pipe_or_not(t_minishell *mini, t_cmd *cmd);
+void						pipe_or_not(t_minishell *mini);
 void						handle_quote(t_token *token);
 int							expand_variable(t_token *token, int i);
 void						next_quote(t_token *token);
@@ -182,6 +183,8 @@ void						remove_redirect(t_cmd *cmd);
 t_token						*populate_cmd_args(t_token *token, t_cmd *cmd,
 								t_minishell *mini);
 void						print_export(t_hash_table *hash, t_cmd *cmd);
+char						*expand_variable_word(char *input,
+								t_minishell *mini);
 
 // Signals functions
 void						sigint_handler(int sig);
@@ -252,8 +255,9 @@ void						print_cmd_list(t_minishell *mini);
 
 // CMD functions
 t_cmd						*lst_first(t_cmd *cmd);
-t_cmd						*cmd_new_node(char *content, int type);
-t_cmd						*add_new_node(t_cmd *cmd, char *content, int type);
+t_cmd	*cmd_new_node(char *content, int type, int space);
+t_cmd						*add_new_node(t_cmd *cmd, char *content, int type,
+								int space);
 int							lstsize_pipe(t_token *token);
 int							is_redirect(t_token *token);
 void						create_cmd_list(t_minishell *mini);

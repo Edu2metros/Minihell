@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:42:42 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 13:28:42 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 14:52:44 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,28 @@ int	process_token_dollar(char *input, t_minishell *mini, int i, int start)
 
 	tmp = NULL;
 	start = i;
-	if(input[i] == '?')
+	if (input[i] == '?')
 	{
 		add_token(ft_itoa(mini->return_status), DOLLAR, 0, mini);
-		return(i + 1);
+		return (i + 1);
 	}
 	while (ft_isalnum(input[i]) || input[i] == '_')
 		i++;
 	substr = ft_substr(input, start, i - start);
 	tmp = hash_search(mini->table, substr);
 	if (tmp != NULL)
-		add_token(tmp, DOLLAR, 0, mini);
+	{
+		if (input[i] != '\0' && my_isspace(input[i]))
+			add_token(tmp, DOLLAR, 1, mini);
+		else
+			add_token(tmp, DOLLAR, 0, mini);
+	}
 	free(tmp);
 	free(substr);
-	return(i);
+	return (i);
 }
 
-void		add_token(char *str, int type, int space, t_minishell *mini)
+void	add_token(char *str, int type, int space, t_minishell *mini)
 {
 	t_token	*new_token;
 	t_token	*last_token;

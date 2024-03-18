@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 20:58:15 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 15:55:33 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:48:02 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ void	free_table(t_hash_table **table)
 		}
 		i++;
 	}
+	i = 0;
+	while ((*table)->env[i] != NULL)
+	{
+		free((*table)->env[i]);
+		i++;
+	}
+	free ((*table)->env);
 	free ((*table)->item);
 	free (*table);
 }
