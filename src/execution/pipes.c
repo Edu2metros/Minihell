@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:31:35 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 15:28:42 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:50:18 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,19 @@ void	handle_parent_process(t_cmd **cmd, int fd[], int *fd_in)
 	*cmd = (*cmd)->next;
 }
 
+void	free_reds(t_cmd *aux)
+{
+	aux = lst_first(aux);
+	while (aux)
+	{
+		if (aux->redirect_list_in)
+			free_redirect_in(&aux->redirect_list_in);
+		if (aux->redirect_list_out)
+			free_redirect_out(&aux->redirect_list_out);
+		aux = aux->next;
+	}
+}
+
 void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 {
 	int		fd[2];
@@ -94,8 +107,10 @@ void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 	int		count;
 	int		status;
 	pid_t	pid;
+	t_cmd	*aux;
 
 	fd_in = STDIN_FILENO;
+	aux = lst_first(cmd);
 	count = lstsize_cmd(cmd);
 	signal(SIGINT, handle_sigint_child);
 	signal(SIGQUIT, SIG_IGN);
@@ -112,7 +127,7 @@ void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 		}
 		else if (pid == 0)
 		{
-			if(cmd->return_status != 0)
+			if (cmd->return_status != 0)
 			{
 				free_all_child(mini);
 				exit(cmd->return_status);
@@ -129,4 +144,5 @@ void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 			mini->return_status = WEXITSTATUS(status);
 		count--;
 	}
+	free_reds(aux);
 }

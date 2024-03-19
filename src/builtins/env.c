@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 01:21:20 by  jaqribei         #+#    #+#             */
-/*   Updated: 2024/03/17 15:44:47 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:43:47 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ void	env(t_cmd *cmd, t_hash_table **table)
 	int	fd_out;
 
 	fd_out = 1;
-	cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
-	if (cmd->redirect_list_out)
-		fd_out = cmd->redirect_list_out->fd_out;
+	if (cmd->on_fork == 0)
+	{
+		cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
+		if (cmd->redirect_list_out)
+			fd_out = cmd->redirect_list_out->fd_out;
+	}
 	if (cmd->args[1] != NULL)
 	{
 		get_control()->return_status = 127;

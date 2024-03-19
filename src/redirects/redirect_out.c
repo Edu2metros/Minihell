@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:35:41 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 13:57:15 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:17:19 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,16 @@ int check_out_files(char *str, t_cmd *cmd)
     {
     	if (!file_is_writable(str))
 		{
-			ft_printf_fd(STDERR_FILENO, "minishell: %s: Permission denied\n", str);
+			if(cmd->return_status != 1)
+				ft_printf_fd(STDERR_FILENO, "minishell: %s: Permission denied\n", str);
 			cmd->return_status = 1;
 			return 0;
 		}
 	}
     if (file_is_executable(str))
     {
-        ft_printf_fd(STDERR_FILENO, "minishell: %s: Is a directory\n", str);
+		if(cmd->return_status != 1)
+        	ft_printf_fd(STDERR_FILENO, "minishell: %s: Is a directory\n", str);
 		cmd->return_status = 1;
         return 0;
     }
@@ -64,7 +66,7 @@ void redirect_out_list(t_token **token, t_redirect_out **redirect, t_cmd *cmd)
 			*redirect = new_red;
 		else
 			last->next = new_red;
-		handle_out_files(new_red);
+		handle_out_files(new_red, cmd);
 	}
 	*token = (*token)->next;
 }

@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 18:11:32 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 15:15:40 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:57:53 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	free_array(char **array)
 
 void	free_all_child(t_minishell *mini)
 {
-	// free_node(red);
 	free_tokens(&(mini->token));
+	free_reds(mini->cmd);
 	lstclear_cmd(&(mini->cmd));
 	free_redirect_out(&(mini->redirect_list_out));
 	close_fd(mini);
@@ -122,10 +122,11 @@ int	is_directory(const char *path)
 void	exec_command(t_cmd *cmd, t_minishell *mini)
 {
 	pid_t	pid;
+	t_cmd	*aux;
 	char	*path;
 	int		i;
 	int		status;
-
+	aux = lst_first(cmd);
 	i = 0;
 	if (is_builtin(cmd->name) != 0)
 	{
@@ -146,8 +147,7 @@ void	exec_command(t_cmd *cmd, t_minishell *mini)
 		{
 			if (is_directory(cmd->name))
 			{
-				ft_printf_fd(STDERR_FILENO, "minishell: %s: Is a directory\n",\
-cmd->name);
+				ft_printf_fd(STDERR_FILENO, "minishell: %s: Is a directory\n", cmd->name);
 				exit(126);
 			}
 			if (access(cmd->name, F_OK | X_OK) == 0 && ft_strcmp(cmd->name,
@@ -155,13 +155,12 @@ cmd->name);
 				execve(cmd->name, cmd->args, mini->table->env);
 			else
 			{
-				ft_printf_fd(STDERR_FILENO, "minishell: \
-%s: No such file or directory\n", cmd->name);
+				ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or directory\n", cmd->name);
 				exit(127);
 			}
 		}
-		path = get_path(mini, cmd->name);
 		exec_redirect(cmd);
+		path = get_path(mini, cmd->name);
 		execve(path, cmd->args, mini->table->env);
 	}
 	if (pid)
@@ -170,4 +169,5 @@ cmd->name);
 		if (WIFEXITED(status))
 			mini->return_status = WEXITSTATUS(status);
 	}
+	free_reds(aux);
 }

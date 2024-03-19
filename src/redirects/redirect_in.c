@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:33:51 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 14:15:52 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:14:57 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,20 @@ t_redirect_in *new_redirect_in(char *content, int type)
 	return (redirect);
 }
 
-int check_in_files(char *str)
+int check_in_files(char *str, t_cmd *cmd)
 {
 	if (!file_exist(str))
 	{
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or directory\n", str);
-		get_control()->return_status = 1;
+		if(cmd->return_status != 1)
+			ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or directory\n", str);
+		cmd->return_status = 1;
 		return (0);
 	}
 	else if (!file_is_readable(str))
 	{
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: Permission denied\n", str);
-		get_control()->return_status = 1;
+		if(cmd->return_status != 1)
+			ft_printf_fd(STDERR_FILENO, "minishell: %s: Permission denied\n", str);
+		cmd->return_status = 1;
 		return (0);
 	}
 	return (1);
@@ -65,13 +67,13 @@ void set_heredoc(t_token **token, t_redirect_in **redirect, t_cmd *cmd)
 	*token = (*token)->next;
 }
 
-void redirect_in_list(t_token **token, t_redirect_in **redirect)
+void redirect_in_list(t_token **token, t_redirect_in **redirect, t_cmd *cmd)
 {
 	t_redirect_in *new_red_in;
 	t_redirect_in *last;
 
 	last = lstlast_in(*redirect);
-	if (!check_in_files((*token)->next->content))
+	if (!check_in_files((*token)->next->content, cmd))
 	{
 		clear_list_in(redirect);
 		return;
@@ -83,7 +85,7 @@ void redirect_in_list(t_token **token, t_redirect_in **redirect)
 			*redirect = new_red_in;
 		else
 			last->next = new_red_in;
-		handle_in_files(new_red_in);
+		handle_in_files(new_red_in, cmd);
 	}
 	*token = (*token)->next;
 }

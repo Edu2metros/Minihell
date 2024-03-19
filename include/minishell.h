@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 17:12:35 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:22:43 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ char						*expand_variable_word(char *input,
 void						free_all_child(t_minishell *mini);
 int							check_quotes(char *prompt);
 void						populate_env(t_hash_table *table, int len);
+void						free_reds(t_cmd *aux);
 
 // Signals functions
 void						sigint_handler(int sig);
@@ -246,10 +247,12 @@ int							check_files(char *file_name);
 void						hand_heredoc(char *delimiter, int fd,
 								t_redirect_in *red);
 void						handle_redirects(t_minishell *mini);
-void						handle_in_files(t_redirect_in *redirect);
-void						handle_out_files(t_redirect_out *redirect);
+void						handle_in_files(t_redirect_in *redirect,
+								t_cmd *cmd);
+void						handle_out_files(t_redirect_out *redirect,
+								t_cmd *cmd);
 void						redirect_in_list(t_token **token,
-								t_redirect_in **redirect);
+								t_redirect_in **redirect, t_cmd *cmd);
 void						redirect_out_list(t_token **token,
 								t_redirect_out **redirect, t_cmd *cmd);
 void						clear_list_in(t_redirect_in **redirect);

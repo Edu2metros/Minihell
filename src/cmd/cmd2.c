@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:02:27 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/18 17:16:47 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:25:29 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,20 @@ void	shift_args(char **args, int start)
 	free(args[j]);
 }
 
+void check_errors(t_cmd *cmd)
+{
+	t_cmd	*aux;
+	int		i;
+
+	aux = lst_first(cmd);
+	while(aux)
+	{
+		if(aux->name == NULL)
+			aux->return_status = 1;
+		aux = aux->next;
+	}
+}
+
 void	remove_redirect(t_cmd *cmd)
 {
 	t_cmd	*aux;
@@ -102,4 +116,5 @@ void	remove_redirect(t_cmd *cmd)
 		}
 		aux = aux->next;
 	}
+	check_errors(cmd);
 }
