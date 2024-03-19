@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:14:43 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 12:12:10 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 14:18:06 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int	convert_and_check_range(char *str, int *code_status, long number)
+{
+	if (number > INT_MAX || number < INT_MIN)
+	{
+		ft_printf_fd(STDERR_FILENO, "minishell: exit: %s: numeric argument \
+required\n", str);
+		*code_status = 255;
+		free_all_child(get_control());
+		exit(2);
+	}
+	else
+		*code_status = number;
+	return (*code_status);
+}
 
 int	validate_numeric_string(char *str, int *code_status)
 {
@@ -24,8 +39,8 @@ int	validate_numeric_string(char *str, int *code_status)
 			i++;
 		if (ft_isdigit(str[i]) == 0)
 		{
-			ft_printf_fd(STDERR_FILENO, "minishell: exit: \
-				%s: numeric argument required\n", str);
+			ft_printf_fd(STDERR_FILENO, "minishell: exit: %s: numeric argument \
+required\n", str);
 			*code_status = 2;
 			break ;
 		}
@@ -34,14 +49,7 @@ int	validate_numeric_string(char *str, int *code_status)
 	if (str[i] == '\0')
 	{
 		number = ft_atol(str);
-		if (number > INT_MAX || number < INT_MIN)
-		{
-			ft_printf_fd(STDERR_FILENO, "minishell: exit: %s: numeric argument required\n", str);
-			*code_status = 255;
-			exit(2);
-		}
-		else
-			*code_status = number;
+		convert_and_check_range(str, code_status, number);
 	}
 	return (*code_status);
 }
@@ -56,12 +64,12 @@ void	free_exit(t_minishell *mini, t_hash_table **table, int status)
 
 void	ft_exit(t_cmd *node, t_hash_table **table)
 {
-	int i;
-	int code_status;
+	int	i;
+	int	code_status;
 
 	i = 1;
 	code_status = 0;
-	if(node->args[i] == NULL)
+	if (node->args[i] == NULL)
 	{
 		free_exit(get_control(), table, get_control()->return_status);
 		exit(get_control()->return_status);
