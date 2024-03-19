@@ -1,18 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/18 13:47:19 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 19:05:57 by eddos-sa         ###   ########.fr       */
+/*   Created: 2024/03/19 19:05:06 by eddos-sa          #+#    #+#             */
+/*   Updated: 2024/03/19 19:05:35 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	handle_quote_red(char *prompt, int *i)
+int	ft_isalpha_mini(char input)
+{
+	if (!input || input == '\0')
+		return (0);
+	if (input == '"' || input == '\'')
+		return (1);
+	else
+		return (ft_isalpha(input));
+}
+
+int	handle_error(char *prompt)
+{
+	if (*prompt == '|' || prompt[ft_strlen(prompt) - 1] == '|')
+	{
+		ft_printf_fd(STDERR_FILENO, "minishell: syntax error near unexpected \
+            token `|'\n");
+		get_control()->return_status = 2;
+		return (0);
+	}
+	return (1);
+}
+
+int	handle_quote(char *prompt, int *i)
 {
 	int	quote;
 
@@ -26,19 +48,14 @@ int	handle_quote_red(char *prompt, int *i)
 	return (1);
 }
 
-int	handle_char_red(char *prompt, char c, int *i)
+int	handle_pipe_char(char *prompt, int *i)
 {
-	int	offset;
-
-	offset = 1;
-	if (prompt[*i] == c)
+	if (prompt[*i] == '|')
 	{
-		if (prompt[*i + 1] == c)
-			offset++;
-		if (!ft_redirect(prompt, *i + offset))
+		if (!ft_redirect(prompt, *i + 1))
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: syntax error near \
-unexpected token `%c'\n", c);
+            unexpected token `|'\n");
 			get_control()->return_status = 2;
 			return (0);
 		}
@@ -46,14 +63,16 @@ unexpected token `%c'\n", c);
 	return (1);
 }
 
-int	handle_red(char *prompt, char c)
+int	handle_pipe(char *prompt)
 {
 	int	i;
 
 	i = 0;
-	while (prompt[i])
+	if (!handle_error(prompt))
+		return (0);
+	while (prompt[i] != '\0')
 	{
-		if (!handle_quote_red(prompt, &i) || !handle_char_red(prompt, c, &i))
+		if (!handle_quote(prompt, &i) || !handle_pipe_char(prompt, &i))
 			return (0);
 		i++;
 	}

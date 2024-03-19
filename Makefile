@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+         #
+#    By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/03/19 16:05:10 by jaqribei         ###   ########.fr        #
+#    Updated: 2024/03/19 19:06:15 by eddos-sa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRC_DIR			:= src/
 
 NAME = minishell
 
-src += main.c utils.c errors.c utils2.c
+src += main.c utils.c errors.c utils2.c utils3.c
 
 src += $(addprefix tokenizer/, token_identifiers.c \
 								token_identifiers_utils.c \
