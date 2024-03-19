@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:33:51 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 14:00:39 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 14:15:52 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void set_heredoc(t_token **token, t_redirect_in **redirect, t_cmd *cmd)
 			last->next = new_red_in;
 			new_red_in->previous = last;
 		}
-		get_heredoc(cmd);
+		get_heredoc(cmd, new_red_in);
 	}
 	*token = (*token)->next;
 }

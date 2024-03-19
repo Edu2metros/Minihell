@@ -1,0 +1,6 @@
+heredoc.c
+redirect.c
+redirect_hand_files.c
+redirect_in.c
+redirect_out.c
+t1

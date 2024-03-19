@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 23:57:02 by  jaqribei         #+#    #+#             */
-/*   Updated: 2024/03/19 14:21:37 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 14:31:38 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_echo_handler(t_cmd *cmd, int fd_out, int n_flag)
 	while (cmd->args[i] != NULL)
 	{
 		ft_putstr_fd(cmd->args[i], fd_out);
-		if (cmd->space == 1 || cmd->args[i + 1] != NULL)
+		if (cmd->args[i + 1] != NULL && cmd->space == 1)
 			ft_putstr_fd(" ", fd_out);
 		i++;
 	}

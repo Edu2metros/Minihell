@@ -6,20 +6,20 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 13:21:49 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:15:22 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void    clear_heredoc_child_process(t_minishell *mini)
+void	clear_heredoc_child_process(t_minishell *mini)
 {
-    close_fd(get_control());
-    free_all_child(mini);
-    exit(0);
+	close_fd(get_control());
+	free_all_child(mini);
+	exit(0);
 }
 
-void	get_heredoc(t_cmd *cmd)
+void	get_heredoc(t_cmd *cmd, t_redirect_in *red)
 {
 	int		fd;
 	char	*delimiter;
@@ -28,12 +28,13 @@ void	get_heredoc(t_cmd *cmd)
 	token = get_control()->token;
 	while (token)
 	{
-		if (token->type == HEREDOC && (token->next->type == WORD || token->next->type == QUOTE))
+		if (token->type == HEREDOC && (token->next->type == WORD
+				|| token->next->type == QUOTE))
 		{
 			fd = open("heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			delimiter = token->next->content;
 			if (!get_control()->heredoc)
-				heredoc_child_process(delimiter, fd);
+				heredoc_child_process(delimiter, fd, red);
 		}
 		token = token->next;
 	}
@@ -41,7 +42,7 @@ void	get_heredoc(t_cmd *cmd)
 		cmd->redirect_list_in->fd_in = open("heredoc", O_RDONLY);
 }
 
-void	heredoc_child_process(char *delimiter, int fd)
+void	heredoc_child_process(char *delimiter, int fd, t_redirect_in *red)
 {
 	pid_t	pid;
 
@@ -50,7 +51,7 @@ void	heredoc_child_process(char *delimiter, int fd)
 	{
 		signal(SIGINT, handle_sigint_heredoc);
 		signal(SIGQUIT, SIG_IGN);
-		hand_heredoc(delimiter, fd);
+		hand_heredoc(delimiter, fd, red);
 	}
 	else
 		wait_heredoc(pid);
@@ -60,6 +61,7 @@ void	wait_heredoc(pid_t pid)
 {
 	int	status;
 	int	status_addr;
+
 	waitpid(pid, &status_addr, 0);
 	if (WIFEXITED(status_addr))
 	{
@@ -75,24 +77,49 @@ void	wait_heredoc(pid_t pid)
 	}
 }
 
-void	hand_heredoc(char *delimiter, int fd)
+void free_node(t_redirect_in *red)
 {
+	t_redirect_in	*tmp;
 
+	while (red)
+	{
+		tmp = red->next;
+		free(red);
+		red = tmp;
+	}
+}
+
+void	free_all_redirect_in(t_redirect_in *red, t_minishell *mini)
+{
+	free_node(red);
+	free_tokens(&(mini->token));
+	lstclear_cmd(&(mini->cmd));
+	free_redirect_out(&(mini->redirect_list_out));
+	close_fd(mini);
+	clear_history();
+	free_table(&mini->table);
+}
+
+void	hand_heredoc(char *delimiter, int fd, t_redirect_in *red)
+{
 	char	*input;
+
 	while (1)
 	{
 		input = readline(HEREDOC_PROMPT);
 		if (!input)
 		{
-			ft_printf_fd(STDERR_FILENO, "minishell: warning: here-document \
-			delimited by end-of-file (wanted `%s\')\n", delimiter);
+			ft_printf_fd(STDERR_FILENO,
+							"minishell: warning: here-document \
+			delimited by end-of-file (wanted `%s\')\n",
+							delimiter);
 			free(input);
-			break;
+			break ;
 		}
 		else if ((ft_strcmp(input, delimiter) == 0))
 		{
 			free(input);
-			break;
+			break ;
 		}
 		if (ft_strcmp(input, "$"))
 			input = expand_variable_word(input, get_control());
@@ -100,6 +127,6 @@ void	hand_heredoc(char *delimiter, int fd)
 		free(input);
 	}
 	close(fd);
-    free_all_child(get_control());
-    exit(0);
+	free_all_redirect_in(red, get_control());
+	exit(0);
 }

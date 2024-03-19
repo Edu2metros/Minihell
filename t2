@@ -1,13 +1,8 @@
-echo
-file.txt
-flag
 include
 Makefile
 minishell
 minishell_tester
 obj
-oi
-outfile
 README.md
 src
 supression.sup

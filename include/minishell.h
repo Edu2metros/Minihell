@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 13:57:09 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:11:20 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ void						exec_pipe(t_minishell *mini, t_cmd *cmd);
 void						exec_command(t_cmd *cmd, t_minishell *mini);
 void						exec_pipe_command(t_cmd *cmd, t_minishell *mini);
 void						heredoc_pid(char *delimiter, int fd);
-void						get_heredoc(t_cmd *cmd);
+void						get_heredoc(t_cmd *cmd, t_redirect_in *red);
 void						ctrl_c_child(int sig);
 void						count_open_fds(void);
 int							ft_isredirect(char *string);
@@ -190,7 +190,7 @@ t_token						*populate_cmd_args(t_token *token, t_cmd *cmd,
 void						print_export(t_hash_table *hash, t_cmd *cmd);
 char						*expand_variable_word(char *input,
 								t_minishell *mini);
-void						free_all_child(t_minishell *mini);
+void	free_all_child(t_minishell *mini);
 
 // Signals functions
 void						sigint_handler(int sig);
@@ -205,7 +205,8 @@ void						handle_control_d(char *input, t_hash_table *table);
 void						handle_sigint(int sig);
 void						handle_sigint_heredoc(int sig);
 void						clear_heredoc_child_process(t_minishell *mini);
-void						heredoc_child_process(char *delimiter, int fd);
+void						heredoc_child_process(char *delimiter, int fd,
+								t_redirect_in *red);
 void						wait_heredoc(pid_t pid);
 void						handle_sigquit_signal(int sig);
 void						handle_sigint_child(int sig);
@@ -240,7 +241,8 @@ t_redirect_out				*add_redirect_out(t_redirect_out *redirect,
 t_redirect_out				*lstlast_out(t_redirect_out *lst);
 t_redirect_out				*new_redirect_out(char *content, int type);
 int							check_files(char *file_name);
-void						hand_heredoc(char *delimiter, int fd);
+void						hand_heredoc(char *delimiter, int fd,
+								t_redirect_in *red);
 void						handle_redirects(t_minishell *mini);
 void						handle_in_files(t_redirect_in *redirect);
 void						handle_out_files(t_redirect_out *redirect);

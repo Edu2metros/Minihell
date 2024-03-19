@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:31:35 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 12:39:38 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:28:42 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void handle_child_process(t_cmd *cmd, t_minishell *mini, int fd[], int fd_in)
         cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
         fd_redirections(fd_in, cmd->redirect_list_out->fd_out);
     }
-    else
+    else if(cmd->next == NULL && !cmd->redirect_list_out)
         fd_redirections(fd_in, STDOUT_FILENO);
     if (is_builtin(cmd->name))
     {

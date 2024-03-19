@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 18:11:32 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 14:05:22 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:15:40 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,11 @@ void	free_array(char **array)
 
 void	free_all_child(t_minishell *mini)
 {
-	free_all(mini);
+	// free_node(red);
+	free_tokens(&(mini->token));
+	lstclear_cmd(&(mini->cmd));
+	free_redirect_out(&(mini->redirect_list_out));
+	close_fd(mini);
 	clear_history();
 	free_table(&mini->table);
 }
@@ -142,8 +146,8 @@ void	exec_command(t_cmd *cmd, t_minishell *mini)
 		{
 			if (is_directory(cmd->name))
 			{
-				ft_printf_fd(STDERR_FILENO, "minishell: %s: Is a directory\n", \
-				cmd->name);
+				ft_printf_fd(STDERR_FILENO, "minishell: %s: Is a directory\n",\
+cmd->name);
 				exit(126);
 			}
 			if (access(cmd->name, F_OK | X_OK) == 0 && ft_strcmp(cmd->name,
