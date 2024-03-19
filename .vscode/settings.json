@@ -5,6 +5,7 @@
 		"typeinfo": "c",
 		"*.tcc": "c",
 		"cmath": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"libft.h": "c"
 	}
 }

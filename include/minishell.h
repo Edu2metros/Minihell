@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 15:11:20 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:45:39 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,10 @@ t_token						*populate_cmd_args(t_token *token, t_cmd *cmd,
 void						print_export(t_hash_table *hash, t_cmd *cmd);
 char						*expand_variable_word(char *input,
 								t_minishell *mini);
-void	free_all_child(t_minishell *mini);
+void						free_all_child(t_minishell *mini);
+int	check_quotes(char *prompt);
+void	populate_env(t_hash_table *table, int len);
+
 
 // Signals functions
 void						sigint_handler(int sig);
@@ -254,6 +257,7 @@ void						clear_list_in(t_redirect_in **redirect);
 void						clear_list_out(t_redirect_out **redirect);
 void						set_heredoc(t_token **token,
 								t_redirect_in **redirect, t_cmd *cmd);
+t_redirect_in				*lst_first_in(t_redirect_in *redirect);
 
 // Print functions
 void						print_cmd_args(t_cmd *cmd);

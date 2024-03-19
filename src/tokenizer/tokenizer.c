@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:29 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 12:43:52 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:41:17 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@ int	process_token_quote(char *input, t_minishell *mini, int i, int start)
 {
 	int		type;
 	char	*substr;
-	type = input[i];
+	
 	i++;
+	type = input[i];
 	while (input[i] != '\0' && input[i] != type)
 		i++;
 	substr = ft_substr(input, start, i - start + 1);
-	if(my_isspace(input[i + 1]))
+	if (my_isspace(input[i + 1]))
 		add_token(substr, QUOTE, 1, mini);
 	else
 		add_token(substr, QUOTE, 0, mini);

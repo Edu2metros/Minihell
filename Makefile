@@ -6,7 +6,7 @@
 #    By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/03/18 20:58:13 by jaqribei         ###   ########.fr        #
+#    Updated: 2024/03/19 16:05:10 by jaqribei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRC_DIR			:= src/
 
 NAME = minishell
 
-src += main.c utils.c errors.c free.c
+src += main.c utils.c errors.c utils2.c
 
 src += $(addprefix tokenizer/, token_identifiers.c \
 								token_identifiers_utils.c \
@@ -73,6 +73,9 @@ src += $(addprefix signals/, hand_signals.c \
 src += $(addprefix execution/, execution.c \
 								execution_utils.c \
 								pipes.c)
+
+src += $(addprefix clean/, free.c \
+							free_utils.c)
 
 SRC_OBJ = $(addprefix $(OBJ_DIR)/, $(src:%.c=%.o))
 

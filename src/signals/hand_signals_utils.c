@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hand_signals_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:56:11 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 10:51:30 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:38:47 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	sig_ignore(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void hand_signals(t_minishell *mini)
+void	hand_signals(t_minishell *mini)
 {
 	signal(SIGQUIT, handle_sigquit_signal);
 	signal(SIGINT, handle_sigint);

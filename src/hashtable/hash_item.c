@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:40:40 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 15:59:41 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:37:38 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,4 @@ char	*hash_search(t_hash_table *table, char *key)
 		item = item->next;
 	}
 	return (NULL);
-}
-
-int	ft_strcmp_len(char *s1, char *s2)
-{
-	if (ft_strlen(s1) == ft_strlen(s2))
-		return (ft_strncmp(s1, s2, __UINT64_MAX__) == 0);
-	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:07:53 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 18:48:10 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:36:52 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,23 @@ unsigned long	hash_function(char *key)
 	return (i % TABLE_SIZE);
 }
 
-t_hash_table    *create_hash_table(int size)
+t_hash_table	*create_hash_table(int size)
 {
-    t_hash_table    *table;
-    int                i;
+	t_hash_table	*table;
+	int				i;
 
-    i = 0;
-    table = (t_hash_table *)malloc(sizeof(t_hash_table));
-    table->size = size;
-    table->count = 0;
-    table->item = (t_hash_item **)ft_calloc(sizeof(t_hash_item *), size);
-    while (i < table->size)
-    {
-        table->item[i] = NULL;
-        i++;
-    }
-    return (table);
+	i = 0;
+	table = (t_hash_table *)malloc(sizeof(t_hash_table));
+	table->size = size;
+	table->count = 0;
+	table->item = (t_hash_item **)ft_calloc(sizeof(t_hash_item *), size);
+	while (i < table->size)
+	{
+		table->item[i] = NULL;
+		i++;
+	}
+	return (table);
 }
-
 
 int	count_equals_chr(char *str, char c)
 {
@@ -88,20 +87,6 @@ void	hash_insert_equals(char **str)
 		}
 		i++;
 	}
-}
-
-void	populate_env(t_hash_table *table, int len)
-{
-	int	i;
-
-	i = 0;
-	table->env = (char **)ft_calloc(sizeof(char *), len + 1);
-	while (i < len)
-	{
-		table->env[i] = ft_strdup(__environ[i]);
-		i++;
-	}
-	table->env[i] = NULL;
 }
 
 t_hash_table	*hash_population(t_minishell *mini, t_hash_table **table)

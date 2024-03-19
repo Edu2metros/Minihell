@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_identifiers_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:54 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 11:34:27 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:39:26 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,37 +88,6 @@ void	remove_quote(char *substr)
 	ft_strlcpy(substr, new_str, ft_strlen(new_str) + 1);
 	free(new_str);
 }
-
-/* void	remove_quote(char *substr)
-{
-	int		i;
-	char	quote;
-	char	double_quote;
-	char	*new_str;
-
-	i = 0;
-	quote = '\0';
-	double_quote = '\0';
-	new_str = ft_strdup("");
-	while (substr[i])
-	{
-		if (is_quote(substr[i]))
-		{
-			quote = substr[i];
-			while (substr[i] && substr[i++] != quote)
-				new_str = ft_strjoin_char(new_str, substr[i]);
-			if (substr[i] == quote)
-				i++;
-		}
-		else
-		{
-			new_str = ft_strjoin_char(new_str, substr[i]);
-			i++;
-		}
-	}
-	ft_strlcpy(substr, new_str, ft_strlen(new_str) + 1);
-	free(new_str);
-} */
 
 char	*expand_variable_word(char *input, t_minishell *mini)
 {
