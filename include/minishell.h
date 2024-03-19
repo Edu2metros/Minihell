@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 17:22:43 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:03:17 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,6 +295,7 @@ int							count_equals(char *str);
 
 // Error functions
 void						handle_error(int nbr);
+int							handle_error_two(char *prompt);
 
 // Free functions
 void						free_cmd(t_cmd **cmd);

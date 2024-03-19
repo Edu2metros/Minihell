@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 19:05:06 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 19:05:35 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:05:46 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_isalpha_mini(char input)
 		return (ft_isalpha(input));
 }
 
-int	handle_error(char *prompt)
+int	handle_error_two(char *prompt)
 {
 	if (*prompt == '|' || prompt[ft_strlen(prompt) - 1] == '|')
 	{
@@ -34,7 +34,7 @@ int	handle_error(char *prompt)
 	return (1);
 }
 
-int	handle_quote(char *prompt, int *i)
+int	handle_quote_val(char *prompt, int *i)
 {
 	int	quote;
 
@@ -68,11 +68,11 @@ int	handle_pipe(char *prompt)
 	int	i;
 
 	i = 0;
-	if (!handle_error(prompt))
+	if (!handle_error_two(prompt))
 		return (0);
 	while (prompt[i] != '\0')
 	{
-		if (!handle_quote(prompt, &i) || !handle_pipe_char(prompt, &i))
+		if (!handle_quote_val(prompt, &i) || !handle_pipe_char(prompt, &i))
 			return (0);
 		i++;
 	}
