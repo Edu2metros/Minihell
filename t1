@@ -1,12 +1,3 @@
-include
-Makefile
-minishell
-minishell_tester
-obj
-README.md
-src
-supression.sup
-t1
 XDG_CURRENT_DESKTOP=Unity
 XDG_SESSION_DESKTOP=ubuntu
 XDG_DATA_DIRS=/usr/share/gnome:/usr/share/ubuntu:/nfs/homes/eddos-sa/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
@@ -16,6 +7,7 @@ XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
 DISPLAY=:0
 SSH_AUTH_SOCK=/run/user/1427184/keyring/ssh
 XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/eddos-sa
+ZDOTDIR=/nfs/homes/eddos-sa
 CHROME_DESKTOP=code-url-handler.desktop
 GPG_AGENT_INFO=/run/user/1427184/gnupg/S.gpg-agent:0:1
 LANGUAGE=en
@@ -36,6 +28,7 @@ XDG_MENU_PREFIX=gnome-
 ORIGINAL_XDG_CURRENT_DESKTOP=ubuntu:GNOME
 COLORTERM=truecolor
 KRB5CCNAME=FILE:/tmp/krb5cc_1427184_thkeIt
+VSCODE_INJECTION=1
 MANAGERPID=34945
 QT_ACCESSIBILITY=1
 GIO_LAUNCHED_DESKTOP_FILE_PID=709180
@@ -66,12 +59,13 @@ GTK_MODULES=gail:atk-bridge
 SHELL=/bin/zsh
 GNOME_DESKTOP_SESSION_ID=this-is-deprecated
 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1427184/bus
-SHLVL=2
+SHLVL=1
 GIO_LAUNCHED_DESKTOP_FILE=/usr/share/applications/code.desktop
-MAKE_TERMERR=/dev/pts/1
-MAKE_TERMOUT=/dev/pts/1
+MAKE_TERMERR=/dev/pts/0
+MAKE_TERMOUT=/dev/pts/0
 TERM_PROGRAM=vscode
-OLDPWD=/nfs/homes/eddos-sa/42sp/gitprojetos/9Minishell
+OLDPWD=/nfs/homes/eddos-sa/42sp/gitprojetos/9Minishell/minishell_tester
+USER_ZDOTDIR=/nfs/homes/eddos-sa
 QT_IM_MODULE=ibus
 LIBVIRT_DEFAULT_URI=qemu:///system
 DEFAULTS_PATH=/usr/share/gconf/ubuntu.default.path

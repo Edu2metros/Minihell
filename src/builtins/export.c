@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 12:01:10 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 16:01:30 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:40:04 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,19 @@ void	print_n_free(t_export *export, t_cmd *cmd)
 
 	temp_export = export;
 	fd_out = 1;
-	cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
-	if (cmd->redirect_list_out)
-		fd_out = cmd->redirect_list_out->fd_out;
+	if (cmd->on_fork == 0)
+	{
+		cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
+		if (cmd->redirect_list_out)
+			fd_out = cmd->redirect_list_out->fd_out;
+	}
 	while (temp_export != NULL)
 	{
 		if (!ft_strncmp(temp_export->value, "", 1))
 			ft_printf_fd(fd_out, "declare -x %s\n", temp_export->key);
 		else
-			ft_printf_fd(fd_out, "declare -x %s=\"%s\"\n", temp_export->key, \
-			temp_export->value);
+			ft_printf_fd(fd_out, "declare -x %s=\"%s\"\n", temp_export->key,
+				temp_export->value);
 		temp_export = temp_export->next;
 	}
 	temp_export = export;
@@ -72,8 +75,8 @@ t_export	*insert_export(t_export *export_list, t_export *new_export)
 
 	prev_export = NULL;
 	temp_export = export_list;
-	while (temp_export != NULL && ft_strcmp(temp_export->key, \
-		new_export->key) < 0)
+	while (temp_export != NULL && ft_strcmp(temp_export->key,
+			new_export->key) < 0)
 	{
 		prev_export = temp_export;
 		temp_export = temp_export->next;
