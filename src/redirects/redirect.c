@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 17:51:05 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 20:28:14 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void handle_redirects(t_minishell *mini)
 		if (token->type == is_redirect(token) && (aux != NULL))
 		{
 			if (token->type == HEREDOC)
-				set_heredoc(&token, &cmd->redirect_list_in);
+				set_heredoc(&token, &cmd->redirect_list_in, cmd);
 			if (token->type == INPUT)
 				redirect_in_list(&token, &cmd->redirect_list_in);
 			else if (token->type == OUTPUT || token->type == APPEND)

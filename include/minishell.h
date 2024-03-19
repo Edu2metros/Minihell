@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/18 18:53:11 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 20:28:51 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ t_token						*populate_cmd_args(t_token *token, t_cmd *cmd,
 void						print_export(t_hash_table *hash, t_cmd *cmd);
 char						*expand_variable_word(char *input,
 								t_minishell *mini);
+void						free_all_child(t_minishell *mini);
 
 // Signals functions
 void						sigint_handler(int sig);
@@ -247,7 +248,7 @@ void						redirect_out_list(t_token **token,
 void						clear_list_in(t_redirect_in **redirect);
 void						clear_list_out(t_redirect_out **redirect);
 void						set_heredoc(t_token **token,
-								t_redirect_in **redirect);
+								t_redirect_in **redirect, t_cmd *cmd);
 
 // Print functions
 void						print_cmd_args(t_cmd *cmd);

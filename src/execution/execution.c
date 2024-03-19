@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 18:11:32 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 19:28:51 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 19:58:41 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	exec_redirect(t_cmd *cmd)
 	if (cmd->redirect_list_in)
 	{
 		cmd->redirect_list_in = lstlast_in(cmd->redirect_list_in);
-		printf("fd_in: %d\n", cmd->redirect_list_in->fd_in);
 		dup2(cmd->redirect_list_in->fd_in, STDIN_FILENO);
 	}
 	if (cmd->redirect_list_out)

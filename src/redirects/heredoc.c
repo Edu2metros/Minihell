@@ -6,21 +6,17 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 17:58:41 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 20:43:59 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	clear_heredoc_child_process(t_minishell *mini)
+void    clear_heredoc_child_process(t_minishell *mini)
 {
-	if (mini->token != NULL)
-		free_tokens(&mini->token);
-	if (get_control()->cmd != NULL)
-	free_cmd(&get_control()->cmd);
-	rl_clear_history();
-	close_fd(get_control());
-	exit(0);
+    close_fd(get_control());
+    free_all_child(mini);
+    exit(0);
 }
 
 void	get_heredoc(t_cmd *cmd)
@@ -42,7 +38,10 @@ void	get_heredoc(t_cmd *cmd)
 		token = token->next;
 	}
 	if (cmd->redirect_list_in)
+	{
+		printf("entrou\n");
 		cmd->redirect_list_in->fd_in = open("heredoc", O_RDONLY);
+	}
 }
 
 void	heredoc_child_process(char *delimiter, int fd)
@@ -104,5 +103,6 @@ void	hand_heredoc(char *delimiter, int fd)
 		free(input);
 	}
 	close(fd);
-	clear_heredoc_child_process(get_control());
+    free_all_child(get_control());
+    exit(0);
 }

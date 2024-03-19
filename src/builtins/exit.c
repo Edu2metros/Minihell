@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:14:43 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/18 18:52:55 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 19:35:57 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int    validate_numeric_string(char *str, int *code_status)
             i++;
         if (ft_isdigit(str[i]) == 0)
         {
-            ft_printf_fd(STDERR_FILENO, "bash: exit: %s: numeric argument required\n", str);
+            ft_printf_fd(STDERR_FILENO, "minishell: exit: %s: numeric argument required\n", str);
             *code_status = 2;
             break ;
         }
@@ -35,8 +35,9 @@ int    validate_numeric_string(char *str, int *code_status)
         number = ft_atol(str);
         if (number > INT_MAX || number < INT_MIN)
         {
-            ft_printf_fd(STDERR_FILENO, "bash: exit: %s: numeric argument required\n", str);
+            ft_printf_fd(STDERR_FILENO, "minishell: exit: %s: numeric argument required\n", str);
             *code_status = 255;
+			exit(2);
         }
         else
             *code_status = number;
