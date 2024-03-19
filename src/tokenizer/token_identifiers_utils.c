@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:54 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 16:39:26 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:17:02 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ void	remove_quote(char *substr)
 	new_str = ft_strdup("");
 	while (substr[i])
 	{
-		if(substr[i] == '\'')
+		if (substr[i] == '\'')
 		{
 			quote = substr[i];
 			i++;
-			while(substr[i] && substr[i] != quote)
+			while (substr[i] && substr[i] != quote)
 			{
 				new_str = ft_strjoin_char(new_str, substr[i]);
 				i++;
@@ -67,11 +67,11 @@ void	remove_quote(char *substr)
 			i++;
 			quote = '\0';
 		}
-		if(substr[i] == '"')
+		if (substr[i] == '"')
 		{
 			double_quote = substr[i];
 			i++;
-			while(substr[i] && substr[i] != double_quote)
+			while (substr[i] && substr[i] != double_quote)
 			{
 				new_str = ft_strjoin_char(new_str, substr[i]);
 				i++;
@@ -95,15 +95,16 @@ char	*expand_variable_word(char *input, t_minishell *mini)
 	int		start;
 	char	*substr;
 	char	*result;
-	char quote;
+	char	quote;
+
 	quote = '\0';
 	result = ft_strdup("");
 	i = 0;
 	while (input[i] != '\0')
 	{
-		if(input[i] == '\'')
+		if (input[i] == '\'')
 		{
-			if(quote != '\0')
+			if (quote != '\0')
 				quote = '\0';
 			else
 				quote = input[i];
@@ -115,12 +116,13 @@ char	*expand_variable_word(char *input, t_minishell *mini)
 			while (ft_isalnum(input[i]) || input[i] == '_')
 				i++;
 			substr = ft_substr(input, start, i - start);
-			if(hash_search(mini->table, substr) != NULL)
+			if (hash_search(mini->table, substr) != NULL)
 				result = ft_strjoin(result, hash_search(mini->table, substr));
 			else
 			{
-				if(hash_search(mini->table, substr))
-					result = ft_strjoin(result, hash_search(mini->table, substr));
+				if (hash_search(mini->table, substr))
+					result = ft_strjoin(result, hash_search(mini->table, \
+					substr));
 				else
 					result = ft_strjoin(input, "");
 			}
@@ -138,22 +140,23 @@ char	*expand_variable_word(char *input, t_minishell *mini)
 
 int	process_token_word(char *input, t_minishell *mini, int i, int start)
 {
-    char	*substr;
-    int		in_quotes;
+	char	*substr;
+	int		in_quotes;
 
 	in_quotes = 0;
-    while (input[i] != '\0' && (in_quotes || (!meta_char(input[i]) && input[i] != ' '))) 
+	while (input[i] != '\0' && (in_quotes || (!meta_char(input[i]) \
+		&& input[i] != ' ')))
 	{
-        if (input[i] == '"' || input[i] == '\'')
-            in_quotes = !in_quotes;
-        i++;
-    }
-    substr = ft_substr(input, start, i - start);
-    substr = expand_variable_word(substr, mini);
-    remove_quote(substr);
-    add_token(substr, is_word(substr), 1, mini);
-    free(substr);
-    return (i);
+		if (input[i] == '"' || input[i] == '\'')
+			in_quotes = !in_quotes;
+		i++;
+	}
+	substr = ft_substr(input, start, i - start);
+	substr = expand_variable_word(substr, mini);
+	remove_quote(substr);
+	add_token(substr, is_word(substr), 1, mini);
+	free(substr);
+	return (i);
 }
 
 int	process_token_flag(char *input, t_minishell *mini, int i, int start)

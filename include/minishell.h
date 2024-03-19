@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 16:45:39 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:12:35 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,9 +191,8 @@ void						print_export(t_hash_table *hash, t_cmd *cmd);
 char						*expand_variable_word(char *input,
 								t_minishell *mini);
 void						free_all_child(t_minishell *mini);
-int	check_quotes(char *prompt);
-void	populate_env(t_hash_table *table, int len);
-
+int							check_quotes(char *prompt);
+void						populate_env(t_hash_table *table, int len);
 
 // Signals functions
 void						sigint_handler(int sig);

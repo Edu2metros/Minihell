@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hand_signals.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 19:07:16 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 16:35:16 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:10:28 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handle_sigint(int sig)
 	}
 }
 
-void	handle_sigquit_signal(int sig) // Ctrl + '\'
+void	handle_sigquit_signal(int sig)
 {
 	if (sig == SIGQUIT)
 	{

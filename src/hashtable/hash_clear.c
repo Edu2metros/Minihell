@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 20:58:15 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 16:38:02 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:10:20 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	free_hashs(t_hash_table *hash)
 	int	i;
 
 	i = 0;
-	while (i < hash->size) // free na tabela hash item // repetida?
+	while (i < hash->size)
 	{
 		if (hash->item[i] != NULL)
 		{
