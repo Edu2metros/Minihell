@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/18 20:28:51 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 21:18:20 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,6 +274,14 @@ void						ft_echo(t_cmd *cmd);
 void						env(t_cmd *cmd, t_hash_table **table);
 void						builtin_execution(t_cmd *cmd, t_minishell *mini);
 void						export(t_cmd *cmd, t_hash_table *hash);
+int							ft_how_many_char(char *str, char c);
+void						hash_update_value(t_hash_table *hash, char *key);
+int							ft_is_stralnum(char *str);
+int							ft_isall_alpha(char *str);
+int							is_valid_identifier(char *str);
+int							validate_string(char *str);
+int							count_equals(char *str);
+
 
 // Error functions
 void						handle_error(int nbr);

@@ -3,29 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:33:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 18:40:08 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/18 20:45:02 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_how_many_char(char *str, char c)
+void	cd_insert(char *absolute_path)
 {
-	int	i;
-	int	result;
-
-	i = 0;
-	result = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == c)
-			result++;
-		i++;
-	}
-	return (result);
+	hash_insert(&get_control()->table, "OLDPWD", \
+	hash_search(get_control()->table, "PWD"));
+	hash_insert(&get_control()->table, "PWD", absolute_path);
+	get_control()->return_status = 0;
 }
 
 void	cd_absolute_path(char *absolute_path)
@@ -38,24 +30,19 @@ void	cd_absolute_path(char *absolute_path)
 	}
 	if (access(absolute_path, F_OK) == 0 && (access(absolute_path, X_OK) == -1))
 	{
-		ft_printf_fd(STDERR_FILENO, "cd: %s: Permission denied\n",
-			absolute_path);
+		ft_printf_fd(STDERR_FILENO, "cd: %s: Permission denied\n", \
+		absolute_path);
 		get_control()->return_status = 1;
 		return ;
 	}
 	if (chdir(absolute_path) == -1)
 	{
-		ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n",
-			absolute_path);
+		ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n", \
+		absolute_path);
 		get_control()->return_status = 1;
 	}
 	else
-	{
-		hash_insert(&get_control()->table, "OLDPWD",
-			hash_search(get_control()->table, "PWD"));
-		hash_insert(&get_control()->table, "PWD", absolute_path);
-		get_control()->return_status = 0;
-	}
+		cd_insert(absolute_path);
 }
 
 void	ft_old_pwd(char *old)
@@ -65,7 +52,7 @@ void	ft_old_pwd(char *old)
 	char	*substr;
 	char	*tmp;
 
-	bar = ft_how_many_char(old, '/');
+	bar = ft_how_many_char(old, '/') + 1;
 	tmp = hash_search(get_control()->table, "PWD");
 	i = ft_strlen(tmp);
 	if (tmp[i - 1] == '/')
@@ -83,12 +70,7 @@ void	ft_old_pwd(char *old)
 		get_control()->return_status = 1;
 	}
 	else
-	{
-		hash_insert(&get_control()->table, "OLDPWD",
-			hash_search(get_control()->table, "PWD"));
-		hash_insert(&get_control()->table, "PWD", substr);
-		get_control()->return_status = 0;
-	}
+		cd_insert(substr);
 }
 
 void	relative_path(char *relative)
@@ -108,23 +90,19 @@ void	relative_path(char *relative)
 	}
 	if (chdir(current) == -1)
 	{
-		ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n",
-			relative);
+		ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n", \
+		relative);
 		get_control()->return_status = 1;
 	}
 	else
-	{
-		hash_insert(&get_control()->table, "OLDPWD",
-			hash_search(get_control()->table, "PWD"));
-		hash_insert(&get_control()->table, "PWD", current);
-		get_control()->return_status = 0;
-	}
+		cd_insert(current);
 }
 
 void	hand_cd(t_cmd *cmd)
 {
 	char	*current_directory;
 	int		i;
+
 	print_tokens(get_control());
 	current_directory = hash_search(get_control()->table, "PWD");
 	i = 1;

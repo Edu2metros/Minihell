@@ -6,7 +6,7 @@
 #    By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/03/17 15:42:33 by jaqribei         ###   ########.fr        #
+#    Updated: 2024/03/18 20:58:13 by jaqribei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,11 +39,13 @@ src += $(addprefix tokenizer/, token_identifiers.c \
 								tokenizer.c)
 
 src += $(addprefix builtins/, cd.c \
+								cd_utils.c \
 								echo.c \
 								env.c \
 								exit.c \
 								export.c \
 								export_utils.c \
+								exports_utils_2.c \
 								pwd.c \
 								unset.c \
 								builtin.c)

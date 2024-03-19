@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/18 20:45:14 by jaqribei          #+#    #+#             */
+/*   Updated: 2024/03/18 20:58:32 by jaqribei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	hash_update_value(t_hash_table *hash, char *key)
@@ -73,13 +85,8 @@ int	is_valid_identifier(char *str)
 	return (1);
 }
 
-int	check_error(char *str, t_hash_table *hash)
+int	validate_string(char *str)
 {
-	int	i;
-	int	equal_count;
-
-	i = 0;
-	equal_count = 0;
 	if (!str || !str[0])
 	{
 		ft_printf_fd(STDERR_FILENO, "minishell: export: argumento vazio\n");
@@ -88,67 +95,10 @@ int	check_error(char *str, t_hash_table *hash)
 	}
 	if (!is_valid_identifier(str))
 	{
-		ft_printf_fd(STDERR_FILENO,
-			"minishell: export: `%s': not a valid identifier\n", str);
-		get_control()->return_status = 1;
-		return (0);
-	}
-	while (str[i])
-	{
-		if (str[i] == '=')
-			equal_count++;
-		i++;
-	}
-	if (equal_count != 1)
-	{
-		ft_printf_fd(STDERR_FILENO,
-			"minishell: export: `%s': too many or no equal sign (=)\n", str);
+		ft_printf_fd(STDERR_FILENO, "minishell: export: `%s': not a valid \
+		identifier\n", str);
 		get_control()->return_status = 1;
 		return (0);
 	}
 	return (1);
-}
-
-void	export(t_cmd *cmd, t_hash_table *hash)
-{
-	char	*equal_pos;
-	char	*key;
-	char	*value;
-	int		i;
-
-	i = 1;
-	if (ft_array_len(cmd->args) == 1)
-		print_export(hash, cmd);
-	else
-	{
-		while (cmd->args[i])
-		{
-			if (hash_search(hash, cmd->args[i]) != NULL)
-				hash_update_value(hash, cmd->args[i]);
-			else if (check_error(cmd->args[i], hash))
-			{
-				equal_pos = ft_strchr(cmd->args[i], '=');
-				if (equal_pos == NULL)
-				{
-					key = ft_strdup(cmd->args[i]);
-					value = ft_strdup("");
-				}
-				else
-				{
-					key = ft_substr(cmd->args[i], 0, equal_pos - cmd->args[i]);
-					value = ft_strdup(equal_pos + 1);
-					if (!value)
-						value = ft_strdup("");
-				}
-				hash_insert(&hash, key, value);
-				free(key);
-				if (value)
-					free(value);
-				get_control()->return_status = 0;
-			}
-			i++;
-		}
-	}
-	if (get_control()->cmd->on_fork == 1)
-		exit(get_control()->return_status);
 }
