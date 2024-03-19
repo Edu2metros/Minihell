@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 17:33:14 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 12:49:06 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_cmd	*cmd_new_node(char *content, int type, int space)
 		cmd->name = NULL;
 	cmd->space = space;
 	cmd->on_fork = 0;
+	cmd->return_status = 0;
 	cmd->type = type;
 	cmd->args = NULL;
 	cmd->count = 0;

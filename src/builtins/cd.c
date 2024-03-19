@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:33:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 20:45:02 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 12:26:00 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void	hand_cd(t_cmd *cmd)
 	char	*current_directory;
 	int		i;
 
-	print_tokens(get_control());
 	current_directory = hash_search(get_control()->table, "PWD");
 	i = 1;
 	if (cmd->args[i] == NULL)

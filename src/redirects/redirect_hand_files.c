@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:29:10 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 17:08:50 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:13:22 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,22 @@ void	handle_out_files(t_redirect_out *redirect)
 	if (redirect->type == OUTPUT)
 	{
 		redirect->fd_out = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		printf("fd_out: %d\n", redirect->fd_out);
 		if (redirect->fd_out == -1)
+		{
+			ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or directory\n", file);
+			get_control()->return_status = 1;
 			return ;
+		}
 	}
 	else if (redirect->type == APPEND)
 	{
 		redirect->fd_out = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		printf("fd_out: %d\n", redirect->fd_out);
 		if (redirect->fd_out == -1)
+		{
+			ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or directory\n", file);
+			get_control()->return_status = 1;
 			return ;
+		}
 	}
 }
 
@@ -76,6 +82,10 @@ void	handle_in_files(t_redirect_in *redirect)
 		redirect->heredoc = 0;
 		redirect->fd_in = open(file, O_RDONLY);
 		if(redirect->fd_in == -1)
+		{
+			ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or directory\n", file);
+			get_control()->return_status = 1;
 			return ;
+		}
 	}
 }

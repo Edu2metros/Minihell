@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 20:45:14 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 20:58:32 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:06:34 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	validate_string(char *str)
 {
 	if (!str || !str[0])
 	{
-		ft_printf_fd(STDERR_FILENO, "minishell: export: argumento vazio\n");
+		ft_printf_fd(STDERR_FILENO, "minishell: empty argument\n");
 		get_control()->return_status = 1;
 		return (0);
 	}

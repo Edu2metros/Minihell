@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:54 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 16:14:01 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 11:34:27 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ int	process_token_word(char *input, t_minishell *mini, int i, int start)
     substr = ft_substr(input, start, i - start);
     substr = expand_variable_word(substr, mini);
     remove_quote(substr);
-    add_token(substr, is_word(substr), 0, mini);
+    add_token(substr, is_word(substr), 1, mini);
     free(substr);
     return (i);
 }

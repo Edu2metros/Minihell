@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_out.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:35:41 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/17 15:11:59 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:57:15 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,31 +26,33 @@ t_redirect_out *new_redirect_out(char *content, int type)
 	return (redirect);
 }
 
-int check_out_files(char *str)
+int check_out_files(char *str, t_cmd *cmd)
 {
-	if (file_exist(str))
-	{
-		if (!file_is_writable(str))
+    if (file_exist(str))
+    {
+    	if (!file_is_writable(str))
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: %s: Permission denied\n", str);
+			cmd->return_status = 1;
 			return 0;
 		}
 	}
-	if (file_is_executable(str))
-	{
-		printf("minishell: %s: Is a directory\n", str);
-		return 0;
-	}
-	return (1);
+    if (file_is_executable(str))
+    {
+        ft_printf_fd(STDERR_FILENO, "minishell: %s: Is a directory\n", str);
+		cmd->return_status = 1;
+        return 0;
+    }
+    return (1);
 }
 
-void redirect_out_list(t_token **token, t_redirect_out **redirect)
+void redirect_out_list(t_token **token, t_redirect_out **redirect, t_cmd *cmd)
 {
 	t_redirect_out *new_red;
 	t_redirect_out *last;
 
 	last = lstlast_out(*redirect);
-	if (!check_out_files((*token)->next->content))
+	if (!check_out_files((*token)->next->content, cmd))
 	{
 		clear_list_out(redirect);
 		return;

@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 20:28:14 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:32:52 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ t_token	*first(t_token **lst)
 	return (*lst);
 }
 
-void handle_redirects(t_minishell *mini)
+void	handle_redirects(t_minishell *mini)
 {
-	t_token *token;
-	t_token *aux;
-	t_cmd *cmd;
+	t_token	*token;
+	t_token	*aux;
+	t_cmd	*cmd;
+
 	cmd = lst_first(mini->cmd);
 	token = mini->token;
 	while (token)
@@ -50,10 +51,10 @@ void handle_redirects(t_minishell *mini)
 			if (token->type == INPUT)
 				redirect_in_list(&token, &cmd->redirect_list_in);
 			else if (token->type == OUTPUT || token->type == APPEND)
-				redirect_out_list(&token, &cmd->redirect_list_out);
+				redirect_out_list(&token, &cmd->redirect_list_out, cmd);
 			token = aux;
 		}
-		if(token->type == PIPE)
+		if (token->type == PIPE)
 			cmd = cmd->next;
 		token = aux;
 	}
@@ -62,8 +63,8 @@ void handle_redirects(t_minishell *mini)
 void	close_fd(t_minishell *mini)
 {
 	int	i;
-	
+
 	i = 2;
-	while(i++ < 1024)
+	while (i++ < 1025)
 		close(i);
 }

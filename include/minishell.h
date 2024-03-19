@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/18 21:18:20 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:57:09 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_redirect_in
 	int						fd_in;
 	int						heredoc;
 	struct s_redirect_in	*next;
+	struct s_redirect_in	*previous;
 }							t_redirect_in;
 
 typedef struct s_cmd
@@ -100,6 +101,7 @@ typedef struct s_cmd
 	int						space;
 	int						fd[2];
 	int						on_fork;
+	int						return_status;
 	char					*name;
 	char					**args;
 	struct s_cmd			*previous;
@@ -135,6 +137,7 @@ typedef struct s_pipe
 
 typedef struct s_minishell
 {
+	int						flag;
 	int						return_status;
 	int						signals;
 	char					**path;
@@ -160,7 +163,7 @@ int							file_is_executable(char *file_name);
 t_token						*first(t_token **lst);
 int							ft_array_len(char **array);
 void						unset(t_minishell *mini, t_cmd *cmd);
-int							check_out_files(char *str);
+int							check_out_files(char *str, t_cmd *cmd);
 void						execution(t_cmd *cmd, t_minishell *mini);
 void						pipes(t_minishell *mini, t_cmd *cmd);
 void						free_all(t_minishell *minishell);
@@ -244,7 +247,7 @@ void						handle_out_files(t_redirect_out *redirect);
 void						redirect_in_list(t_token **token,
 								t_redirect_in **redirect);
 void						redirect_out_list(t_token **token,
-								t_redirect_out **redirect);
+								t_redirect_out **redirect, t_cmd *cmd);
 void						clear_list_in(t_redirect_in **redirect);
 void						clear_list_out(t_redirect_out **redirect);
 void						set_heredoc(t_token **token,
@@ -281,7 +284,6 @@ int							ft_isall_alpha(char *str);
 int							is_valid_identifier(char *str);
 int							validate_string(char *str);
 int							count_equals(char *str);
-
 
 // Error functions
 void						handle_error(int nbr);

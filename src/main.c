@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/18 15:22:24 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 12:52:57 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,11 @@ static void	minishell(t_minishell *mini, t_hash_table *table)
 		tokenizer(input, mini);
 		create_cmd_list(mini);
 		pipe_or_not(mini);
-		free_redirect_out(&mini->cmd->redirect_list_out);
-		free_redirect_in(&mini->cmd->redirect_list_in);
+		if (mini->cmd)
+		{
+			free_redirect_out(&mini->cmd->redirect_list_out);
+			free_redirect_in(&mini->cmd->redirect_list_in);
+		}
 		close_fd(mini);
 		free_all(mini);
 	}

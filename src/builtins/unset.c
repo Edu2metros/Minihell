@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 20:24:26 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 15:35:58 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 11:38:13 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	hash_delete(t_hash_table *table, char *key)
 	{
 		if (item->key && !ft_strncmp(item->key, key, ft_strlen(key) + 1))
 		{
-			printf("%s\n", item->key);
 			free(item->key);
 			free(item->value);
 			free(item);

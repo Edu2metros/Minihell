@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:31:35 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/18 21:09:54 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 12:39:38 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	fd_redirections(int fd_in, int fd_out)
 void handle_child_process(t_cmd *cmd, t_minishell *mini, int fd[], int fd_in)
 {
     close(fd[0]);
-
     if (cmd->redirect_list_in)
     {
         cmd->redirect_list_in = lstlast_in(cmd->redirect_list_in);
@@ -74,9 +73,7 @@ void handle_child_process(t_cmd *cmd, t_minishell *mini, int fd[], int fd_in)
         builtin_execution(cmd, mini);
     }
     else
-    {
         exec_pipe_command(cmd, mini);
-    }
     exit(EXIT_SUCCESS);
 }
 
@@ -110,10 +107,18 @@ void	exec_pipe(t_minishell *mini, t_cmd *cmd)
 		if (pid == -1)
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: fork error\n");
+			get_control()->return_status = 1;
 			exit(EXIT_FAILURE);
 		}
 		else if (pid == 0)
+		{
+			if(cmd->return_status != 0)
+			{
+				free_all_child(mini);
+				exit(cmd->return_status);
+			}
 			handle_child_process(cmd, mini, fd, fd_in);
+		}
 		else
 			handle_parent_process(&cmd, fd, &fd_in);
 	}

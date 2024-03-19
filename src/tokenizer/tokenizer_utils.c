@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:42:42 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/18 14:52:44 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 11:37:58 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	process_token_dollar(char *input, t_minishell *mini, int i, int start)
 		i++;
 	substr = ft_substr(input, start, i - start);
 	tmp = hash_search(mini->table, substr);
+	if(ft_strlen(substr) == 0)
+		tmp = ft_strdup("$");
 	if (tmp != NULL)
 	{
 		if (input[i] != '\0' && my_isspace(input[i]))

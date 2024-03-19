@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:07:39 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/18 19:30:18 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 14:03:04 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,23 @@ void	free_tokens(t_token **token)
 	*token = NULL;
 }
 
+t_redirect_in *lst_first_in(t_redirect_in *redirect)
+{
+    t_redirect_in *result;
+
+    result = redirect;
+    while (result != NULL && result->previous != NULL)
+        result = result->previous;
+    return (result);
+}
+
+
 void	free_redirect_in(t_redirect_in **redirect)
 {
 	t_redirect_in	*current;
 	t_redirect_in	*next;
 
-	current = *redirect;
+	current = lst_first_in(*redirect);
 	while (current != NULL)
 	{
 		next = current->next;
@@ -81,7 +92,7 @@ void	free_redirect_out(t_redirect_out **redirect)
 {
 	t_redirect_out	*current;
 	t_redirect_out	*next;
-
+	
 	current = *redirect;
 	while (current != NULL)
 	{
