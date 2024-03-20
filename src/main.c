@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 15:58:39 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:44:21 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	minishell(t_minishell *mini, t_hash_table *table)
 			free_redirect_out(&mini->cmd->redirect_list_out);
 			free_redirect_in(&mini->cmd->redirect_list_in);
 		}
-		close_fd(mini);
+		close_fd();
 		free_all(mini);
 	}
 }

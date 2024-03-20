@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 16:16:51 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 17:05:49 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:43:52 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,13 @@ int	is_excession(char c)
 	return (c == '.' || c == '/' || c == '=' || c == '$' || c == '\''
 		|| c == '"');
 	return (0);
+}
+
+void	close_fd(void)
+{
+	int	i;
+
+	i = 2;
+	while (i++ < 1025)
+		close(i);
 }

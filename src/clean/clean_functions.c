@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hand_signals_utils.c                               :+:      :+:    :+:   */
+/*   clean_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/12 12:56:11 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 20:45:00 by eddos-sa         ###   ########.fr       */
+/*   Created: 2024/03/19 21:07:05 by eddos-sa          #+#    #+#             */
+/*   Updated: 2024/03/19 21:07:19 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	handle_control_d(char *input, t_hash_table *table)
+void	free_export(t_export *temp_export)
 {
-	if (input == NULL)
+	t_export	*next_export;
+
+	while (temp_export != NULL)
 	{
-		free_table(&table);
-		free_all(get_control());
-		close_fd();
-		clear_history();
-		ft_putstr_fd("exit\n", 2);
-		exit(get_control()->return_status);
+		next_export = temp_export->next;
+		free(temp_export->key);
+		free(temp_export->value);
+		free(temp_export);
+		temp_export = next_export;
 	}
-}
-
-void	sig_ignore(void)
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	hand_signals(t_minishell *mini)
-{
-	signal(SIGQUIT, handle_sigquit_signal);
-	signal(SIGINT, handle_sigint);
+	get_control()->return_status = 0;
 }

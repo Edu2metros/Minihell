@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:29 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 17:12:52 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 21:02:25 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,17 @@ void	tokenizer(char *input, t_minishell *mini)
 			i++;
 		start = i;
 	}
+}
+
+int	lstsize(t_token *lst)
+{
+	int	len;
+
+	len = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		len++;
+	}
+	return (len);
 }

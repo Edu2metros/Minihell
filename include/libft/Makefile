@@ -59,6 +59,7 @@ SRC = \
 	putptr_fd.c\
 	putstr_fd.c\
 	putunsigned_fd.c\
+	ft_validate_files.c\
 
 BONUS_SRC = \
 	ft_lstnew_bonus.c\

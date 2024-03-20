@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:42:42 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 17:12:09 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 21:02:19 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	free_token_dolar(char *tmp, char *substr)
+{
+	if (tmp != NULL)
+		free(tmp);
+	if (substr != NULL)
+		free(substr);
+}
 
 int	process_token_dollar(char *input, t_minishell *mini, int i, int start)
 {
@@ -37,8 +45,7 @@ int	process_token_dollar(char *input, t_minishell *mini, int i, int start)
 		else
 			add_token(tmp, DOLLAR, 0, mini);
 	}
-	free(tmp);
-	free(substr);
+	free_token_dolar(tmp, substr);
 	return (i);
 }
 
@@ -100,17 +107,4 @@ void	lstclear_token(t_token *lst)
 		free(current);
 		current = next;
 	}
-}
-
-int	lstsize(t_token *lst)
-{
-	int	len;
-
-	len = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		len++;
-	}
-	return (len);
 }

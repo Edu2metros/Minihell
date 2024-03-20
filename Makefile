@@ -6,7 +6,7 @@
 #    By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/03/19 19:06:15 by eddos-sa         ###   ########.fr        #
+#    Updated: 2024/03/19 21:08:10 by eddos-sa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,10 +72,12 @@ src += $(addprefix signals/, hand_signals.c \
 
 src += $(addprefix execution/, execution.c \
 								execution_utils.c \
-								pipes.c)
+								pipes.c\
+								single_command.c)
 
 src += $(addprefix clean/, free.c \
-							free_utils.c)
+							free_utils.c\
+							clean_functions.c)
 
 SRC_OBJ = $(addprefix $(OBJ_DIR)/, $(src:%.c=%.o))
 

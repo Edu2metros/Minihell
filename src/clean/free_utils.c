@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:55:47 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 16:16:21 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:45:31 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	free_all(t_minishell *minishell)
 	lstclear_cmd(&(minishell->cmd));
 	free_redirect_in(&(minishell->redirect_list_in));
 	free_redirect_out(&(minishell->redirect_list_out));
-	close_fd(minishell);
+	close_fd();
 }
 
 void	free_split(char **splited)

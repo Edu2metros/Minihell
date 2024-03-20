@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 15:15:22 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:44:47 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	clear_heredoc_child_process(t_minishell *mini)
 {
-	close_fd(get_control());
+	close_fd();
 	free_all_child(mini);
 	exit(0);
 }
@@ -77,7 +77,7 @@ void	wait_heredoc(pid_t pid)
 	}
 }
 
-void free_node(t_redirect_in *red)
+void	free_node(t_redirect_in *red)
 {
 	t_redirect_in	*tmp;
 
@@ -95,7 +95,7 @@ void	free_all_redirect_in(t_redirect_in *red, t_minishell *mini)
 	free_tokens(&(mini->token));
 	lstclear_cmd(&(mini->cmd));
 	free_redirect_out(&(mini->redirect_list_out));
-	close_fd(mini);
+	close_fd();
 	clear_history();
 	free_table(&mini->table);
 }
@@ -110,9 +110,9 @@ void	hand_heredoc(char *delimiter, int fd, t_redirect_in *red)
 		if (!input)
 		{
 			ft_printf_fd(STDERR_FILENO,
-							"minishell: warning: here-document \
+				"minishell: warning: here-document \
 			delimited by end-of-file (wanted `%s\')\n",
-							delimiter);
+				delimiter);
 			free(input);
 			break ;
 		}

@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 20:03:17 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 21:07:43 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,8 @@ typedef struct s_minishell
 }							t_minishell;
 
 t_minishell					*get_control(void);
+void						free_array(char **array);
+void						free_all_child(t_minishell *mini);
 void						exec_redirect(t_cmd *cmd);
 void						ft_putstring_fd(int fd);
 void						ft_exit(t_cmd *node, t_hash_table **table);
@@ -194,6 +196,8 @@ void						free_all_child(t_minishell *mini);
 int							check_quotes(char *prompt);
 void						populate_env(t_hash_table *table, int len);
 void						free_reds(t_cmd *aux);
+char						*get_path(t_minishell *mini, char *command);
+void						free_export(t_export *temp_export);
 
 // Signals functions
 void						sigint_handler(int sig);
@@ -232,8 +236,6 @@ void						add_token(char *str, int type, int space,
 								t_minishell *mini);
 
 // Redirect functions
-// Redirect functions
-void						close_fd(t_minishell *mini);
 
 t_redirect_in				*new_redirect_in(char *content, int type);
 t_redirect_in				*add_redirect_in(t_redirect_in **redirect,

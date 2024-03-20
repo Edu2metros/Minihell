@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 13:09:27 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/17 18:45:44 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:47:57 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,11 @@ int					ft_isalldigit(const char *str);
 long int			ft_atol(const char *str);
 long double			ft_atof(char *str);
 int					is_excession(char c);
+void				close_fd(void);
+int					file_exist(char *file_name);
+int					file_is_readable(char *file_name);
+int					file_is_writable(char *file_name);
+int					file_is_executable(char *file_name);
 
 // PRINTF FUNCTIONS
 

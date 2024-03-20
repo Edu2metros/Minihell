@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 18:11:32 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 16:57:53 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:39:10 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,34 @@ void	exec_redirect(t_cmd *cmd)
 	}
 }
 
-void	free_array(char **array)
+void	path_null(char *str)
 {
-	int	i;
-
-	i = 0;
-	while (array[i] != NULL)
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
+	ft_printf_fd(STDERR_FILENO, "minishell: %s: No such \
+file or directory \n", str);
+	exit(127);
 }
 
-void	free_all_child(t_minishell *mini)
+char	*search_path(char **path, char *command)
 {
-	free_tokens(&(mini->token));
-	free_reds(mini->cmd);
-	lstclear_cmd(&(mini->cmd));
-	free_redirect_out(&(mini->redirect_list_out));
-	close_fd(mini);
-	clear_history();
-	free_table(&mini->table);
+	char	*tmp;
+	char	*full_path;
+	int		i;
+
+	i = 0;
+	while (path[i] != NULL)
+	{
+		tmp = ft_strjoin(path[i], "/");
+		full_path = ft_strjoin(tmp, command);
+		free(tmp);
+		if (access(full_path, F_OK) == 0)
+		{
+			free_array(path);
+			return (full_path);
+		}
+		free(full_path);
+		i++;
+	}
+	return (NULL);
 }
 
 char	*get_path(t_minishell *mini, char *command)
@@ -63,28 +69,12 @@ char	*get_path(t_minishell *mini, char *command)
 		exit(127);
 	path_value = hash_search(mini->table, "PATH");
 	if (path_value == NULL)
-	{
-		ft_printf_fd(STDERR_FILENO,
-						"minishell: %s: No such file or directory \
-        n",
-						command);
-		exit(127);
-	}
+		path_null(command);
 	path = ft_split(path_value, ':');
 	free(path_value);
-	while (path[i] != NULL)
-	{
-		tmp = ft_strjoin(path[i], "/");
-		full_path = ft_strjoin(tmp, command);
-		free(tmp);
-		if (access(full_path, F_OK) == 0)
-		{
-			free_array(path);
-			return (full_path);
-		}
-		free(full_path);
-		i++;
-	}
+	full_path = search_path(path, command);
+	if (full_path != NULL)
+		return (full_path);
 	ft_printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", command);
 	free_array(path);
 	free_all_child(mini);
@@ -108,66 +98,4 @@ void	exec_pipe_command(t_cmd *cmd, t_minishell *mini)
 	signal(SIGQUIT, handle_sigquit_signal);
 	execve(path, cmd->args, mini->table->env);
 	free(path);
-}
-
-int	is_directory(const char *path)
-{
-	struct stat	path_stat;
-
-	if (stat(path, &path_stat) != 0)
-		return (0);
-	return (S_ISDIR(path_stat.st_mode));
-}
-
-void	exec_command(t_cmd *cmd, t_minishell *mini)
-{
-	pid_t	pid;
-	t_cmd	*aux;
-	char	*path;
-	int		i;
-	int		status;
-	aux = lst_first(cmd);
-	i = 0;
-	if (is_builtin(cmd->name) != 0)
-	{
-		builtin_execution(cmd, mini);
-		return ;
-	}
-	pid = fork();
-	signal(SIGINT, handle_sigint_child);
-	signal(SIGQUIT, handle_sigquit_signal);
-	if (pid == 0)
-	{
-		if (cmd->return_status != 0)
-		{
-			free_all_child(mini);
-			exit(cmd->return_status);
-		}
-		if (cmd->name[0] == '.' || cmd->name[0] == '/')
-		{
-			if (is_directory(cmd->name))
-			{
-				ft_printf_fd(STDERR_FILENO, "minishell: %s: Is a directory\n", cmd->name);
-				exit(126);
-			}
-			if (access(cmd->name, F_OK | X_OK) == 0 && ft_strcmp(cmd->name,
-					".."))
-				execve(cmd->name, cmd->args, mini->table->env);
-			else
-			{
-				ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or directory\n", cmd->name);
-				exit(127);
-			}
-		}
-		exec_redirect(cmd);
-		path = get_path(mini, cmd->name);
-		execve(path, cmd->args, mini->table->env);
-	}
-	if (pid)
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			mini->return_status = WEXITSTATUS(status);
-	}
-	free_reds(aux);
 }

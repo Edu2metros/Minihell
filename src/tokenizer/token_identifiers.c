@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:46 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 11:16:52 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:46:13 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,26 +85,4 @@ int	is_flag(const char *input)
 		i++;
 	}
 	return (0);
-}
-
-int	is_builtin(char *input)
-{
-	if (input == NULL)
-		return (0);
-	if (ft_strcmp(input, "cd") == 0)
-		return (CD);
-	else if (ft_strcmp(input, "echo") == 0)
-		return (ECHO);
-	else if (ft_strcmp(input, "pwd") == 0)
-		return (PWD);
-	else if (ft_strcmp(input, "export") == 0)
-		return (EXPORT);
-	else if (ft_strcmp(input, "unset") == 0)
-		return (UNSET);
-	else if (ft_strcmp(input, "env") == 0)
-		return (ENV);
-	else if (ft_strcmp(input, "exit") == 0)
-		return (EXIT);
-	else
-		return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:12:19 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 17:04:33 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:43:07 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,12 @@ void	handle_redirects(t_minishell *mini)
 	}
 }
 
-void	close_fd(t_minishell *mini)
+t_redirect_in	*lst_first_in(t_redirect_in *redirect)
 {
-	int	i;
+	t_redirect_in	*result;
 
-	i = 2;
-	while (i++ < 1025)
-		close(i);
+	result = redirect;
+	while (result != NULL && result->previous != NULL)
+		result = result->previous;
+	return (result);
 }
