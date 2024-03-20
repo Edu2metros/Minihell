@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 10:46:23 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 14:15:34 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_token	*populate_cmd_args(t_token *token, t_cmd *cmd)
 	}
 	while (token && token->type != PIPE)
 	{
+		cmd->space = token->space;
 		next_quote(token);
 		cmd->args[cmd->count] = ft_strdup(token->content);
 		cmd->count++;

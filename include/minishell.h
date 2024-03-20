@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/20 10:48:04 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 14:01:28 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ typedef struct s_minishell
 }							t_minishell;
 
 t_minishell					*get_control(void);
+void						add_token_space(char *input, int i);
 void						free_array(char **array);
 void						free_all_child(t_minishell *mini);
 void						exec_redirect(t_cmd *cmd);

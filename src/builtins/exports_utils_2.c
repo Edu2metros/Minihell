@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 20:55:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 10:44:04 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 14:03:17 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@ int	count_equals(char *str)
 			equal_count++;
 		i++;
 	}
-	if (equal_count > 1)
+	if (equal_count > 1 || (equal_count == 1 && i == 1))
+	{
 		ft_printf_fd(STDERR_FILENO, "minishell: \
 export: `%s': not a valid identifier\n", str);
+		get_control()->return_status = 1;
+	}
 	return (1);
 }
 

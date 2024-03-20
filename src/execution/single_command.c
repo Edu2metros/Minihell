@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 20:37:53 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/20 10:49:16 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 13:27:02 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,24 @@ void	execute_without_path(t_cmd *cmd)
 			cmd->name);
 		exit(126);
 	}
-	if (access(cmd->name, F_OK | X_OK) == 0 && ft_strcmp(cmd->name, ".."))
-		execve(cmd->name, cmd->args, get_control()->table->env);
-	else
+	if (access(cmd->name, F_OK) == -1)
 	{
 		ft_printf_fd(STDERR_FILENO, "minishell: \
 %s: No such file or directory\n", cmd->name);
 		exit(127);
+	}
+	if (access(cmd->name, X_OK) == -1)
+	{
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: \
+Permission denied\n",
+			cmd->name);
+		exit(126);
+	}
+	if (execve(cmd->name, cmd->args, get_control()->table->env) == -1)
+	{
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: Execution failed\n",
+			cmd->name);
+		exit(126);
 	}
 }
 

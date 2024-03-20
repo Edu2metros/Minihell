@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:16:12 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 10:46:43 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 13:16:10 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	handle_quote(t_token *token)
 		token->aux = ft_strdup("");
 		while (token->content[i] == type)
 			i++;
-		// get_control()->quote = 1;
 		handle_quote_aux(token, i, type);
 		free(token->content);
 		token->content = ft_strdup(token->aux);

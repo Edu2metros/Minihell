@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:42:42 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 21:02:19 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 14:00:56 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	process_token_dollar(char *input, t_minishell *mini, int i, int start)
 	start = i;
 	if (input[i] == '?')
 	{
-		add_token(ft_itoa(mini->return_status), DOLLAR, 0, mini);
+		add_token_space(input, i);
 		return (i + 1);
 	}
 	while (ft_isalnum(input[i]) || input[i] == '_')
