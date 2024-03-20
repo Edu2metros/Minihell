@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:29 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/20 14:08:55 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:39:47 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ int	process_token_quote(char *input, t_minishell *mini, int i, int start)
 	while (input[i] != '\0' && input[i] != type)
 		i++;
 	substr = ft_substr(input, start, i - start + 1);
+	if (ft_strncmp(substr, "''", 3) == 0 || ft_strncmp(substr, "\"\"", 3) == 0)
+	{
+		free(substr);
+		return (i + 1);
+	}
 	if (my_isspace(input[i + 1]))
 		add_token(substr, QUOTE, 1, mini);
 	else
