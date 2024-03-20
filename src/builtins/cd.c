@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:33:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 12:26:00 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:53:59 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	cd_insert(char *absolute_path)
 {
-	hash_insert(&get_control()->table, "OLDPWD", \
-	hash_search(get_control()->table, "PWD"));
+	hash_insert(&get_control()->table, "OLDPWD",
+		hash_search(get_control()->table, "PWD"));
 	hash_insert(&get_control()->table, "PWD", absolute_path);
 	get_control()->return_status = 0;
 }
@@ -30,15 +30,15 @@ void	cd_absolute_path(char *absolute_path)
 	}
 	if (access(absolute_path, F_OK) == 0 && (access(absolute_path, X_OK) == -1))
 	{
-		ft_printf_fd(STDERR_FILENO, "cd: %s: Permission denied\n", \
-		absolute_path);
+		ft_printf_fd(STDERR_FILENO, "cd: %s: Permission denied\n",
+			absolute_path);
 		get_control()->return_status = 1;
 		return ;
 	}
 	if (chdir(absolute_path) == -1)
 	{
-		ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n", \
-		absolute_path);
+		ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n",
+			absolute_path);
 		get_control()->return_status = 1;
 	}
 	else
@@ -90,8 +90,8 @@ void	relative_path(char *relative)
 	}
 	if (chdir(current) == -1)
 	{
-		ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n", \
-		relative);
+		ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n",
+			relative);
 		get_control()->return_status = 1;
 	}
 	else
@@ -121,6 +121,6 @@ void	hand_cd(t_cmd *cmd)
 		get_control()->return_status = 0;
 	else
 		relative_path(cmd->args[i]);
-	if (get_control()->cmd->on_fork == 1)
-		exit(get_control()->return_status);
+	if (cmd->on_fork == 1)
+		free_n_exit_child(get_control());
 }

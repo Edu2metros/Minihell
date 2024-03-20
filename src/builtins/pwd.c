@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 16:20:21 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 17:40:24 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:56:36 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ void	ft_pwd(t_cmd *cmd)
 	}
 	get_control()->return_status = 0;
 	free(pwd);
-	if (get_control()->cmd->on_fork == 1)
-		exit(get_control()->return_status);
+	if (cmd->on_fork == 1)
+		free_n_exit_child(get_control());
 }

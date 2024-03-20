@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/20 14:01:28 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:54:17 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,8 @@ void						handle_child_process(t_cmd *cmd, t_minishell *mini,
 								int fd[], int fd_in);
 void						remove_quote(char *substr);
 t_hash_table				*hash_population(t_hash_table **table);
+void						free_n_exit_child(t_minishell *mini);
+
 // Signals functions
 void						sigint_handler(int sig);
 void						sigquit_handler(int sig);

@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 21:20:30 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 10:44:53 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:59:16 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	free_all_redirect_in(t_redirect_in *red, t_minishell *mini)
 	free_tokens(&(mini->token));
 	lstclear_cmd(&(mini->cmd));
 	free_redirect_out(&(mini->redirect_list_out));
+	free_redirect_in(&(red));
 	close_fd();
 	clear_history();
 	free_table(&mini->table);

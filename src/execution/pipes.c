@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:31:35 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 14:54:55 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:51:05 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	handle_child_process(t_cmd *cmd, t_minishell *mini, int fd[], int fd_in)
 		handle_output_redirection(cmd, fd_in, fd[1]);
 	else
 		handle_output_redirection(cmd, fd_in, STDOUT_FILENO);
-	cmd->on_fork = is_builtin(cmd->name);
 	if (is_builtin(cmd->name))
 	{
 		cmd->on_fork = 1;

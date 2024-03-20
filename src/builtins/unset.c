@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 20:24:26 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 11:38:13 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:56:42 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,5 @@ void	unset(t_minishell *mini, t_cmd *cmd)
 		}
 	}
 	if (cmd->on_fork == 1)
-		exit(get_control()->return_status);
+		free_n_exit_child(get_control());
 }

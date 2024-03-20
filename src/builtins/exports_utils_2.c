@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 20:55:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 14:03:17 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:56:29 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,6 @@ void	export(t_cmd *cmd, t_hash_table *hash)
 		print_export(hash, cmd);
 	else
 		process_args(cmd, hash, i);
-	if (get_control()->cmd->on_fork == 1)
-		exit(get_control()->return_status);
+	if (cmd->on_fork == 1)
+		free_n_exit_child(get_control());
 }

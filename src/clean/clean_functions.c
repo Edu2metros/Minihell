@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 21:07:05 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 21:07:19 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:53:29 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,10 @@ void	free_export(t_export *temp_export)
 		temp_export = next_export;
 	}
 	get_control()->return_status = 0;
+}
+
+void	free_n_exit_child(t_minishell *mini)
+{
+	free_all_child(mini);
+	exit(get_control()->return_status);
 }
