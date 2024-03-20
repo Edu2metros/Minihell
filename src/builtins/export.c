@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 12:01:10 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 21:06:51 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:43:40 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	ft_array_len(char **array)
 void	print_n_free(t_export *export, t_cmd *cmd)
 {
 	t_export	*temp_export;
-	t_export	*next_export;
 	int			fd_out;
 
 	temp_export = export;

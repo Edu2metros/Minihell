@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 20:55:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 20:35:21 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:44:04 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ export: `%s': not a valid identifier\n", str);
 	return (1);
 }
 
-int	check_error(char *str, t_hash_table *hash)
+int	check_error(char *str)
 {
 	if (!validate_string(str))
 		return (0);
@@ -68,7 +68,7 @@ void	process_args(t_cmd *cmd, t_hash_table *hash, int i)
 	{
 		if (hash_search(hash, cmd->args[i]) != NULL)
 			hash_update_value(hash, cmd->args[i]);
-		else if (check_error(cmd->args[i], hash))
+		else if (check_error(cmd->args[i]))
 		{
 			extract_key_value(cmd->args[i], &key, &value);
 			hash_insert(&hash, key, value);

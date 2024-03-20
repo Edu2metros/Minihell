@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 21:20:30 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 21:22:40 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:44:53 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	free_all_redirect_in(t_redirect_in *red, t_minishell *mini)
 	free_table(&mini->table);
 }
 
-void	print_ctrld(char *input, char *delimiter)
+void	print_ctrld(char *delimiter)
 {
 	ft_printf_fd(STDERR_FILENO, "minishell: warning: here-document \
 delimited by end-of-file (wanted `%s\')\n", delimiter);
@@ -38,7 +38,7 @@ void	hand_heredoc(char *delimiter, int fd, t_redirect_in *red)
 		input = readline(HEREDOC_PROMPT);
 		if (!input)
 		{
-			print_ctrld(input, delimiter);
+			print_ctrld(delimiter);
 			free(input);
 			break ;
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:07:39 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 23:03:58 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:39:02 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,15 @@ void	free_tokens(t_token **token)
 	*token = NULL;
 }
 
-// t_redirect_in	*lst_first_in(t_redirect_in *redirect)
-// {
-// 	t_redirect_in	*result;
-
-// 	result = redirect;
-// 	while (result != NULL && result->previous != NULL)
-// 		result = result->previous;
-// 	return (result);
-// }
+void	free_reds(t_cmd *aux)
+{
+	aux = lst_first(aux);
+	while (aux)
+	{
+		if (aux->redirect_list_in)
+			free_redirect_in(&aux->redirect_list_in);
+		if (aux->redirect_list_out)
+			free_redirect_out(&aux->redirect_list_out);
+		aux = aux->next;
+	}
+}

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+         #
+#    By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/03/19 23:31:18 by jaqribei         ###   ########.fr        #
+#    Updated: 2024/03/20 10:43:31 by eddos-sa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 #								COMPILATION									   #
 #******************************************************************************#
 
-CC			= cc
+CC			= cc -Wall -Wextra -Werror
 FLAGS		= -g3 -O0
 
 #******************************************************************************#
@@ -36,7 +36,8 @@ src += main.c utils.c errors.c utils2.c utils3.c
 src += $(addprefix tokenizer/, token_identifiers.c \
 								token_identifiers_utils.c \
 								tokenizer_utils.c \
-								tokenizer.c)
+								tokenizer.c \
+								tokenizer_utils_the_enemy_is_now_other.c)
 
 src += $(addprefix builtins/, cd.c \
 								cd_utils.c \
@@ -75,7 +76,8 @@ src += $(addprefix signals/, hand_signals.c \
 src += $(addprefix execution/, execution.c \
 								execution_utils.c \
 								pipes.c\
-								single_command.c)
+								single_command.c\
+								process_father_exec.c)
 
 src += $(addprefix clean/, free.c \
 							free_utils.c\

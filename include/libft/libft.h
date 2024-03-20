@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 13:09:27 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 20:47:57 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:36:19 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int					file_exist(char *file_name);
 int					file_is_readable(char *file_name);
 int					file_is_writable(char *file_name);
 int					file_is_executable(char *file_name);
+int					alpha_num(char c);
 
 // PRINTF FUNCTIONS
 

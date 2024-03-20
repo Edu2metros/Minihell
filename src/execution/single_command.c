@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 20:37:53 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 20:39:12 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:49:16 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,9 @@ void	exec_command(t_cmd *cmd, t_minishell *mini)
 {
 	pid_t	pid;
 	t_cmd	*aux;
-	int		i;
 	int		status;
 
 	aux = lst_first(cmd);
-	i = 0;
 	if (is_builtin(cmd->name) != 0)
 	{
 		builtin_execution(cmd, mini);

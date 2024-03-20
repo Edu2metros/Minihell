@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/20 01:58:27 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:48:04 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,8 +187,6 @@ void						handle_quote(t_token *token);
 int							expand_variable(t_token *token, int i);
 void						next_quote(t_token *token);
 void						remove_redirect(t_cmd *cmd);
-t_token						*populate_cmd_args(t_token *token, t_cmd *cmd,
-								t_minishell *mini);
 void						print_export(t_hash_table *hash, t_cmd *cmd);
 char						*expand_variable_word(char *input,
 								t_minishell *mini);
@@ -201,7 +199,16 @@ void						free_export(t_export *temp_export);
 void						check_errors(t_cmd *cmd);
 int							free_remove_aux(t_cmd *aux, int i);
 void						free_remove_aux2(t_cmd *aux, int i);
-
+char						*expand_val(char *input, int *i, t_minishell *mini,
+								char *result);
+void						free_reds(t_cmd *aux);
+void						setup_signals(void);
+int							lstsize_cmd(t_cmd *cmd);
+void						exec_pipe(t_minishell *mini, t_cmd *cmd);
+void						handle_child_process(t_cmd *cmd, t_minishell *mini,
+								int fd[], int fd_in);
+void						remove_quote(char *substr);
+t_hash_table				*hash_population(t_hash_table **table);
 // Signals functions
 void						sigint_handler(int sig);
 void						sigquit_handler(int sig);
@@ -210,7 +217,7 @@ void						signals_parent(void);
 void						sig_here(int sig);
 void						signal_here(t_minishell *mini);
 void						sig_handler(int sig);
-void						hand_signals(t_minishell *mini);
+void						hand_signals(void);
 void						handle_control_d(char *input, t_hash_table *table);
 void						handle_sigint(int sig);
 void						handle_sigint_heredoc(int sig);
@@ -267,7 +274,7 @@ void						set_heredoc(t_token **token,
 t_redirect_in				*lst_first_in(t_redirect_in *redirect);
 void						free_all_redirect_in(t_redirect_in *red,
 								t_minishell *mini);
-void						print_ctrld(char *input, char *delimiter);
+void						print_ctrld(char *delimiter);
 void						hand_heredoc(char *delimiter, int fd,
 								t_redirect_in *red);
 void						free_node(t_redirect_in *red);
@@ -286,8 +293,7 @@ t_cmd						*add_new_node(t_cmd *cmd, char *content, int type,
 int							lstsize_pipe(t_token *token);
 int							is_redirect(t_token *token);
 void						create_cmd_list(t_minishell *mini);
-t_token						*populate_cmd_args(t_token *token, t_cmd *cmd,
-								t_minishell *mini);
+t_token						*populate_cmd_args(t_token *token, t_cmd *cmd);
 
 // Builtins functions
 void						ft_pwd(t_cmd *cmd);
@@ -331,8 +337,6 @@ int							validator(char *prompt);
 
 t_hash_item					*create_item(char *key, char *value);
 t_hash_table				*create_hash_table(int size);
-t_hash_table				*hash_population(t_minishell *mini,
-								t_hash_table **table);
 unsigned long				hash_function(char *key);
 void						free_item(t_hash_item *item);
 void						free_table(t_hash_table **table);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hand_vars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:16:12 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 01:43:43 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:46:43 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	handle_quote(t_token *token)
 {
 	int		i;
 	char	type;
-	int		start;
 
 	i = 0;
 	type = token->content[0];
@@ -65,8 +64,7 @@ void	handle_quote(t_token *token)
 		token->aux = ft_strdup("");
 		while (token->content[i] == type)
 			i++;
-		start = i;
-		get_control()->quote = 1;
+		// get_control()->quote = 1;
 		handle_quote_aux(token, i, type);
 		free(token->content);
 		token->content = ft_strdup(token->aux);

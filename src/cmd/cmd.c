@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:32:28 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 01:44:03 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:46:23 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_cmd	*cmd_new_node(char *content, int type, int space)
 	return (cmd);
 }
 
-t_token	*populate_cmd_args(t_token *token, t_cmd *cmd, t_minishell *mini)
+t_token	*populate_cmd_args(t_token *token, t_cmd *cmd)
 {
 	cmd->args = ft_calloc(lstsize_pipe(token) + 1, sizeof(char *));
 	if (!cmd->args)
@@ -72,15 +72,13 @@ t_token	*populate_cmd_args(t_token *token, t_cmd *cmd, t_minishell *mini)
 void	create_cmd_list(t_minishell *mini)
 {
 	t_token	*token;
-	int		count;
 
 	token = mini->token;
-	count = 0;
 	while (token)
 	{
 		mini->cmd = add_new_node(mini->cmd, token->content, token->type, \
 			token->space);
-		token = populate_cmd_args(token, mini->cmd, mini);
+		token = populate_cmd_args(token, mini->cmd);
 		if (token != NULL)
 			token = token->next;
 	}

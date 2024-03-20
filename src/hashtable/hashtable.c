@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:07:53 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 16:36:52 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:47:01 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	hash_insert_equals(char **str)
 	}
 }
 
-t_hash_table	*hash_population(t_minishell *mini, t_hash_table **table)
+t_hash_table	*hash_population(t_hash_table **table)
 {
 	char	**str;
 	int		len;

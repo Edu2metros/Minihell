@@ -6,30 +6,11 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:46 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 20:46:13 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:35:58 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	alpha_num(char c)
-{
-	if (c >= 33 && c <= 47)
-		return (1);
-	return (0);
-}
-
-int	is_quote(char c)
-{
-	if (c == '\0' || c == 0)
-		return (0);
-	if (c == '\'')
-		return (QUOTE);
-	else if (c == '"')
-		return (DOUBLE_QUOTE);
-	else
-		return (0);
-}
 
 int	is_operator(char chr1, char chr2)
 {
@@ -48,6 +29,18 @@ int	is_operator(char chr1, char chr2)
 	else if (!ft_isalnum(chr1) && !my_isspace(chr1) && !is_excession(chr1))
 		return (OTHER);
 	return (0);
+}
+
+int	is_quote(char c)
+{
+	if (c == '\0' || c == 0)
+		return (0);
+	if (c == '\'')
+		return (QUOTE);
+	else if (c == '"')
+		return (DOUBLE_QUOTE);
+	else
+		return (0);
 }
 
 int	is_word(const char *input)
@@ -85,4 +78,22 @@ int	is_flag(const char *input)
 		i++;
 	}
 	return (0);
+}
+
+char	*expand_val(char *input, int *i, t_minishell *mini, char *result)
+{
+	char	*substr;
+	int		start;
+
+	(*i)++;
+	start = *i;
+	while (ft_isalnum(input[*i]) || input[*i] == '_')
+		(*i)++;
+	substr = ft_substr(input, start, *i - start);
+	if (hash_search(mini->table, substr) != NULL)
+		result = ft_strjoin(result, hash_search(mini->table, substr));
+	else
+		result = ft_strjoin(result, "");
+	free(substr);
+	return (result);
 }

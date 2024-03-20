@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 18:11:32 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 20:39:10 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:49:05 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,9 @@ char	*search_path(char **path, char *command)
 char	*get_path(t_minishell *mini, char *command)
 {
 	char	**path;
-	char	*tmp;
-	int		i;
 	char	*full_path;
 	char	*path_value;
 
-	i = 0;
 	if (command == NULL)
 		exit(127);
 	path_value = hash_search(mini->table, "PATH");
@@ -83,11 +80,8 @@ char	*get_path(t_minishell *mini, char *command)
 
 void	exec_pipe_command(t_cmd *cmd, t_minishell *mini)
 {
-	pid_t	pid;
 	char	*path;
-	int		i;
 
-	i = 0;
 	if (cmd->name[0] == '.' || cmd->name[0] == '/')
 	{
 		if (access(cmd->name, F_OK | X_OK) == 0)

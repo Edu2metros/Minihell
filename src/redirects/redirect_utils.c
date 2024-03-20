@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 23:20:03 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 23:36:39 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:45:02 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	remove_redirect(t_cmd *cmd)
 void	check_errors(t_cmd *cmd)
 {
 	t_cmd	*aux;
-	int		i;
 
 	aux = lst_first(cmd);
 	while (aux)

@@ -6,24 +6,11 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:31:35 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 20:08:49 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:41:27 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	lstsize_cmd(t_cmd *cmd)
-{
-	int	count;
-
-	count = 0;
-	while (cmd)
-	{
-		count++;
-		cmd = cmd->next;
-	}
-	return (count);
-}
 
 void	fd_redirections(int fd_in, int fd_out)
 {
@@ -39,33 +26,36 @@ void	fd_redirections(int fd_in, int fd_out)
 	}
 }
 
-void	handle_child_process(t_cmd *cmd, t_minishell *mini, int fd[], int fd_in)
+void	handle_input_redirection(t_cmd *cmd)
 {
-	close(fd[0]);
 	if (cmd->redirect_list_in)
 	{
 		cmd->redirect_list_in = lstlast_in(cmd->redirect_list_in);
 		dup2(cmd->redirect_list_in->fd_in, STDIN_FILENO);
 		close(cmd->redirect_list_in->fd_in);
 	}
-	if (cmd->next != NULL && !cmd->redirect_list_out)
-	{
-		fd_redirections(STDIN_FILENO, fd[1]);
-		fd_redirections(fd_in, STDOUT_FILENO);
-	}
-	else if (cmd->next != NULL && cmd->redirect_list_out)
-	{
-		cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
-		fd_redirections(STDIN_FILENO, fd[1]);
-		fd_redirections(fd_in, cmd->redirect_list_out->fd_out);
-	}
-	else if (cmd->next == NULL && cmd->redirect_list_out)
+}
+
+void	handle_output_redirection(t_cmd *cmd, int fd_in, int fd_out)
+{
+	if (cmd->redirect_list_out)
 	{
 		cmd->redirect_list_out = lstlast_out(cmd->redirect_list_out);
 		fd_redirections(fd_in, cmd->redirect_list_out->fd_out);
 	}
-	else if (cmd->next == NULL && !cmd->redirect_list_out)
-		fd_redirections(fd_in, STDOUT_FILENO);
+	else
+		fd_redirections(fd_in, fd_out);
+}
+
+void	handle_child_process(t_cmd *cmd, t_minishell *mini, int fd[], int fd_in)
+{
+	close(fd[0]);
+	handle_input_redirection(cmd);
+	if (cmd->next)
+		handle_output_redirection(cmd, fd_in, fd[1]);
+	else
+		handle_output_redirection(cmd, fd_in, STDOUT_FILENO);
+	cmd->on_fork = is_builtin(cmd->name);
 	if (is_builtin(cmd->name))
 	{
 		cmd->on_fork = 1;
@@ -74,73 +64,4 @@ void	handle_child_process(t_cmd *cmd, t_minishell *mini, int fd[], int fd_in)
 	else
 		exec_pipe_command(cmd, mini);
 	exit(EXIT_SUCCESS);
-}
-
-void	handle_parent_process(t_cmd **cmd, int fd[], int *fd_in)
-{
-	close(fd[1]);
-	if (*fd_in != STDIN_FILENO)
-		close(*fd_in);
-	*fd_in = fd[0];
-	*cmd = (*cmd)->next;
-}
-
-void	free_reds(t_cmd *aux)
-{
-	aux = lst_first(aux);
-	while (aux)
-	{
-		if (aux->redirect_list_in)
-			free_redirect_in(&aux->redirect_list_in);
-		if (aux->redirect_list_out)
-			free_redirect_out(&aux->redirect_list_out);
-		aux = aux->next;
-	}
-}
-
-void	exec_pipe(t_minishell *mini, t_cmd *cmd)
-{
-	int		fd[2];
-	int		fd_in;
-	int		count;
-	int		status;
-	pid_t	pid;
-	t_cmd	*aux;
-
-	fd_in = STDIN_FILENO;
-	aux = lst_first(cmd);
-	count = lstsize_cmd(cmd);
-	signal(SIGINT, handle_sigint_child);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGQUIT, handle_sigquit_signal);
-	while (cmd)
-	{
-		pipe(fd);
-		pid = fork();
-		if (pid == -1)
-		{
-			ft_printf_fd(STDERR_FILENO, "minishell: fork error\n");
-			get_control()->return_status = 1;
-			exit(EXIT_FAILURE);
-		}
-		else if (pid == 0)
-		{
-			if (cmd->return_status != 0)
-			{
-				free_all_child(mini);
-				exit(cmd->return_status);
-			}
-			handle_child_process(cmd, mini, fd, fd_in);
-		}
-		else
-			handle_parent_process(&cmd, fd, &fd_in);
-	}
-	close(fd[0]);
-	while (waitpid(-1, &status, 0) > 0 && count > 0)
-	{
-		if (WIFEXITED(status))
-			mini->return_status = WEXITSTATUS(status);
-		count--;
-	}
-	free_reds(aux);
 }

@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 18:16:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2023/08/10 12:46:08 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:35:44 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,11 @@ void	ft_bzero(void *s, size_t n)
 		c[mem] = 0;
 		mem++;
 	}
+}
+
+int	alpha_num(char c)
+{
+	if (c >= 33 && c <= 47)
+		return (1);
+	return (0);
 }
