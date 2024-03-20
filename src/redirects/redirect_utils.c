@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 23:20:03 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 10:45:02 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:26:18 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	shift_args(char **args, int start)
 
 int	free_remove_aux(t_cmd *aux, int i)
 {
-	if (ft_strcmp(aux->args[i], ">") == 0 || ft_strcmp(aux->args[i],
-			">>") == 0 || ft_strcmp(aux->args[i], "<") == 0)
+	if (ft_strcmp(aux->args[i], ">") == 0 || ft_strcmp(aux->args[i], ">>") == 0
+		|| ft_strcmp(aux->args[i], "<") == 0)
 	{
 		free(aux->args[i]);
 		shift_args(aux->args, i);
@@ -39,6 +39,13 @@ int	free_remove_aux(t_cmd *aux, int i)
 		}
 		if (aux->args[i] && !ft_isredirect(aux->args[i]))
 			aux->name = ft_strdup(aux->args[i]);
+		return (1);
+	}
+	else if (ft_strcmp(aux->args[i], "<<") == 0)
+	{
+		free(aux->args[i]);
+		shift_args(aux->args, i);
+		free_remove_aux2(aux, i);
 		return (1);
 	}
 	return (0);
@@ -67,13 +74,8 @@ void	remove_redirect(t_cmd *cmd)
 		i = 0;
 		while (aux->args[i])
 		{
-			if (!free_remove_aux(aux, i)
-				&& (ft_strcmp(aux->args[i], "<<") == 0))
-			{
-				free(aux->args[i]);
-				shift_args(aux->args, i);
-				free_remove_aux2(aux, i);
-			}
+			if (free_remove_aux(aux, i))
+				continue ;
 			else
 				i++;
 		}

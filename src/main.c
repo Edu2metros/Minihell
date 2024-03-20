@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/20 13:16:14 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:17:41 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static void	minishell(t_minishell *mini, t_hash_table *table)
 			free_redirect_out(&mini->cmd->redirect_list_out);
 			free_redirect_in(&mini->cmd->redirect_list_in);
 		}
-		close_fd();
 		free_all(mini);
 	}
 }
