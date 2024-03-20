@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 20:37:53 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/20 13:27:02 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:01:47 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	exec_command(t_cmd *cmd, t_minishell *mini)
 	if (is_builtin(cmd->name) != 0)
 	{
 		builtin_execution(cmd, mini);
+		free_all(mini);
 		return ;
 	}
 	pid = fork();

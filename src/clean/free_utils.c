@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:55:47 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 15:06:15 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:17:51 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ void	free_cmd(t_cmd **cmd)
 
 void	free_all(t_minishell *minishell)
 {
+	close_fd();
+	free_reds(minishell->cmd);
 	free_tokens(&(minishell->token));
 	lstclear_cmd(&(minishell->cmd));
 	free_redirect_in(&(minishell->redirect_list_in));
 	free_redirect_out(&(minishell->redirect_list_out));
-	close_fd();
 }
 
 void	free_split(char **splited)
@@ -65,8 +66,6 @@ void	free_redirect_in(t_redirect_in **redirect)
 	t_redirect_in	*next;
 
 	current = lst_first_in(*redirect);
-	if (current != NULL)
-		close_fd();
 	while (current != NULL)
 	{
 		next = current->next;
@@ -82,7 +81,7 @@ void	free_redirect_out(t_redirect_out **redirect)
 	t_redirect_out	*current;
 	t_redirect_out	*next;
 
-	current = *redirect;
+	current = lst_first_out(*redirect);
 	while (current != NULL)
 	{
 		next = current->next;

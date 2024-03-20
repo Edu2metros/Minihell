@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:33:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 15:53:59 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:44:09 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ void	hand_cd(t_cmd *cmd)
 		get_control()->return_status = 0;
 	else
 		relative_path(cmd->args[i]);
+	free(current_directory);
 	if (cmd->on_fork == 1)
 		free_n_exit_child(get_control());
 }

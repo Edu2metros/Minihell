@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:35:41 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 20:22:10 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:10:17 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_redirect_out	*new_redirect_out(char *content, int type)
 	redirect->content = ft_strdup(content);
 	redirect->fd_out = -1;
 	redirect->next = NULL;
+	redirect->previous = NULL;
 	return (redirect);
 }
 
@@ -67,7 +68,10 @@ void	redirect_out_list(t_token **token, t_redirect_out **redirect,
 		if (*redirect == NULL)
 			*redirect = new_red;
 		else
+		{
 			last->next = new_red;
+			new_red->previous = last;
+		}
 		handle_out_files(new_red, cmd);
 	}
 	*token = (*token)->next;

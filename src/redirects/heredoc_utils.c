@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 21:20:30 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 15:59:16 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:14:15 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_all_redirect_in(t_redirect_in *red, t_minishell *mini)
 	free_tokens(&(mini->token));
 	lstclear_cmd(&(mini->cmd));
 	free_redirect_out(&(mini->redirect_list_out));
-	free_redirect_in(&(red));
+	free_redirect_in(&(mini->redirect_list_in));
 	close_fd();
 	clear_history();
 	free_table(&mini->table);
@@ -56,4 +56,13 @@ void	hand_heredoc(char *delimiter, int fd, t_redirect_in *red)
 	close(fd);
 	free_all_redirect_in(red, get_control());
 	exit(0);
+}
+
+t_redirect_out	*lst_first_out(t_redirect_out *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->previous)
+		lst = lst->previous;
+	return (lst);
 }

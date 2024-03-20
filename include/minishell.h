@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/20 15:54:17 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:13:05 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_redirect_out
 	char					*content;
 	int						fd_out;
 	struct s_redirect_out	*next;
+	struct s_redirect_out	*previous;
 }							t_redirect_out;
 
 typedef struct s_redirect_in
@@ -182,6 +183,7 @@ void						count_open_fds(void);
 int							ft_isredirect(char *string);
 void						shift_args(char **args, int start);
 void						free_split(char **splited);
+t_redirect_out				*lst_first_out(t_redirect_out *lst);
 void						free_out_while(t_minishell *mini);
 void						pipe_or_not(t_minishell *mini);
 void						handle_quote(t_token *token);
