@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:50:03 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 21:07:43 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 01:58:27 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,9 @@ void						populate_env(t_hash_table *table, int len);
 void						free_reds(t_cmd *aux);
 char						*get_path(t_minishell *mini, char *command);
 void						free_export(t_export *temp_export);
+void						check_errors(t_cmd *cmd);
+int							free_remove_aux(t_cmd *aux, int i);
+void						free_remove_aux2(t_cmd *aux, int i);
 
 // Signals functions
 void						sigint_handler(int sig);
@@ -262,6 +265,12 @@ void						clear_list_out(t_redirect_out **redirect);
 void						set_heredoc(t_token **token,
 								t_redirect_in **redirect, t_cmd *cmd);
 t_redirect_in				*lst_first_in(t_redirect_in *redirect);
+void						free_all_redirect_in(t_redirect_in *red,
+								t_minishell *mini);
+void						print_ctrld(char *input, char *delimiter);
+void						hand_heredoc(char *delimiter, int fd,
+								t_redirect_in *red);
+void						free_node(t_redirect_in *red);
 
 // Print functions
 void						print_cmd_args(t_cmd *cmd);

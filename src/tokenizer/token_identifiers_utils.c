@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_identifiers_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:44:54 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 21:12:03 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 02:09:15 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,42 +42,50 @@ int	process_token_builtin(char *input, t_minishell *mini, int i, int start)
 	return (i);
 }
 
+void	handle_single_quote(char *substr, char **new_str, int *i)
+{
+	char	quote;
+
+	quote = substr[*i];
+	(*i)++;
+	while (substr[*i] && substr[*i] != quote)
+	{
+		*new_str = ft_strjoin_char(*new_str, substr[*i]);
+		(*i)++;
+	}
+	(*i)++;
+}
+
+void	handle_double_quote(char *substr, char **new_str, int *i)
+{
+	char	double_quote;
+
+	double_quote = substr[*i];
+	(*i)++;
+	while (substr[*i] && substr[*i] != double_quote)
+	{
+		*new_str = ft_strjoin_char(*new_str, substr[*i]);
+		(*i)++;
+	}
+	(*i)++;
+}
+
 void	remove_quote(char *substr)
 {
 	int		i;
-	char	quote;
-	char	double_quote;
 	char	*new_str;
 
 	i = 0;
-	quote = '\0';
-	double_quote = '\0';
 	new_str = ft_strdup("");
 	while (substr[i])
 	{
 		if (substr[i] == '\'')
 		{
-			quote = substr[i];
-			i++;
-			while (substr[i] && substr[i] != quote)
-			{
-				new_str = ft_strjoin_char(new_str, substr[i]);
-				i++;
-			}
-			i++;
-			quote = '\0';
+			handle_single_quote(substr, &new_str, &i);
 		}
-		if (substr[i] == '"')
+		else if (substr[i] == '"')
 		{
-			double_quote = substr[i];
-			i++;
-			while (substr[i] && substr[i] != double_quote)
-			{
-				new_str = ft_strjoin_char(new_str, substr[i]);
-				i++;
-			}
-			i++;
-			double_quote = '\0';
+			handle_double_quote(substr, &new_str, &i);
 		}
 		else
 		{
@@ -121,8 +129,8 @@ char	*expand_variable_word(char *input, t_minishell *mini)
 			else
 			{
 				if (hash_search(mini->table, substr))
-					result = ft_strjoin(result, hash_search(mini->table, \
-					substr));
+					result = ft_strjoin(result, hash_search(mini->table,
+								substr));
 				else
 					result = ft_strjoin(input, "");
 			}
@@ -144,8 +152,8 @@ int	process_token_word(char *input, t_minishell *mini, int i, int start)
 	int		in_quotes;
 
 	in_quotes = 0;
-	while (input[i] != '\0' && (in_quotes || (!meta_char(input[i]) \
-		&& input[i] != ' ')))
+	while (input[i] != '\0' && (in_quotes
+			|| (!meta_char(input[i]) && input[i] != ' ')))
 	{
 		if (input[i] == '"' || input[i] == '\'')
 			in_quotes = !in_quotes;

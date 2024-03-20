@@ -6,7 +6,7 @@
 /*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:16:12 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 16:19:08 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/20 01:43:43 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,22 @@ int	expand_variable(t_token *token, int i)
 	return (i);
 }
 
+void	handle_quote_aux(t_token *token, int i, char type)
+{
+	while (token->content[i])
+	{
+		if (token->content[i] == type)
+			i++;
+		else if (token->content[i] == '$' && type == '"')
+			i = expand_variable(token, i + 1);
+		else
+		{
+			token->aux = ft_strjoin_char(token->aux, token->content[i]);
+			i++;
+		}
+	}
+}
+
 void	handle_quote(t_token *token)
 {
 	int		i;
@@ -50,18 +66,8 @@ void	handle_quote(t_token *token)
 		while (token->content[i] == type)
 			i++;
 		start = i;
-		while (token->content[i])
-		{
-			if (token->content[i] == type)
-				i++;
-			else if (token->content[i] == '$' && type == '"')
-				i = expand_variable(token, i + 1);
-			else
-			{
-				token->aux = ft_strjoin_char(token->aux, token->content[i]);
-				i++;
-			}
-		}
+		get_control()->quote = 1;
+		handle_quote_aux(token, i, type);
 		free(token->content);
 		token->content = ft_strdup(token->aux);
 		free(token->aux);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:08:56 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 20:44:47 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 01:45:58 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,46 +87,4 @@ void	free_node(t_redirect_in *red)
 		free(red);
 		red = tmp;
 	}
-}
-
-void	free_all_redirect_in(t_redirect_in *red, t_minishell *mini)
-{
-	free_node(red);
-	free_tokens(&(mini->token));
-	lstclear_cmd(&(mini->cmd));
-	free_redirect_out(&(mini->redirect_list_out));
-	close_fd();
-	clear_history();
-	free_table(&mini->table);
-}
-
-void	hand_heredoc(char *delimiter, int fd, t_redirect_in *red)
-{
-	char	*input;
-
-	while (1)
-	{
-		input = readline(HEREDOC_PROMPT);
-		if (!input)
-		{
-			ft_printf_fd(STDERR_FILENO,
-				"minishell: warning: here-document \
-			delimited by end-of-file (wanted `%s\')\n",
-				delimiter);
-			free(input);
-			break ;
-		}
-		else if ((ft_strcmp(input, delimiter) == 0))
-		{
-			free(input);
-			break ;
-		}
-		if (ft_strcmp(input, "$"))
-			input = expand_variable_word(input, get_control());
-		ft_putendl_fd(input, fd);
-		free(input);
-	}
-	close(fd);
-	free_all_redirect_in(red, get_control());
-	exit(0);
 }

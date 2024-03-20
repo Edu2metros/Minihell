@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:48:59 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 20:44:21 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/20 01:44:57 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	main(void)
 	ft_bzero(get_control(), sizeof(t_minishell));
 	mini = get_control();
 	mini->table = hash_population(mini, &mini->table);
+	mini->quote = 0;
 	minishell(mini, mini->table);
 	free_table(&mini->table);
 	return (0);

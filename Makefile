@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+         #
+#    By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/02 14:02:28 by jaqribei          #+#    #+#              #
-#    Updated: 2024/03/19 21:08:10 by eddos-sa         ###   ########.fr        #
+#    Updated: 2024/03/19 23:31:18 by jaqribei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,8 @@ src += $(addprefix redirects/, heredoc.c \
  								redirect_hand_files.c \
  								redirect_in.c \
  								redirect_out.c \
+								heredoc_utils.c \
+								redirect_utils.c \
 								redirect.c)
 								
 src += $(addprefix cmd/, cmd.c \
@@ -77,7 +79,8 @@ src += $(addprefix execution/, execution.c \
 
 src += $(addprefix clean/, free.c \
 							free_utils.c\
-							clean_functions.c)
+							clean_functions.c \
+							free_utils2.c)
 
 SRC_OBJ = $(addprefix $(OBJ_DIR)/, $(src:%.c=%.o))
 

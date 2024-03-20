@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:07:39 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/19 20:45:19 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/19 23:03:58 by jaqribei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,6 @@ void	free_args(t_cmd *current, int i)
 		i++;
 	}
 	free(current->args);
-}
-
-void	free_all_child(t_minishell *mini)
-{
-	free_tokens(&(mini->token));
-	free_reds(mini->cmd);
-	lstclear_cmd(&(mini->cmd));
-	free_redirect_out(&(mini->redirect_list_out));
-	close_fd();
-	clear_history();
-	free_table(&mini->table);
-}
-
-void	free_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i] != NULL)
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
 }
 
 void	lstclear_cmd(t_cmd **lst)
@@ -86,3 +62,13 @@ void	free_tokens(t_token **token)
 	}
 	*token = NULL;
 }
+
+// t_redirect_in	*lst_first_in(t_redirect_in *redirect)
+// {
+// 	t_redirect_in	*result;
+
+// 	result = redirect;
+// 	while (result != NULL && result->previous != NULL)
+// 		result = result->previous;
+// 	return (result);
+// }
