@@ -60,7 +60,13 @@ SRC = \
 	putstr_fd.c\
 	putunsigned_fd.c\
 	ft_validate_files.c\
-
+	ft_shift_args.c\
+	ft_count_equals_chr.c\
+	free_array.c\
+	ft_array_len.c\
+	ft_putstring_fd.c\
+	ft_strcmp_len.c\
+	
 BONUS_SRC = \
 	ft_lstnew_bonus.c\
 	ft_lstadd_front_bonus.c\

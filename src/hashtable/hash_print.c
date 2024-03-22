@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 21:02:12 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 16:36:28 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/22 20:19:53 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,6 @@ void	print_table(t_hash_table **table, int fd_out)
 		}
 		i++;
 	}
-}
-
-int	ft_strcmp_len(char *s1, char *s2)
-{
-	if (ft_strlen(s1) == ft_strlen(s2))
-		return (ft_strncmp(s1, s2, __UINT64_MAX__) == 0);
-	return (0);
 }
 
 void	populate_env(t_hash_table *table, int len)

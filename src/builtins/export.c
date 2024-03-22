@@ -6,21 +6,11 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 12:01:10 by eddos-sa          #+#    #+#             */
-/*   Updated: 2024/03/20 10:43:40 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/22 20:21:44 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	ft_array_len(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i] != NULL)
-		i++;
-	return (i);
-}
 
 void	print_n_free(t_export *export, t_cmd *cmd)
 {

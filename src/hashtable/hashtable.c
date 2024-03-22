@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:07:53 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 10:47:01 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/22 20:19:00 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,6 @@ t_hash_table	*create_hash_table(int size)
 		i++;
 	}
 	return (table);
-}
-
-int	count_equals_chr(char *str, char c)
-{
-	int	i;
-	int	equals;
-
-	i = 0;
-	equals = 0;
-	if (str == NULL || *str == '\0')
-		return (equals);
-	while (str[i])
-	{
-		if (str[i] == c)
-			equals++;
-		i++;
-	}
-	return (equals);
 }
 
 void	hash_insert_equals(char **str)

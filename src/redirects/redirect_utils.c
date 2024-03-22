@@ -6,24 +6,11 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 23:20:03 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 17:49:15 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/22 20:16:54 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	shift_args(char **args, int start)
-{
-	int	j;
-
-	j = start;
-	while (args[j])
-	{
-		args[j] = args[j + 1];
-		j++;
-	}
-	free(args[j]);
-}
 
 int	free_remove_aux(t_cmd *aux, int i)
 {

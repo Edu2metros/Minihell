@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaqribei <jaqribei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:05:21 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/19 16:07:43 by jaqribei         ###   ########.fr       */
+/*   Updated: 2024/03/22 20:22:36 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,6 @@ int	validator(char *prompt)
 	if (!handle_pipe(prompt))
 		return (0);
 	return (1);
-}
-
-void	ft_putstring_fd(int fd)
-{
-	int	c;
-
-	while (read(fd, &c, 1) != -1)
-		write(2, &c, 1);
 }
 
 int	check_quotes(char *prompt)
