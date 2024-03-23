@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:40:40 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 16:43:45 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/23 11:58:07 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	hash_insert(t_hash_table **table, char *key, char *value)
 			free(current->value);
 			current->value = ft_strdup(value);
 			free_item(item);
+			free(value);
 		}
 		else
 			hand_hash_collision(table, item, index);

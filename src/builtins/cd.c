@@ -6,7 +6,7 @@
 /*   By: eddos-sa <eddos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:33:44 by jaqribei          #+#    #+#             */
-/*   Updated: 2024/03/20 16:44:09 by eddos-sa         ###   ########.fr       */
+/*   Updated: 2024/03/23 12:15:04 by eddos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void	cd_insert(char *absolute_path)
 {
-	hash_insert(&get_control()->table, "OLDPWD",
-		hash_search(get_control()->table, "PWD"));
+	char	*oldpwd;
+
+	oldpwd = hash_search(get_control()->table, "PWD");
+	hash_insert(&get_control()->table, "OLDPWD", oldpwd);
 	hash_insert(&get_control()->table, "PWD", absolute_path);
 	get_control()->return_status = 0;
 }
@@ -68,24 +70,35 @@ void	ft_old_pwd(char *old)
 	{
 		ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n", old);
 		get_control()->return_status = 1;
+		free(substr);
+		free(tmp);
 	}
 	else
 		cd_insert(substr);
+	free(tmp);
 }
 
 void	relative_path(char *relative)
 {
 	char	*current;
+	char	*temp;
 
 	current = hash_search(get_control()->table, "PWD");
+	temp = current;
 	if (current[ft_strlen(current) - 1] != '/')
+	{
 		current = ft_strjoin(current, "/");
-	current = ft_strjoin(current, relative);
+		free(temp);
+	}
+	temp = current;
+	current = ft_strjoin(temp, relative);
+	free(temp);
 	if (access(current, F_OK) == 0 && (access(current, X_OK) == -1
 			|| access(current, R_OK) == -1))
 	{
 		ft_printf_fd(STDERR_FILENO, "cd: %s: Permission denied\n", relative);
 		get_control()->return_status = 1;
+		free(current);
 		return ;
 	}
 	if (chdir(current) == -1)
@@ -93,6 +106,7 @@ void	relative_path(char *relative)
 		ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n",
 			relative);
 		get_control()->return_status = 1;
+		free(current);
 	}
 	else
 		cd_insert(current);

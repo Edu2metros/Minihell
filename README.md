@@ -39,6 +39,7 @@ The project includes a list of tasks to be completed. They are as follows:
 ```bash
 < star_wars_script.txt cat | grep "I am your father!" | tr a-z A-Z >> file.txt
 ```
+
 ## Signals:
 - Ctrl + C
 - Ctrl + D
